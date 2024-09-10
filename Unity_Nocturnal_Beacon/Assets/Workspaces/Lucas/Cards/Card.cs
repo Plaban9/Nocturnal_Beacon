@@ -1,4 +1,5 @@
 using CardAttribute;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,8 @@ namespace CardAttribute
 
 }
 
+[CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
+[Serializable]
 public class Card : ScriptableObject
 {
     public int id;
@@ -68,4 +71,10 @@ public class Card : ScriptableObject
     {
         
     }
+
+    /*
+     * List of Effects to run
+     */
+    [SerializeReference, SubclassSelector]
+    public List<ICardEffect> effects = new List<ICardEffect>();
 }
