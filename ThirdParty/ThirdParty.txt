@@ -1,0 +1,2 @@
+- Unity SerializeReferenceExtensions by mackysoft
+  https://github.com/mackysoft/Unity-SerializeReferenceExtensions?tab=readme-ov-file
