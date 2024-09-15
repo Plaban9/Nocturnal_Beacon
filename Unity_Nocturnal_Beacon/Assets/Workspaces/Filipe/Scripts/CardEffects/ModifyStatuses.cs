@@ -1,34 +1,57 @@
+using CardAttribute;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-[CreateAssetMenu(fileName = "NewCardEffectStatus", menuName = "Modify Status Effect")]
-
-public class ModifyStatuses : ICardEffect
+public class ModifyStatuses : CardEffect, ICardEffect
 {
-    [SerializeField] public int appMechanic;
-    [SerializeField] int statusEffect;
-    [SerializeField] int duration;
-    [SerializeField] int val1, val2, val3, val4;
+    [SerializeField] StatusEffect statusEffect;
+    [SerializeField] StatusStacks statusStacks;
 
-    ModifyStatuses(int statusEffect, int duration, int appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
+    public string LocalizationKey => "CE_DESC_ModifyStatuses";
+    public string EffectDescription
     {
-        this.appMechanic = appMechanic;
+        get
+        {
+            string result = string.Empty;
+
+            switch (statusEffect)
+            {
+                case StatusEffect.Strength:
+                    result = val1 >= 0 ? "Increases " : "Decreases " + $"attack damage by {val1}.";
+                    break;
+                case StatusEffect.Dexterity:
+                    result = val1 >= 0 ? "Increases " : "Decreases " + $"Block gained from cards by {val1}.";
+                    break;
+                case StatusEffect.Throns:
+                    result = $"When attacked, deals {val1} damage back.";
+                    break;
+                case StatusEffect.Regenerate:
+                    result = $"At the end of its turn, heals {val1} HP.";
+                    break;
+
+                default:
+                    result = $"[ERROR] No such status: {statusEffect.ToString()}";
+                    break;
+            }
+            return result;
+        }
+    }
+
+    public ModifyStatuses() { }
+    public ModifyStatuses(StatusEffect statusEffect, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
+    {
+        /* this.appMechanic = appMechanic;
         this.statusEffect = statusEffect;
-        this.duration = duration;
         this.val1 = val1;
         this.val2 = val2;
         this.val3 = val3;
-        this.val4 = val4;
+        this.val4 = val4; */
     }
 
-    ModifyStatuses() { }
-
-    public void OnUse(int owner, int? target)
+    public void OnUse(EffectTarget target)
     {
-        if (appMechanic == 1)
+       // if (appMechanic == AppMechanic.OnUse)
         {
             //If is [On Use]
             /*
@@ -38,9 +61,9 @@ public class ModifyStatuses : ICardEffect
         }
     }
 
-    public void AfterDealDamage(int owner, int target, int amount)
+    public void AfterCast(EffectTarget target, int amount)
     {
-        if (appMechanic == 0)
+        //if (appMechanic == AppMechanic.AfterCast)
         {
             //If is [On Hit]
             /*

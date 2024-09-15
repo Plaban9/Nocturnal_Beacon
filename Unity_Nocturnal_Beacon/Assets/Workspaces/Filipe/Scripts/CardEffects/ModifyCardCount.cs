@@ -1,22 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+using CardAttribute;
 using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "NewCardEffectDraw", menuName = "Modify Draw Effect")]
-[System.Serializable]
-public class ModifyCardCount : ICardEffect
+[Serializable]
+public class ModifyCardCount : CardEffect, ICardEffect
 {
-    [SerializeField] int amount_modified = 0;
+    [SerializeField] EffectTargetAmount targetAmount = EffectTargetAmount.Designated;
+    [SerializeField] CardType? specificType;
+
+    public string LocalizationKey => "CE_DESC_ModifyCardCount";
+    public string EffectDescription
+    {
+        get
+        {
+            string result = string.Empty;
+
+            result += val1 >= 0 ? "Draw " : "Discard ";
+            result += val1;
+            result += specificType == null ? "" : specificType.ToString();
+            result += " card" + (Mathf.Abs(val1) > 1 ? "s " : " ");
+            result += targetAmount == EffectTargetAmount.Random ? "at random." : ".";
+            return result;
+        }
+    }
+
+
     public ModifyCardCount(int amount)
     {
-        amount_modified = amount;
+        val1 = amount;
     }
 
     public ModifyCardCount() { }
 
-    public void OnUse(int owner, int? target)
+    public void OnUse(EffectTarget target)
     {
-        /* owner.Draw/Discard(amount);
+        /* owner.Draw/Discard(amount);1
          * {owner} draws/discards {amount} cards
          */
     }

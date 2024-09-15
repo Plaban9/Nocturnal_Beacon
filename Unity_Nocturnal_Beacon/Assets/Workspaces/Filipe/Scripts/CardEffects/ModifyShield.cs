@@ -1,22 +1,22 @@
+using CardAttribute;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewCardEffectShield", menuName = "Modify Shield Effect")]
 [Serializable]
-public class ModifyShield : ICardEffect
+public class ModifyShield : CardEffect, ICardEffect
 {
 
-    [SerializeField] int modification = 0;
+    public string LocalizationKey => "CE_DESC_ModifyShield";
+    public string EffectDescription => val1 >= 0 ? "Gain " : "Lose " + val1 + " Block.";
+
     public ModifyShield(int amount)
     {
-        modification = amount;
+        val1 = amount;
     }
 
     public ModifyShield() { }
 
-    public void OnUse(int owner, int? target)
+    public void OnUse(EffectTarget target)
     {
         /*
          * target.AddShield(amount)
