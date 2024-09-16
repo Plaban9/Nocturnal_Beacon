@@ -3,13 +3,13 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class ModifyCardCount : CardEffect, ICardEffect
+public class ModifyCardCount : CardEffect
 {
     [SerializeField] EffectTargetAmount targetAmount = EffectTargetAmount.Designated;
     [SerializeField] CardType? specificType;
 
-    public string LocalizationKey => "CE_DESC_ModifyCardCount";
-    public string EffectDescription
+    public override string LocalizationKey => "CE_DESC_ModifyCardCount";
+    public override string EffectDescription
     {
         get
         {

@@ -3,11 +3,11 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ModifyShield : CardEffect, ICardEffect
+public class ModifyShield : CardEffect
 {
 
-    public string LocalizationKey => "CE_DESC_ModifyShield";
-    public string EffectDescription => (val1 >= 0 ? "Gain " : "Lose ") + val1 + " Block.";
+    public override string LocalizationKey => "CE_DESC_ModifyShield";
+    public override string EffectDescription => (val1 >= 0 ? "Gain " : "Lose ") + val1 + " Block.";
 
     public ModifyShield(int amount)
     {

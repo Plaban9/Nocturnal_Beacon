@@ -3,12 +3,11 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ModifyHealth : CardEffect, ICardEffect
+public class ModifyHealth : CardEffect
 {
     
-
-    public string LocalizationKey => "CE_DESC_ModifyHealth";
-    public string EffectDescription
+    public override string LocalizationKey => "CE_DESC_ModifyHealth";
+    public override string EffectDescription
     {
         get
         {

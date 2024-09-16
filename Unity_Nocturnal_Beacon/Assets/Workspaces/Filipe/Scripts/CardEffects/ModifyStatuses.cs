@@ -3,13 +3,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ModifyStatuses : CardEffect, ICardEffect
+public class ModifyStatuses : CardEffect
 {
     [SerializeField] StatusEffect statusEffect;
     [SerializeField] StatusStacks statusStacks;
 
-    public string LocalizationKey => "CE_DESC_ModifyStatuses";
-    public string EffectDescription
+    public override string LocalizationKey => "CE_DESC_ModifyStatuses";
+    public override string EffectDescription
     {
         get
         {

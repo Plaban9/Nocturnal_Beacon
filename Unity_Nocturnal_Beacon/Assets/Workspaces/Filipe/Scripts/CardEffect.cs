@@ -36,7 +36,7 @@ public interface ICardEffect
 }
 
 [Serializable]
-public class CardEffect
+public class CardEffect : ICardEffect
 {
     [SerializeField] protected AppMechanic appMechanic;
     [Tooltip("Main value")]
@@ -49,4 +49,6 @@ public class CardEffect
     [SerializeField] protected int val4;       // spare
     [SerializeField] protected EffectTarget target;
 
+    public virtual string LocalizationKey => "";
+    public virtual string EffectDescription => "";
 }
