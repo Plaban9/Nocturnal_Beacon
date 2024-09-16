@@ -18,10 +18,10 @@ public class ModifyStatuses : CardEffect, ICardEffect
             switch (statusEffect)
             {
                 case StatusEffect.Strength:
-                    result = val1 >= 0 ? "Increases " : "Decreases " + $"attack damage by {val1}.";
+                    result = (val1 >= 0 ? "Increases " : "Decreases ") + $"attack damage by {val1}.";
                     break;
                 case StatusEffect.Dexterity:
-                    result = val1 >= 0 ? "Increases " : "Decreases " + $"Block gained from cards by {val1}.";
+                    result = (val1 >= 0 ? "Increases " : "Decreases ") + $"Block gained from cards by {val1}.";
                     break;
                 case StatusEffect.Throns:
                     result = $"When attacked, deals {val1} damage back.";

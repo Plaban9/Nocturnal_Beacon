@@ -99,13 +99,26 @@ public class Card : ScriptableObject
     public int id;
     public new string name;
     public Rarity rarity;
-    public int manaCost;
+    public CardType cardType;
+    public int manaCost = 1;
 
-    public string imgPath;
+    public Sprite sprite;
 
     /*
      * List of Effects to run
      */
     [SerializeReference, SubclassSelector]
     public List<ICardEffect> effects = new List<ICardEffect>();
+
+    public string GetEffectDescStr()
+    {
+        var result = string.Empty;
+
+        foreach(var effect in effects)
+        {
+            result += effect.EffectDescription + "\n";
+        }
+
+        return result;
+    }
 }

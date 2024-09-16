@@ -10,24 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: Strike
+  m_Name: Bash
   m_EditorClassIdentifier: 
-  id: 10001
-  name: Strike
+  id: 10004
+  name: Bash
   rarity: 0
-  manaCost: 1
-  imgPath: 
+  cardType: 0
+  manaCost: 2
+  sprite: {fileID: 1014272170, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
   effects:
-  - rid: 7132537786126827552
+  - rid: 7132537793946845185
   references:
     version: 2
     RefIds:
-    - rid: 7132537786126827552
-      type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
+    - rid: 7132537793946845185
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 0
+        val1: 5
         val2: 0
         val3: 0
         val4: 0
         target: 0
+        statusEffect: 0
+        statusStacks: 1
