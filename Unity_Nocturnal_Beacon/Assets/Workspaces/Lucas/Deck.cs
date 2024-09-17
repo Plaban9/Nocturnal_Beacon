@@ -9,6 +9,8 @@ public class Deck : ScriptableObject
 {
     [SerializeField, SerializeReference] List<Card> cards = new List<Card>();
 
+    public int Counter { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,7 @@ public class Deck : ScriptableObject
 
     public Deck(Deck deck)
     {
+        Counter = deck.Counter;
         cards = deck.Export();
     }
 
@@ -36,6 +39,7 @@ public class Deck : ScriptableObject
 
     public void AddCard(Card card)
     {
+        card.uId = Counter++;
         cards.AddCard(card);
     }
 
@@ -54,16 +58,18 @@ public class Deck : ScriptableObject
     void ResetDeck()
     {
         cards.Clear();
+        Counter = 1000000;
     }
 
     void CloneFromDeck(Deck deck)
     {
         ResetDeck();
+
         cards = new List<Card>();
 
         foreach (var card in deck.Export())
         {
-            cards.AddCard(card);
+            AddCard(card);
         }
     }
 
@@ -85,13 +91,13 @@ public class Deck : ScriptableObject
             for (int i = 0; i < 5; i++)
             {
                 var atkCard = CardLibrary.Instance.GetCardById(10001);
-                cards.AddCard(atkCard);
+                AddCard(atkCard);
             }
 
             for (int i = 0; i < 5; i++)
             {
                 var defCard = CardLibrary.Instance.GetCardById(10002);
-                cards.AddCard(defCard);
+                AddCard(defCard);
             }
         }
     }

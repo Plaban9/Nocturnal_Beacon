@@ -58,6 +58,8 @@ public class CardPileManager
     {
         return piles[PileType.Exhaust].Preview();
     }
+
+    public int GetPileSize(PileType type) => piles[type].Size();
     #endregion
 
     public void AddCard(PileType type, Card card, int index = -1)
@@ -98,21 +100,53 @@ public class CardPileManager
         }
     }
 
-    public IEnumerator RefillDrawPileByDiscardPile()
+    public Card DrawCard()
     {
-        while(!piles[PileType.Discard].IsEmpty())
+        if (piles[PileType.Draw].IsEmpty())
+        {
+            if (!piles[PileType.Discard].IsEmpty())
+            {
+                RefillDrawPileByDiscardPile();
+            }
+            else
+            {
+                Debug.LogError($"No more cards to draw!!");
+            }
+        }
+
+        return piles[PileType.Draw].Draw();
+    }
+
+    public void DiscardCard(Card card)
+    {
+        piles[PileType.Discard].Push(card);
+    }
+
+    //public IEnumerator RefillDrawPileByDiscardPile()
+    //{
+    //    while(!piles[PileType.Discard].IsEmpty())
+    //    {
+    //        piles[PileType.Draw].Push(piles[PileType.Discard].Draw());
+
+    //        /*
+    //         * Some Animation?
+    //         */
+
+    //        yield return new WaitForEndOfFrame();
+    //    }
+
+    //    piles[PileType.Draw].Shuffle();
+
+    //    yield return null;
+    //}
+
+    public void RefillDrawPileByDiscardPile()
+    {
+        while (!piles[PileType.Discard].IsEmpty())
         {
             piles[PileType.Draw].Push(piles[PileType.Discard].Draw());
-
-            /*
-             * Some Animation?
-             */
-
-            yield return new WaitForEndOfFrame();
         }
 
         piles[PileType.Draw].Shuffle();
-
-        yield return null;
     }
 }

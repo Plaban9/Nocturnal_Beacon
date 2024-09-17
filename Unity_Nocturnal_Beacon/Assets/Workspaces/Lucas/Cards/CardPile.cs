@@ -62,6 +62,10 @@ public class CardPile : MonoBehaviour
         {
             cards.InsertCard(card, index);
         }
+        else
+        {
+            Push(card);
+        }
     }
 
     public void Insert(List<Card> cardList)
@@ -103,7 +107,7 @@ public class CardPile : MonoBehaviour
 
     public List<Card> Preview()
     {
-        return cards.OrderBy(x => x.orderId).ToList();
+        return cards.OrderBy(x => x.uId).ToList();
     }
 
     public List<Card> PreviewWithDrawSequence()
