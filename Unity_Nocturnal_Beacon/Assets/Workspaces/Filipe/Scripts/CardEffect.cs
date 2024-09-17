@@ -33,6 +33,22 @@ public interface ICardEffect
 
     }
 
+    public virtual void BeforeDealDamage(EffectTarget target, int amount)
+    {
+
+    }
+
+    public virtual int OnDealDamage(EffectTarget target, int amount)
+    {
+        return amount;
+    }
+
+    public virtual void AfterDealDamage(EffectTarget target, int amount)
+    {
+
+    }
+
+
 }
 
 [Serializable]
