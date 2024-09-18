@@ -5269,14 +5269,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parallaxObjects:
-  - {fileID: 1105910963}
   - {fileID: 1987833613}
-  - {fileID: 1883727512}
+  - {fileID: 123833714}
+  - {fileID: 1105910963}
+  - {fileID: 813773966}
+  - {fileID: 1524195469}
+  - {fileID: 1765576224}
   - {fileID: 37451467}
-  - {fileID: 1050241509}
-  - {fileID: 368489696}
-  _mouseSpeedX: 0.125
-  _mouseSpeedY: 0.1
+  - {fileID: 37451467}
+  - {fileID: 37451467}
+  - {fileID: 1883727512}
+  _mouseSpeedX: 0.0875
+  _mouseSpeedY: 0.07
   _camera: {fileID: 2093512254}
 --- !u!1 &247005680
 GameObject:
@@ -22333,7 +22337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8509d778a1dbf644cb2ad4570e62f196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectDurationPerLoopInSecs: 2.5
+  _effectDurationPerLoopInSecs: 3.25
   _panel: {fileID: 1976541775}
   _initialAlpha: 0.575
   _alphaCurve:
