@@ -18,4 +18,21 @@ MonoBehaviour:
   manaCost: 1
   imgPath: 
   effects:
-  - {fileID: 11400000, guid: 16d6c12b4c457224e864d9137c8601de, type: 2}
+  - rid: 9114498638420115462
+  - rid: 9114498638420115459
+  - rid: 9114498638420115463
+  references:
+    version: 2
+    RefIds:
+    - rid: 9114498638420115459
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 0
+    - rid: 9114498638420115462
+      type: {class: ModifyCardCount, ns: , asm: Assembly-CSharp}
+      data:
+        amount_modified: 0
+    - rid: 9114498638420115463
+      type: {class: ModifyCardCount, ns: , asm: Assembly-CSharp}
+      data:
+        amount_modified: 0
