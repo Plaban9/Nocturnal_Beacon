@@ -11,6 +11,14 @@ public class ButtonPrototype : MonoBehaviour
 
     [SerializeField] private Text _buttonText;
 
+    private void Awake()
+    {
+        if (_buttonText != null)
+        {
+            _idleColor = _buttonText.color;
+        }
+    }
+
 
     public void OnHoverEnter()
     {
