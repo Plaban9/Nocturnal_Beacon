@@ -61,5 +61,9 @@ public class CardLibrary : MonoBehaviour
         else
             throw new System.ArgumentException($"[ERROR] Card not found. Id: ${id}");
     }
+
+    public bool ValidateCardById(int id) => cardsDict.ContainsKey(id);
     #endregion
+
+    
 }

@@ -6,7 +6,7 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] Card card;
+    [SerializeField] protected Card card;
 
     [SerializeField] TMP_Text manaText;
     [SerializeField] TMP_Text titleText;
@@ -15,16 +15,25 @@ public class CardDisplay : MonoBehaviour
 
     [SerializeField] Image mainImg;
 
-    private void Start()
+    protected virtual void Start()
     {
         if(card != null)
         {
-            manaText.text = card.manaCost.ToString();
-            titleText.text = card.name.ToString();
-            typeText.text = card.cardType.ToString();
-            descText.text = card.GetEffectDescStr();
-
-            mainImg.sprite = card.sprite;
+            Setup(card);
         }
     }
+
+    public virtual void Setup(Card card)
+    {
+        this.card = card;
+
+        manaText.text = card.manaCost.ToString();
+        titleText.text = card.name.ToString();
+        typeText.text = card.cardType.ToString();
+        descText.text = card.GetEffectDescStr();
+
+        mainImg.sprite = card.sprite;
+    }
+
+    public Card GetCard() => card;
 }

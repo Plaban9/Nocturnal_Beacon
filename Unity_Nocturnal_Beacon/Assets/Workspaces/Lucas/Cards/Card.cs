@@ -11,7 +11,8 @@ namespace CardAttribute
     {
         Attack,
         Skill,
-        Curse
+        Curse,
+        Status
     }
 
     [Serializable]
@@ -97,11 +98,11 @@ namespace CardAttribute
 public class Card : ScriptableObject
 {
     public int id;
+    [HideInInspector] public int uId;   // unique Id
     public new string name;
     public Rarity rarity;
     public CardType cardType;
     public int manaCost = 1;
-
     public Sprite sprite;
 
     /*
@@ -121,4 +122,5 @@ public class Card : ScriptableObject
 
         return result;
     }
+
 }
