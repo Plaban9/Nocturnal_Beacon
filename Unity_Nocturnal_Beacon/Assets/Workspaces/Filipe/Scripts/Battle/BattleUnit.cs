@@ -48,4 +48,15 @@ public class BattleUnit : MonoBehaviour
                                          new Vector2(0.5f, 0.5f));
         _sprite.sprite = newSprite;
     }
+
+    public HPData GetHPData()
+    {
+        return _hpData;
+    }
+
+    public BattleUnitData GetUnitData()
+    {
+        return _unitData;
+    }
+    
 }

@@ -1,5 +1,6 @@
 using CardAttribute;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -54,15 +55,16 @@ public class ModifyHealth : CardEffect
     }
 
 
-
-
-    public void OnUse(EffectTarget target)
+    override public void OnUse(EffectTarget targetting, List<BattleUnit> targets)
     {
-        /*
-         * DealDamage/HealTarget({target}, {amount}, {user})
-         * TODO: Implement
-         * Deal {amount} damage/ Heal {amount} damage to the {target}
-         */
+        foreach(BattleUnit target in targets)
+        {
+            if (val1 < 0)
+                target.GetHPData().DealDamage(val1);
+            else if (val1 > 0)
+                target.GetHPData().RecoverHealth(val1);
+        }
     }
+
 
 }

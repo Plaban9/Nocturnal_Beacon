@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class MonsterData : BattleUnitData
 {
+    [SerializeField] public EnemyBehavior behavior;
 
 
 

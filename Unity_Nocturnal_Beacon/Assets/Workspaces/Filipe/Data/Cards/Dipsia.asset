@@ -10,29 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: PommelBeat
+  m_Name: Dipsia
   m_EditorClassIdentifier: 
-  id: 1
-  name: Pommel Beat
-  rarity: 0
-  manaCost: 1
-  imgPath: 
+  id: 1003
+  name: Dipsia
+  rarity: 2
+  cardType: 0
+  manaCost: 3
+  sprite: {fileID: 0}
   effects:
-  - rid: 9114498638420115462
-  - rid: 9114498638420115459
-  - rid: 9114498638420115463
+  - rid: 9114498975941525511
+  - rid: 9114498975941525512
   references:
     version: 2
     RefIds:
-    - rid: 9114498638420115459
+    - rid: 9114498975941525511
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
-        damage: 0
-    - rid: 9114498638420115462
-      type: {class: ModifyCardCount, ns: , asm: Assembly-CSharp}
+        appMechanic: 0
+        val1: -6
+        val2: 0
+        val3: 0
+        val4: 0
+        target: 1
+    - rid: 9114498975941525512
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
-        amount_modified: 0
-    - rid: 9114498638420115463
-      type: {class: ModifyCardCount, ns: , asm: Assembly-CSharp}
-      data:
-        amount_modified: 0
+        appMechanic: 0
+        val1: 15
+        val2: 0
+        val3: 0
+        val4: 0
+        target: 0

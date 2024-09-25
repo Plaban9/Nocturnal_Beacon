@@ -27,7 +27,8 @@ public class EffectManager : MonoBehaviour
     {
         DAMAGE,
         HEAL,
-        GUARD
+        GUARD,
+        CORROSION
     }
 
     [SerializeField] TextMeshProUGUI _numberPrefab;
@@ -80,6 +81,9 @@ public class EffectManager : MonoBehaviour
                 break;
             case EFFECTS_NUMBER.GUARD:
                 animationToPlay = "AnimationNumberBlock";
+                break;
+            case EFFECTS_NUMBER.CORROSION:
+                animationToPlay = "AnimationNumberCorrosion";
                 break;
         }
         anim.Play(animationToPlay);
