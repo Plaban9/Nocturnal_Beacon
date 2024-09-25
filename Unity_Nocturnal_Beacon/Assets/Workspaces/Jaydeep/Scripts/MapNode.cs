@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,10 @@ public class MapNode : MonoBehaviour
     [SerializeField] private List<MapNode> mapNodesList;
     [field:SerializeField] public List<MapNode> ConnectedNodeList { get; set; }
 
+    public static event Action<MapNode> OnMapNodeSelected;
+
     private bool isConnected;
+    private SpriteRenderer spriteRenderer;
 
     public int Depth { get; private set; }
     public int Split { get; private set; }
@@ -17,6 +21,12 @@ public class MapNode : MonoBehaviour
     private void Awake()
     {
         ConnectedNodeList = new();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void OnMouseDown()
+    {
+        OnMapNodeSelected?.Invoke(this);
     }
 
     public void AddNode(MapNode newNode)
@@ -48,5 +58,19 @@ public class MapNode : MonoBehaviour
         isConnected = false;
         ConnectedNodeList.Clear();
         gameObject.SetActive(true);
+    }
+
+    public void DeselectNode()
+    {
+        var color = spriteRenderer.color;
+        color.a = .25f;
+        spriteRenderer.color = color;
+    }
+
+    public void SelectNode()
+    {
+        var color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
     }
 }

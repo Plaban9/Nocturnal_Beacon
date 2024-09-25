@@ -10,6 +10,7 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private MapNode bossNode;
     [SerializeField] private MapNode mapNodePrefab;
     [SerializeField] private LineRenderer lineRendererPrefab;
+    [SerializeField] private Transform selectedNodeEffectTrans;
     [SerializeField] private int maxSplitsAllowed;
     [SerializeField] private int depthLevel;
     [SerializeField, Range(0f, 100f)] private float nodeDestructionPercent;
@@ -22,6 +23,24 @@ public class MapBuilderTD : MonoBehaviour
         CreateNodes();
 
         ConnectNodes();
+
+        SetSelectedNode(bossNode);
+    }
+
+    private void SetSelectedNode(MapNode node)
+    {
+        selectedNodeEffectTrans.position = node.transform.position;
+        selectedNodeEffectTrans.localScale = node.transform.localScale;
+    }
+
+    private void OnEnable()
+    {
+        MapNode.OnMapNodeSelected += SelectNode;
+    }
+
+    private void OnDisable()
+    {
+        MapNode.OnMapNodeSelected -= SelectNode;
     }
 
     private void CreateNodes()
@@ -66,10 +85,14 @@ public class MapBuilderTD : MonoBehaviour
         }
     }
 
+    [SerializeField] List<MapRow> connectedNodes = new();
+
     private void ConnectNodes()
     {
         for (int i = 0; i < nodes2DList[^1].nodesList.Count; i++)
         {
+            connectedNodes.Add(new());
+
             // Get a new line to connect all nodes
             int depth = depthLevel - 1;
             var curr = nodes2DList[depth].nodesList[i];
@@ -80,6 +103,7 @@ public class MapBuilderTD : MonoBehaviour
             while (curr != null)
             {
                 line.SetPosition(depth + 1, curr.transform.position);
+                connectedNodes[i].nodesList.Add(curr);
                 if (depth < 0) break;
 
                 int luckyIndex = Random.Range(0, curr.GetConnectedNodesList().Count); // Get random node from list to connect
@@ -94,6 +118,43 @@ public class MapBuilderTD : MonoBehaviour
 
         nodes2DList.ForEach(x => x.nodesList.ForEach(y => y.CleanupDisconnectedNodes()));
     }
+
+    public void SelectNode(MapNode selectedNode)
+    {
+        Debug.Log(selectedNode.name + " is selected");
+
+        SetSelectedNode(selectedNode);
+
+        List<MapRow> selectedLinesList = new();
+        for (int i = 0; i < connectedNodes.Count; i++)
+        {
+            MapRow row = connectedNodes[i];
+            if (row.nodesList.Exists(node => node == selectedNode))
+            {
+                var line = bossNode.transform.GetChild(i).GetComponent<LineRenderer>();
+                var color = line.startColor;
+                color.a = 1;
+                line.startColor = line.endColor = color;
+                selectedLinesList.Add(row);
+            }
+            else
+            {
+                var line = bossNode.transform.GetChild(i).GetComponent<LineRenderer>();
+                var color = line.startColor;
+                color.a = .25f;
+                line.startColor = line.endColor = color;
+
+                row.nodesList.ForEach(x => x.DeselectNode());
+            }
+        }
+
+        selectedLinesList.ForEach(row =>
+        {
+            row.nodesList.ForEach(node => node.SelectNode());
+        });
+    }
+
+    #region Utility Methods
 
     [ContextMenu("Create new connections")]
     private void ConnectNewLines()
@@ -113,10 +174,12 @@ public class MapBuilderTD : MonoBehaviour
 
         ConnectNodes();
     }
+
+    #endregion
 }
 
 [Serializable]
 public class MapRow
 {
-    public List<MapNode> nodesList;
+    public List<MapNode> nodesList = new();
 }
