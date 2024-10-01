@@ -24,6 +24,12 @@ public class LighthouseEffectMocker : MonoBehaviour
     [SerializeField] private AnimationCurve _lightBeamAlphaCurve;
     [SerializeField] private float _currentLightBeamAlpha;
 
+    //
+    [SerializeField] private Image _logo;
+    [SerializeField] private Color _logoColor;
+    [SerializeField] private AnimationCurve _logoAlphaCurve;
+    [SerializeField] private float _currentLogoAlpha;
+
 
     private void Awake()
     {
@@ -31,7 +37,8 @@ public class LighthouseEffectMocker : MonoBehaviour
         _panel.color = GetPanelColor(_initialAlpha);
 
         _lightBeamColor = _leftLight.color;
-        
+        _logoColor = _logo.color;
+
     }
 
     private void Update()
@@ -51,6 +58,10 @@ public class LighthouseEffectMocker : MonoBehaviour
             _currentLightBeamAlpha = _lightBeamAlphaCurve.Evaluate(currentTimeSlice);
             _leftLight.color = GetLightBeamColor(_currentLightBeamAlpha);
             _rightLight.color = GetLightBeamColor(_currentLightBeamAlpha);
+
+
+            _currentLogoAlpha = _logoAlphaCurve.Evaluate(currentTimeSlice);
+            _logo.color = GetLogoColor(_currentLogoAlpha);
         }
     }
 
@@ -58,9 +69,14 @@ public class LighthouseEffectMocker : MonoBehaviour
     {
         return new Color(_panel.color.r, _panel.color.g, _panel.color.b, alpha);
     }
-    
+
     private Color GetLightBeamColor(float alpha)
     {
         return new Color(_leftLight.color.r, _leftLight.color.g, _leftLight.color.b, alpha);
+    }
+
+    private Color GetLogoColor(float alpha)
+    {
+        return new Color(_logo.color.r, _logo.color.g, _logo.color.b, alpha);
     }
 }
