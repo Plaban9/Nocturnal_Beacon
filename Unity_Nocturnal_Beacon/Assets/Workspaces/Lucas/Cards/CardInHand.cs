@@ -108,4 +108,9 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         return false;
     }
 
+    public void ResetToOriPos()
+    {
+        canvasGroup.blocksRaycasts = true;
+        rt.anchoredPosition = oriPos;
+    }
 }

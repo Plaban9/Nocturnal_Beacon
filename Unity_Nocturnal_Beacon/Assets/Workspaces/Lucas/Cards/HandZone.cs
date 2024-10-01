@@ -51,7 +51,11 @@ public class HandZone : MonoBehaviour
         var handCard = Instantiate(HandCardPrefab, transform).GetComponent<CardInHand>();
         handCard.Setup(card);
         handCard.SubscribeOnDrag().Subscribe(x => isDraggingCard = x).AddTo(handCard.gameObject);
-        handCard.SubscribeOnDeploy().Subscribe(x => DeployCard(x)).AddTo(handCard);
+        handCard.SubscribeOnDeploy().Subscribe(x =>
+        {
+            if (!DeployCard(x))
+                handCard.ResetToOriPos();
+        }).AddTo(handCard);
         cardInHands.Add(handCard);
 
         Resize();
@@ -147,17 +151,19 @@ public class HandZone : MonoBehaviour
     }
     #endregion
 
-    void DeployCard(CardInHand cardInHand)
+    bool DeployCard(CardInHand cardInHand)
     {
 
         if (BattleManager.Instance.cardManager.DeployCard(cardInHand.GetCard()))
         {
             cardInHands.Remove(cardInHand);
             Destroy(cardInHand.gameObject);
+            return true;
         }
         else
         {
             // TODO: Show player why cant use this
+            return false;
         }
 
     }

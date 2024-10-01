@@ -20,13 +20,16 @@ public class CardManager : MonoBehaviour
 
     private BattleManager _bm;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _playerDeck = new Deck(true);
         _cardPileManager = new CardPileManager(_playerDeck);
         _bm = GetComponent<BattleManager>();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
