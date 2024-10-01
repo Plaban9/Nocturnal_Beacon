@@ -15,6 +15,11 @@ MonoBehaviour:
   musicLibrary:
   - name: Menu
     musicType: 1
+    audioClip: {fileID: 8300000, guid: d0da82c9a107d9048a08a43d4c7f9719, type: 3}
+    volume: 1
+    shouldLoop: 1
+  - name: Menu
+    musicType: 1
     audioClip: {fileID: 8300000, guid: ffde0fcc72689374ca51ed87079ae4eb, type: 3}
     volume: 1
     shouldLoop: 1
