@@ -13,7 +13,10 @@ public class BattleManager : MonoBehaviour
     [SerializeField] List<BattleUnit> _enemies;
     // Start is called before the first frame update
 
+    public CardManager cardManager;
+
     private BATTLE_STATE _currentState = BATTLE_STATE.PLAYER_TURN;
+
 
     [SerializeField] int _mana = 5;
 
@@ -22,6 +25,20 @@ public class BattleManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI _manaText;
 
     int _currentTurn = 0;
+    public static BattleManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
 
 
     public enum BATTLE_STATE
@@ -34,6 +51,7 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        cardManager = GetComponent<CardManager>();
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
     }
 
@@ -88,7 +106,10 @@ public class BattleManager : MonoBehaviour
         if (state == BATTLE_STATE.ENEMY_TURN)
         {
             CheckIfBattleIsOver();
-            RunEnemyActions(); 
+            RunEnemyActions();
+        } else if(state == BATTLE_STATE.PLAYER_TURN)
+        {
+            cardManager.DrawCard(_currentTurn == 0 ? 5 : 1);
         }
     }
 
@@ -100,39 +121,9 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void dev_UseHealCard()
-    {
-        if (_currentState == BATTLE_STATE.PLAYER_TURN)
-        {
-            if (!TryToUseCard(_player, _enemies, _devHealCard))
-            {
-                Debug.Log("Failed to use heal card!");
-            }
-        }
-    }
 
-    public void dev_UseShieldCard()
-    {
-        if (_currentState == BATTLE_STATE.PLAYER_TURN)
-        {
-            if (!TryToUseCard(_player, new List<BattleUnit>{ _player}, _devShieldCard))
-            {
-                Debug.Log("Failed to use shield card!");
-            }
-        }
-    }
 
-    public void dev_UseAttackCard()
-    {
-        if (_currentState == BATTLE_STATE.PLAYER_TURN)
-        {
-            if (!TryToUseCard(_player, _enemies, _devDamageCard))
-            {
-                Debug.Log("Failed to use attack card!");
-            }
-        }
-        CheckIfBattleIsOver();
-    }
+
 
     private void ModifyMana(int value)
     {
@@ -187,10 +178,10 @@ public class BattleManager : MonoBehaviour
 
     #region CARD USE
 
-    [SerializeField] public Card _devDamageCard;
-    [SerializeField] public Card _devShieldCard;
-    [SerializeField] public Card _devHealCard;
-
+    public bool PlayerTryToUseCard( Card card)
+    {
+        return TryToUseCard(_player, _enemies, card);
+    }
 
     private bool TryToUseCard(BattleUnit owner, List<BattleUnit> targets, Card card)
     {

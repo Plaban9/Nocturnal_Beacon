@@ -149,9 +149,16 @@ public class HandZone : MonoBehaviour
 
     void DeployCard(CardInHand cardInHand)
     {
-        PrototypeController.Instance.DeployCard(cardInHand.GetCard());
 
-        cardInHands.Remove(cardInHand);
-        Destroy(cardInHand.gameObject);
+        if (BattleManager.Instance.cardManager.DeployCard(cardInHand.GetCard()))
+        {
+            cardInHands.Remove(cardInHand);
+            Destroy(cardInHand.gameObject);
+        }
+        else
+        {
+            // TODO: Show player why cant use this
+        }
+
     }
 }
