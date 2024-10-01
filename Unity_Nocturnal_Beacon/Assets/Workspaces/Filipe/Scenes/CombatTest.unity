@@ -1505,8 +1505,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009683479}
-  - component: {fileID: 2009683480}
   - component: {fileID: 2009683481}
+  - component: {fileID: 2009683480}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1544,6 +1544,7 @@ MonoBehaviour:
   _player: {fileID: 1010547074}
   _enemies:
   - {fileID: 2125940398}
+  cardManager: {fileID: 0}
   _mana: 5
   _battleStateText: {fileID: 255157174}
   _manaText: {fileID: 1775109369}

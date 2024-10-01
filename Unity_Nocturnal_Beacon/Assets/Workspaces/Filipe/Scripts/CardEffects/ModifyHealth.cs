@@ -20,7 +20,7 @@ public class ModifyHealth : CardEffect
             }
             else
             {
-                result = $"Deal {val1} damage";
+                result = $"Deal {Mathf.Abs(val1)} damage";
 
                 switch (target)
                 {

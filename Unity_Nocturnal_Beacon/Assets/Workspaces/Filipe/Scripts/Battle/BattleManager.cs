@@ -109,18 +109,24 @@ public class BattleManager : MonoBehaviour
             RunEnemyActions();
         } else if(state == BATTLE_STATE.PLAYER_TURN)
         {
-            cardManager.DrawCard(_currentTurn == 0 ? 5 : 1);
+            cardManager.DrawCard(5 /*TODO: Change it to variable. */);
         }
     }
 
     public void EndTurn()
     {
+        StartCoroutine(PerformEndTurn());
+    }
+
+    IEnumerator PerformEndTurn()
+    {
+        yield return StartCoroutine(cardManager.DiscardHandZoneCard());
+
         if (_currentState == BATTLE_STATE.PLAYER_TURN)
         {
             ChangeBattleState(BATTLE_STATE.ENEMY_TURN);
         }
     }
-
 
 
 

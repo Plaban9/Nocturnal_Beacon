@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UniRx;
+using DG.Tweening;
 
 public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -112,5 +113,32 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     {
         canvasGroup.blocksRaycasts = true;
         rt.anchoredPosition = oriPos;
+    }
+
+    public IEnumerator PerformDiscard()
+    {
+        var fadeTime = 0.2f;
+
+        rt.DOScale(0.1f, 0.1f).SetEase(Ease.InBack);
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<CanvasGroup>().DOFade(0, fadeTime);
+        rt.DOAnchorPos(new Vector2(850, 0), fadeTime);
+        yield return new WaitForSeconds(fadeTime);
+    }
+
+    public IEnumerator PerformDrawFromPile()
+    {
+        var aniTime = 0.2f;
+
+        rt.DOScale(0, 0);
+        rt.anchoredPosition = new Vector2(-850, 0);
+        rt.DOScale(0.5f, aniTime).SetEase(Ease.InBack);
+        rt.DOAnchorPos(new Vector2(0, -50), aniTime);
+        yield return new WaitForSeconds(aniTime);
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
