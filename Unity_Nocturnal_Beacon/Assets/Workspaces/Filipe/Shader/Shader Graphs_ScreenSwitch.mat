@@ -57,7 +57,7 @@ Material:
     - _EdgeThickness: 0.93
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Transition: 0
+    - _Transition: 0.061
     m_Colors:
-    - _LighthouseColor: {r: 0, g: 1187.1099, b: 0, a: 1}
+    - _LighthouseColor: {r: 442.33224, g: 1162.549, b: 0, a: 1}
   m_BuildTextureStacks: []

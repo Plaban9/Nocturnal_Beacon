@@ -1544,6 +1544,7 @@ MonoBehaviour:
   _player: {fileID: 1010547074}
   _enemies:
   - {fileID: 2125940398}
+  cardManager: {fileID: 0}
   _mana: 5
   _battleStateText: {fileID: 255157174}
   _manaText: {fileID: 1775109369}
