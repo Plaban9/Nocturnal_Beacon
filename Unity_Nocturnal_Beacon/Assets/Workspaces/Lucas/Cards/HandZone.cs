@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UniRx;
+using System.Linq;
 
 public class HandZone : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class HandZone : MonoBehaviour
 
     public void AddCard(Card card)
     {
+        StartCoroutine(PerformAddCard(card));
+    }
+
+    IEnumerator PerformAddCard(Card card)
+    {
         var handCard = Instantiate(HandCardPrefab, transform).GetComponent<CardInHand>();
         handCard.Setup(card);
         handCard.SubscribeOnDrag().Subscribe(x => isDraggingCard = x).AddTo(handCard.gameObject);
@@ -56,9 +62,14 @@ public class HandZone : MonoBehaviour
             if (!DeployCard(x))
                 handCard.ResetToOriPos();
         }).AddTo(handCard);
+        
         cardInHands.Add(handCard);
 
+        //yield return StartCoroutine(handCard.PerformDrawFromPile());  //Temp disabled
+
         Resize();
+
+        yield return null;
     }
 
     #region For display
@@ -156,8 +167,7 @@ public class HandZone : MonoBehaviour
 
         if (BattleManager.Instance.cardManager.DeployCard(cardInHand.GetCard()))
         {
-            cardInHands.Remove(cardInHand);
-            Destroy(cardInHand.gameObject);
+            RemoveCard(cardInHand);
             return true;
         }
         else
@@ -166,5 +176,21 @@ public class HandZone : MonoBehaviour
             return false;
         }
 
+    }
+
+    public List<Card> GetCards()
+    {
+        return cardInHands.Select(x => x.GetCard()).ToList();
+    }
+
+    public List<CardInHand> GetCardsInHand()
+    {
+        return cardInHands.ToList();
+    }
+
+    public void RemoveCard(CardInHand cardInHand)
+    {
+        cardInHands.Remove(cardInHand);
+        cardInHand.Destroy();
     }
 }

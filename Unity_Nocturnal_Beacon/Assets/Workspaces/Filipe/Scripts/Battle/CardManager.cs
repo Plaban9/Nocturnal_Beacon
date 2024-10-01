@@ -69,4 +69,23 @@ public class CardManager : MonoBehaviour
         }
 
     }
+
+    public IEnumerator DiscardHandZoneCard()
+    {
+        var cards = handZone.GetCardsInHand();
+        cards.Reverse();
+
+        foreach(var c in cards)
+        {
+            yield return StartCoroutine(c.PerformDiscard());
+            _cardPileManager.DiscardCard(c.GetCard());
+            handZone.RemoveCard(c);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        /* TODO:
+         * Animation of discarding cards?
+         */
+    }
 }
