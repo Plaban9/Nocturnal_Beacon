@@ -8,23 +8,30 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-
-    [SerializeField] BattleUnit _player;
     [SerializeField] List<BattleUnit> _enemies;
     // Start is called before the first frame update
 
-    public CardManager cardManager;
+    [SerializeField] public List<UnitData> _possibleEnemies;
 
-    private BATTLE_STATE _currentState = BATTLE_STATE.PLAYER_TURN;
-
-
-    [SerializeField] int _mana = 5;
-
-    [Header("Debugging")]
+    [Header("UI")]
     [SerializeField] public TextMeshProUGUI _battleStateText;
     [SerializeField] public TextMeshProUGUI _manaText;
 
+    /*
+     * Player Info
+     */
+    public CardManager _cardManager;
+    [SerializeField] BattleUnit _player;
+
+    int _mana;
+
+    /*
+     * Battle Info
+     */
     int _currentTurn = 0;
+    private BATTLE_STATE _currentState = BATTLE_STATE.SETUP;
+
+
     public static BattleManager Instance { get; private set; }
     private void Awake()
     {
@@ -43,6 +50,7 @@ public class BattleManager : MonoBehaviour
 
     public enum BATTLE_STATE
     {
+        SETUP,
         PLAYER_TURN,
         ENEMY_TURN,
         BATTLE_OVER
@@ -51,7 +59,9 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        cardManager = GetComponent<CardManager>();
+        _cardManager = GetComponent<CardManager>();
+        SetupBattle();
+
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
     }
 
@@ -67,6 +77,23 @@ public class BattleManager : MonoBehaviour
             case BATTLE_STATE.BATTLE_OVER:
                 break;
         }
+    }
+
+    public void SetupBattle()
+    {
+        _cardManager.SetDeck(NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck());
+        _player.SetupPlayerUnit(NoctBeaconRunData.Instance.GetPlayerInformation());
+        SetupEnemies();
+        _mana = NoctBeaconRunData.Instance.GetPlayerInformation().GetMaxMana();
+    }
+
+    public void SetupEnemies()
+    {
+        int height = NoctBeaconRunData.Instance.GetHeight();
+        // Used when we start making multiple floors stuff
+
+        UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.RandomRange(0, _possibleEnemies.Count))];
+        _enemies[0].SetupUnit(unit);
     }
 
     private void ChangeBattleState(BATTLE_STATE state)
@@ -93,7 +120,7 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BATTLE_STATE.PLAYER_TURN)
         {
-            ModifyMana(5 - _mana);
+            ModifyMana(NoctBeaconRunData.Instance.GetPlayerInformation().GetMaxMana() - _mana);
         }
         if(state == BATTLE_STATE.ENEMY_TURN)
         {
@@ -109,7 +136,7 @@ public class BattleManager : MonoBehaviour
             RunEnemyActions();
         } else if(state == BATTLE_STATE.PLAYER_TURN)
         {
-            cardManager.DrawCard(5 /*TODO: Change it to variable. */);
+            _cardManager.DrawCard(5 /*TODO: Change it to variable. */);
         }
     }
 
@@ -120,7 +147,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformEndTurn()
     {
-        yield return StartCoroutine(cardManager.DiscardHandZoneCard());
+        yield return StartCoroutine(_cardManager.DiscardHandZoneCard());
 
         if (_currentState == BATTLE_STATE.PLAYER_TURN)
         {
@@ -142,7 +169,15 @@ public class BattleManager : MonoBehaviour
         if (_player.GetHPData().IsDead() || EnemiesAlive() == 0)
         {
             ChangeBattleState(BATTLE_STATE.BATTLE_OVER);
+            StartCoroutine(BattleEnd());
         }
+    }
+
+
+    IEnumerator BattleEnd()
+    {
+        yield return new WaitForSeconds(2);
+        SceneController.Instance.ToMap(); 
     }
 
     #region ENEMY ACTIONS
@@ -220,7 +255,7 @@ public class BattleManager : MonoBehaviour
         foreach (CardEffect effect in cardEffects)
         {
             CheckIfBattleIsOver();
-            if (_currentState == BATTLE_STATE.BATTLE_OVER) return true;
+            if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
             if (effect.GetTargetting() == CardAttribute.EffectTarget.Self)
             {
                 effect.OnUse(effect.GetTargetting(), new List<BattleUnit> { owner });
@@ -235,7 +270,7 @@ public class BattleManager : MonoBehaviour
         {
             ModifyMana(-card.manaCost);
         }
-
+        CheckIfBattleIsOver();
         return true;
     }
 

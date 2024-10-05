@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Monster_Wallop
   m_EditorClassIdentifier: 
   id: 9000
+  uId: 0
   name: Wallop
   rarity: 0
   cardType: 0
@@ -27,7 +28,7 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -10
+        val1: -20
         val2: 0
         val3: 0
         val4: 0

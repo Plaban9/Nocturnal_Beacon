@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 8128106}
   - component: {fileID: 8128105}
   - component: {fileID: 8128108}
+  - component: {fileID: 8128109}
   m_Layer: 5
   m_Name: Menu Buttons
   m_TagString: Untagged
@@ -239,6 +240,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8128109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8128103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1a7c737ed72434e91afe592d6ba190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DEBUG_DATA_FOR_PROTOTYPE1: {fileID: 11400000, guid: 69865fb6815de524db6a76c44950b7c6, type: 2}
 --- !u!1 &37451467
 GameObject:
   m_ObjectHideFlags: 0
@@ -22211,6 +22225,51 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1461402384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461402386}
+  - component: {fileID: 1461402385}
+  m_Layer: 0
+  m_Name: ConcurrentData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1461402385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461402384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2a68c402cad3145aec7f610e4d463c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInformation: {fileID: 0}
+--- !u!4 &1461402386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461402384}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.372044, y: -0.20404409, z: 89.65912}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1471496833
 GameObject:
   m_ObjectHideFlags: 0
@@ -33540,9 +33599,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 243459827}
-        m_TargetAssemblyTypeName: SceneManagement, Assembly-CSharp
-        m_MethodName: ToMap
+      - m_Target: {fileID: 8128109}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: StartNewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33902,3 +33961,4 @@ SceneRoots:
   - {fileID: 458733150}
   - {fileID: 95773235}
   - {fileID: 243459828}
+  - {fileID: 1461402386}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "NewPlayableData", menuName = "Unit/Monster")]
 [Serializable]
-public class MonsterData : BattleUnitData
+public class MonsterData : UnitData
 {
     [SerializeField] public EnemyBehavior behavior;
 

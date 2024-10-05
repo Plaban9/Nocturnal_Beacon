@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0090badb2528c2e4e96345c958dbe600, type: 3}
-  m_Name: Heroine
+  m_Name: Knight
   m_EditorClassIdentifier: 
-  name: Heroine
-  sprite: {fileID: 2800000, guid: 5ff84ea0772943f458f998f35b743174, type: 3}
+  unitName: Knight
+  sprite: {fileID: 2800000, guid: af87d6334d9427c45a0ebeb8b44df130, type: 3}
+  startingHp: 120
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
-  startingHp: 200
+  startingMana: 3

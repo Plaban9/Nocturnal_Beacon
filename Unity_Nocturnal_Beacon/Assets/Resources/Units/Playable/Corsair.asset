@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0090badb2528c2e4e96345c958dbe600, type: 3}
+  m_Name: Corsair
+  m_EditorClassIdentifier: 
+  unitName: Corsair
+  sprite: {fileID: 2800000, guid: e84dc1e6c3c137f4ca75ba1ad04727af, type: 3}
+  startingHp: 60
+  startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
+  startingMana: 5

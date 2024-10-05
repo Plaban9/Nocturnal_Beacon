@@ -88,32 +88,42 @@ public class Deck : ScriptableObject
         }
         else
         {
-            for (int i = 0; i < 5; i++)
-            {
-                var atkCard = CardLibrary.Instance.GetCardById(10001);
-                AddCard(atkCard);
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    var atkCard = CardLibrary.Instance.GetCardById(10001);
+            //    AddCard(atkCard);
+            //}
 
-            for (int i = 0; i < 5; i++)
-            {
-                var defCard = CardLibrary.Instance.GetCardById(10002);
-                AddCard(defCard);
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    var defCard = CardLibrary.Instance.GetCardById(10002);
+            //    AddCard(defCard);
+            //}
         }
     }
 
-    void LoadPlayerDeck()
+    public void LoadPlayerDeck(Deck deck = null)
     {
-        var playerDeck = Resources.Load("Deck/PlayerDeck") as Deck;
-
-        if(playerDeck != null)
+        if (!deck)
         {
-            CloneFromDeck(playerDeck);
+            var playerDeck = Resources.Load("Deck/PlayerDeck") as Deck;
+
+            if (playerDeck != null)
+            {
+                CloneFromDeck(playerDeck);
+            }
+            else
+            {
+                LoadInitialDeck();
+            }
         }
         else
         {
-            LoadInitialDeck();
+            CloneFromDeck(deck);
         }
+
     }
+
+
 }
 

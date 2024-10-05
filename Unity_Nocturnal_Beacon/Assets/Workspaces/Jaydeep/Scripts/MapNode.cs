@@ -27,6 +27,8 @@ public class MapNode : MonoBehaviour
     private void OnMouseDown()
     {
         OnMapNodeSelected?.Invoke(this);
+        SceneController.Instance.ToBattle();
+
     }
 
     public void AddNode(MapNode newNode)
@@ -72,6 +74,6 @@ public class MapNode : MonoBehaviour
         var color = spriteRenderer.color;
         color.a = 1f;
         spriteRenderer.color = color;
-        SceneManagement.Instance.ToBattle(); 
     }
+
 }

@@ -10,10 +10,18 @@ public class HPData : MonoBehaviour
     private int _shield;
     private TextMeshProUGUI _hpText;
     private Material _hpMaterial;
-    public void InitializeMaxHP(int maxHP)
+
+    public void InitializeMaxHP(UnitData _monsterData)
     {
-        _maxHp = maxHP;
-        _currentHp = maxHP;
+        _maxHp = _monsterData.startingHp;
+        _currentHp = _monsterData.startingHp;
+        _shield = 0;
+    }
+
+    public void InitializeMaxHp(PlayerUnitData _playerData)
+    {
+        _maxHp = _playerData.GetMaxHP();
+        _currentHp = _playerData.GetCurrentHP();
         _shield = 0;
     }
     public void DealDamage(int amount)

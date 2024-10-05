@@ -165,7 +165,7 @@ public class HandZone : MonoBehaviour
     bool DeployCard(CardInHand cardInHand)
     {
 
-        if (BattleManager.Instance.cardManager.DeployCard(cardInHand.GetCard()))
+        if (BattleManager.Instance._cardManager.DeployCard(cardInHand.GetCard()))
         {
             RemoveCard(cardInHand);
             return true;

@@ -29,20 +29,30 @@ public class CardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        drawPileCounter.text = _cardPileManager.GetPileSize(CardPileManager.PileType.Draw).ToString();
-        discardPileCounter.text = _cardPileManager.GetPileSize(CardPileManager.PileType.Discard).ToString();
+        if (drawPileCounter)
+        {
+            drawPileCounter.text = _cardPileManager?.GetPileSize(CardPileManager.PileType.Draw).ToString();
+            discardPileCounter.text = _cardPileManager?.GetPileSize(CardPileManager.PileType.Discard).ToString();
+        }
+    }
+
+    public void SetDeck(Deck deck)
+    {
+        _playerDeck.LoadPlayerDeck(deck);
+        _cardPileManager.Init(_playerDeck);
+
     }
 
     [ContextMenu("Draw Card")]
     public void DrawCard(int i)
     {
-        StartCoroutine(PerformDrawCard(i));
+        StartCoroutine(PerformDrawCard(i)); 
     }
 
     IEnumerator PerformDrawCard(int amount)

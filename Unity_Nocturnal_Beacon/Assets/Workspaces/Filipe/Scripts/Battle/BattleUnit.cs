@@ -13,31 +13,43 @@ public class BattleUnit : MonoBehaviour
     private HPData _hpData;
     private BattleUnit _battleUnit;
 
-    [SerializeField] BattleUnitData _unitData;
+    [SerializeField] UnitData _unitData;
+    [SerializeField] PlayerUnitData _playerUnitData;
 
     [Header("Prefab Only")]
     [SerializeField] public SpriteRenderer _sprite;
     [SerializeField] public TextMeshProUGUI _hpText;
     [SerializeField] public SpriteRenderer _hpSprite;
+    [SerializeField] public TextMeshProUGUI _name;
 
-    private void Start()
+    private void Awake()
     {
         _hpData = GetComponent<HPData>();
         _battleUnit = GetComponent<BattleUnit>();
+    }
 
-        _hpData.InitializeMaxHP(_unitData.startingHp);
-
-        SetSprite();
+    public void SetupUnit(UnitData _unitData)
+    {
+        this._unitData = _unitData; 
+        _hpData.InitializeMaxHP(_unitData);
+        SetUnitVisuals();
         SetupHealth();
     }
 
+    public void SetupPlayerUnit(PlayerUnitData _playerUnitData)
+    {
+        _hpData.InitializeMaxHp(_playerUnitData);
+        _unitData = _playerUnitData.GetUnitData();
+        SetUnitVisuals();
+        SetupHealth();
+    }
     private void SetupHealth()
     {
         SpriteRenderer spr = _hpSprite.GetComponent<SpriteRenderer>();
         _hpData.SetupAssets(_hpText, spr.material);
     }
 
-    private void SetSprite()
+    private void SetUnitVisuals()
     {
         if (!_unitData.sprite) {
             throw (new Exception($"{_unitData.name} missing sprite."));
@@ -47,6 +59,8 @@ public class BattleUnit : MonoBehaviour
         new Rect(0, 0, texture.width, texture.height),
                                          new Vector2(0.5f, 0.5f));
         _sprite.sprite = newSprite;
+
+        _name.text = _unitData.name;
     }
 
     public HPData GetHPData()
@@ -54,7 +68,7 @@ public class BattleUnit : MonoBehaviour
         return _hpData;
     }
 
-    public BattleUnitData GetUnitData()
+    public UnitData GetUnitData()
     {
         return _unitData;
     }
