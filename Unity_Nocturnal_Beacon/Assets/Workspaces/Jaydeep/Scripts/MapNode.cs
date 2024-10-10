@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class MapNode : MonoBehaviour
 {
-    [Header("Connected Map Nodes")]
-    [SerializeField] private GameObject lineRendererPrefab;
-    [SerializeField] private List<MapNode> mapNodesList;
-    [field:SerializeField] public List<MapNode> ConnectedNodeList { get; set; }
-
     public static event Action<MapNode> OnMapNodeSelected;
 
+    [Header("Node Settings")]
+    [SerializeField] private SpriteRenderer lockSprite;
+
+    [Header("Connected Map Nodes")]
+    [SerializeField] private List<MapNode> mapNodesList;
+
+    // For Debug
+    [field:SerializeField] public List<MapNode> ConnectedNodeList { get; set; }
+
     private bool isConnected;
+    private bool isLocked;
     private SpriteRenderer spriteRenderer;
 
+    public int Id { get; private set; }
     public int Depth { get; private set; }
     public int Split { get; private set; }
 
@@ -26,15 +32,26 @@ public class MapNode : MonoBehaviour
 
     private void OnMouseDown()
     {
+        SetMapNodeSelected();
+    }
+
+    public void SetMapNodeSelected()
+    {
         OnMapNodeSelected?.Invoke(this);
     }
+
+    public void SetNodeId(int nodeId) { Id = nodeId; }
+
+    public bool IsConnected() { return isConnected; }
+
+    public void SetConnected(bool isConnected) { this.isConnected = isConnected; }
 
     public void AddNode(MapNode newNode)
     {
         mapNodesList.Add(newNode);
     }
 
-    public List<MapNode> GetConnectedNodesList()
+    public List<MapNode> GetNodesList()
     {
         return mapNodesList;
     }
@@ -44,7 +61,6 @@ public class MapNode : MonoBehaviour
         if(ConnectedNodeList.Contains(node)) return;
 
         ConnectedNodeList.Add(node);
-
         isConnected = true;
     }
 
@@ -60,17 +76,24 @@ public class MapNode : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void DeselectNode()
+    public void SetAsUnavailableNode()
     {
         var color = spriteRenderer.color;
-        color.a = .25f;
+        //color.a = .25f;
         spriteRenderer.color = color;
     }
 
-    public void SelectNode()
+    public void SetAsSelectableNode()
     {
         var color = spriteRenderer.color;
         color.a = 1f;
         spriteRenderer.color = color;
+    }
+
+    public void UnlockNode()
+    {
+        isLocked = false;
+        lockSprite.gameObject.SetActive(false);
+        GetComponent<Collider2D>().enabled = true;
     }
 }
