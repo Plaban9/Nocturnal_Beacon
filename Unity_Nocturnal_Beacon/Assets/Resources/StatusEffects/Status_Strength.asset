@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
+  m_Name: Status_Strength
+  m_EditorClassIdentifier: 
+  statusEffect: 0
+  icon: {fileID: 21300000, guid: b43d6ffc9c459c14f8e5246c8b76cf8c, type: 3}
+  description: Increases damage dealt by the intesity.
+  name: Strength
+  effect:
+    rid: 298649548333514752
+  references:
+    version: 2
+    RefIds:
+    - rid: 298649548333514752
+      type: {class: StatusEffect_Strength, ns: , asm: Assembly-CSharp}
+      data:
+        _status: {fileID: 0}
+        _intensity: 0
+        _duration: 0
+        owner: {fileID: 0}

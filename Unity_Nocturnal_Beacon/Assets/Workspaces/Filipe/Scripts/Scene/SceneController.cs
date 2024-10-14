@@ -41,6 +41,12 @@ public class SceneController : MonoBehaviour
         sceneNames.Add(GAME_SCENE.BATTLE, "CombatTest");
     }
 
+    public void ToMain()
+    {
+        ChangeToScene(GAME_SCENE.MAIN_MENU);
+    }
+
+
     public void ToMap()
     {
         ChangeToScene(GAME_SCENE.MAP);

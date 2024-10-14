@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Defend
   m_EditorClassIdentifier: 
   id: 10002
+  uId: 1000009
   name: Defend
   rarity: 0
-  cardType: 0
+  cardType: 1
   manaCost: 1
-  sprite: {fileID: -801597121, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  sprite: {fileID: 21300000, guid: 6ecbb0667be97284d91156fee5929bbb, type: 3}
+  element: 0
   effects:
   - rid: 7132537793946845186
   references:

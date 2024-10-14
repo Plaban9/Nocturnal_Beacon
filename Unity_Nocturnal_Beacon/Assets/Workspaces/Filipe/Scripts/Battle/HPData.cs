@@ -121,4 +121,15 @@ public class HPData : MonoBehaviour
         if (_currentHp == 0) return true;
         return false;
     }
+
+    public void EndTurnFlushShield()
+    {
+        _shield = 0;
+        UpdateVisual();
+    }
+
+    public int GetCurrentHP()
+    {
+        return _currentHp;
+    }
 }

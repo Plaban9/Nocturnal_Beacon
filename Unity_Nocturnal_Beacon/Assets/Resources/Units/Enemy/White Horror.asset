@@ -15,4 +15,4 @@ MonoBehaviour:
   unitName: White Horror
   sprite: {fileID: 2800000, guid: 185a76f055239f648ab7fb824f4fbd89, type: 3}
   startingHp: 30
-  behavior: {fileID: 11400000, guid: 70d8e079bff916f40bc18782049b2e24, type: 2}
+  behavior: {fileID: 11400000, guid: 44a51aadff4381d43bcf9ce3f9ef259e, type: 2}

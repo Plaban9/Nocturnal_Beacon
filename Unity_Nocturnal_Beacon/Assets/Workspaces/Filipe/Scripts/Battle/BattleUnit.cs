@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class BattleUnit : MonoBehaviour
 {
     private HPData _hpData;
+    private UnitStatusData _statusEffectData;
     private BattleUnit _battleUnit;
 
     [SerializeField] UnitData _unitData;
@@ -25,6 +26,7 @@ public class BattleUnit : MonoBehaviour
     private void Awake()
     {
         _hpData = GetComponent<HPData>();
+        _statusEffectData = GetComponent<UnitStatusData>();
         _battleUnit = GetComponent<BattleUnit>();
     }
 
@@ -60,7 +62,7 @@ public class BattleUnit : MonoBehaviour
                                          new Vector2(0.5f, 0.5f));
         _sprite.sprite = newSprite;
 
-        _name.text = _unitData.name;
+        _name.text = _unitData.unitName;
     }
 
     public HPData GetHPData()
@@ -71,6 +73,11 @@ public class BattleUnit : MonoBehaviour
     public UnitData GetUnitData()
     {
         return _unitData;
+    }
+
+    public UnitStatusData GetUnitStatusData()
+    {
+        return _statusEffectData;
     }
     
 }

@@ -17,4 +17,4 @@ MonoBehaviour:
   _currentHp: 100
   _currentDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
   _currency: 30
-  _maxMana: 5
+  _maxMana: 3

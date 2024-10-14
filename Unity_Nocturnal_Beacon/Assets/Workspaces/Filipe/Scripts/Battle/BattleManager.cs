@@ -17,6 +17,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI _battleStateText;
     [SerializeField] public TextMeshProUGUI _manaText;
 
+    [SerializeField] public GameObject _endScreenCanvas;
+
     /*
      * Player Info
      */
@@ -92,7 +94,7 @@ public class BattleManager : MonoBehaviour
         int height = NoctBeaconRunData.Instance.GetHeight();
         // Used when we start making multiple floors stuff
 
-        UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.RandomRange(0, _possibleEnemies.Count))];
+        UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
         _enemies[0].SetupUnit(unit);
     }
 
@@ -121,10 +123,20 @@ public class BattleManager : MonoBehaviour
         if (state == BATTLE_STATE.PLAYER_TURN)
         {
             ModifyMana(NoctBeaconRunData.Instance.GetPlayerInformation().GetMaxMana() - _mana);
+            _player.GetUnitStatusData().OnTurnEnd();
+            if (_currentTurn != 0)
+            {
+                foreach (BattleUnit enemy in _enemies)
+                {
+                    enemy.GetHPData().EndTurnFlushShield();
+                }
+            }
+
         }
-        if(state == BATTLE_STATE.ENEMY_TURN)
+        if (state == BATTLE_STATE.ENEMY_TURN)
         {
-            _currentTurn++; 
+            _currentTurn++;
+            _player.GetHPData().EndTurnFlushShield(); 
         }
     }
 
@@ -134,9 +146,15 @@ public class BattleManager : MonoBehaviour
         {
             CheckIfBattleIsOver();
             RunEnemyActions();
-        } else if(state == BATTLE_STATE.PLAYER_TURN)
+            _player.GetUnitStatusData().OnTurnStart();
+
+        }
+        else if(state == BATTLE_STATE.PLAYER_TURN)
         {
-            _cardManager.DrawCard(5 /*TODO: Change it to variable. */);
+            int defaultDrawAmount = 5;
+            int a = _player.GetUnitStatusData().OnDraw(defaultDrawAmount);
+
+            _cardManager.DrawCard(a/*TODO: Change it to variable. */);
         }
     }
 
@@ -156,8 +174,6 @@ public class BattleManager : MonoBehaviour
     }
 
 
-
-
     private void ModifyMana(int value)
     {
         _mana += value;
@@ -169,17 +185,34 @@ public class BattleManager : MonoBehaviour
         if (_player.GetHPData().IsDead() || EnemiesAlive() == 0)
         {
             ChangeBattleState(BATTLE_STATE.BATTLE_OVER);
-            StartCoroutine(BattleEnd());
+            BattleEnd();
         }
     }
 
-
-    IEnumerator BattleEnd()
+    private void BattleEnd()
     {
-        yield return new WaitForSeconds(2);
-        SceneController.Instance.ToMap(); 
+        PlayerUnitData data = NoctBeaconRunData.Instance.GetPlayerInformation();
+        data.SetCurrentHp(_player.GetHPData().GetCurrentHP());
+        _endScreenCanvas.SetActive(true);
+        Animator anim = _endScreenCanvas.GetComponent<Animator>();
+        if (_player.GetHPData().IsDead())
+            anim.Play("BattleEndScreenLose");
+        else
+        {
+            anim.Play("BattleEndScreenWin");
+            
+        }
     }
 
+    public void ToMap()
+    {
+        SceneController.Instance.ToMap();
+    }
+
+    public void ToMain()
+    {
+        SceneController.Instance.ToMain();
+    }
     #region ENEMY ACTIONS
 
     private int EnemiesAlive()
@@ -258,11 +291,11 @@ public class BattleManager : MonoBehaviour
             if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
             if (effect.GetTargetting() == CardAttribute.EffectTarget.Self)
             {
-                effect.OnUse(effect.GetTargetting(), new List<BattleUnit> { owner });
+                effect.OnUse(owner, new List<BattleUnit> { owner });
             }
             else
             {
-                effect.OnUse(effect.GetTargetting(), new List<BattleUnit> { target });
+                effect.OnUse(owner, new List<BattleUnit> { target });
             }
         }
         

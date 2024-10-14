@@ -55,12 +55,16 @@ public class ModifyHealth : CardEffect
     }
 
 
-    override public void OnUse(EffectTarget targetting, List<BattleUnit> targets)
+    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {
         foreach(BattleUnit target in targets)
         {
             if (val1 < 0)
-                target.GetHPData().DealDamage(val1);
+            {
+                int damage = val1;
+                damage = owner.GetUnitStatusData().OnDealDamage(damage);
+                target.GetHPData().DealDamage(damage);
+            }
             else if (val1 > 0)
                 target.GetHPData().RecoverHealth(val1);
         }

@@ -14,19 +14,19 @@ public interface ICardEffect
      */
     string EffectDescription { get; }
 
-    public void OnUse(EffectTarget targetting, List<BattleUnit> targets);
+    public void OnUse(BattleUnit owner, List<BattleUnit> targets);
 
-    public void BeforeCast(EffectTarget targetting, List<BattleUnit> targets);
+    public void BeforeCast(BattleUnit owner, List<BattleUnit> targets);
 
-    public void OnCast(EffectTarget targetting, List<BattleUnit> targets);
+    public void OnCast(BattleUnit owner, List<BattleUnit> targets);
 
-    public void AfterCast(EffectTarget targetting, List<BattleUnit> targets);
+    public void AfterCast(BattleUnit owner, List<BattleUnit> targets);
 
-    public void BeforeDealDamage(EffectTarget targetting, List<BattleUnit> targets);
+    public void BeforeDealDamage(BattleUnit ownerg, List<BattleUnit> targets);
 
-    public int OnDealDamage(EffectTarget targetting, List<BattleUnit> targets, int amount);
+    public int OnDealDamage(BattleUnit owner, List<BattleUnit> targets, int amount);
 
-    public void AfterDealDamage(EffectTarget targetting, List<BattleUnit> targets);
+    public void AfterDealDamage(BattleUnit owner, List<BattleUnit> targets);
 
 
 }
@@ -54,38 +54,38 @@ public class CardEffect : ICardEffect
         return target;
     }
 
-    public virtual void OnCast(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void OnCast(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual int OnDealDamage(EffectTarget targetting, List<BattleUnit> targets, int amount)
+    public virtual int OnDealDamage(BattleUnit owner, List<BattleUnit> targets, int amount)
     {
         return amount;
         //throw new NotImplementedException();
     }
 
-    public virtual void OnUse(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void AfterCast(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void AfterCast(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void AfterDealDamage(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void AfterDealDamage(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void BeforeCast(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void BeforeCast(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void BeforeDealDamage(EffectTarget targetting, List<BattleUnit> targets)
+    public virtual void BeforeDealDamage(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }

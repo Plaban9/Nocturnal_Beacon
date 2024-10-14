@@ -17,7 +17,7 @@ public class ModifyShield : CardEffect
 
     public ModifyShield() { }
 
-    override public void OnUse(EffectTarget targetting, List<BattleUnit> targets)
+    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {
         foreach (BattleUnit target in targets)
         {

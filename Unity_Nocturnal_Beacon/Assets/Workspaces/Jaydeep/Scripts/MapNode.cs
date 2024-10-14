@@ -28,7 +28,6 @@ public class MapNode : MonoBehaviour
     {
         OnMapNodeSelected?.Invoke(this);
         SceneController.Instance.ToBattle();
-
     }
 
     public void AddNode(MapNode newNode)

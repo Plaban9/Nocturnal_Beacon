@@ -18,7 +18,8 @@ MonoBehaviour:
   rarity: 0
   cardType: 0
   manaCost: 1
-  sprite: {fileID: -599024079, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  sprite: {fileID: 21300000, guid: cad7baf578c8ad54cbebc2751d764d53, type: 3}
+  element: 0
   effects:
   - rid: 7132537793946845184
   references:
