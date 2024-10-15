@@ -96,4 +96,11 @@ public class MapNode : MonoBehaviour
         lockSprite.gameObject.SetActive(false);
         GetComponent<Collider2D>().enabled = true;
     }
+
+    public void LockNode()
+    {
+        isLocked = true;
+        lockSprite.gameObject.SetActive(true);
+        GetComponent<Collider2D>().enabled = false;
+    }
 }
