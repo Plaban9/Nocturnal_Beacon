@@ -51,6 +51,16 @@ public class MapBuilderTD : MonoBehaviour
         selectedLine.material = walkedPathMaterial;
         selectedLine.startWidth = selectedLine.endWidth = .1f;
         selectedLine.sortingOrder = 1;
+
+        if (NoctBeaconRunData.Instance.GetHeight() != -1)
+        {
+            LoadNodeList();
+
+        }
+
+
+
+
     }
 
     private Gradient GetDisabledAlphaGradient()
@@ -109,6 +119,8 @@ public class MapBuilderTD : MonoBehaviour
                 var node = Instantiate(mapNodePrefab, transform);
                 node.name = $"{currentDepth + 1} : {currentSplit + 1}";
                 node.transform.position = pos;
+                node.height = depthLevel - currentDepth;
+                node.OnClick = () => { SaveNodeList(); };
                 nodes2DList[currentDepth].nodesList.Add(node);
 
                 int nodeId = int.Parse(node.name.Replace(":", string.Empty).Replace(" ", string.Empty));

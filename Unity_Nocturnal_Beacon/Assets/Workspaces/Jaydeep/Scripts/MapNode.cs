@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MapNode : MonoBehaviour
 {
+
     public static event Action<MapNode> OnMapNodeSelected;
 
     [Header("Node Settings")]
@@ -24,6 +25,12 @@ public class MapNode : MonoBehaviour
     public int Depth { get; private set; }
     public int Split { get; private set; }
 
+    /// <summary>
+    /// Difficulty/Encounter related
+    /// </summary>
+    public Action OnClick;
+    public int height = -1;
+
     private void Awake()
     {
         ConnectedNodeList = new();
@@ -38,6 +45,8 @@ public class MapNode : MonoBehaviour
     public void SetMapNodeSelected()
     {
         OnMapNodeSelected?.Invoke(this);
+        OnClick.Invoke(); 
+        NoctBeaconRunData.Instance.SetHeight(height);
         SceneController.Instance.ToBattle();
     }
 

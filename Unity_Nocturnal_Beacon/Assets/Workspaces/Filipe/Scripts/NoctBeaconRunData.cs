@@ -7,8 +7,12 @@ public class NoctBeaconRunData : MonoBehaviour
     [SerializeField] private PlayerUnitData _playerInformation;
     //[SerializeField] private Map _map;
     //[SerializeField] private Node _currentNode;
+    private List<string> _selectedNodeList;
+    [SerializeField] private int _currentHeight = -1;
+
 
     // Start is called before the first frame update
+
 
     public static NoctBeaconRunData Instance { get; private set; }
     private void Awake()
@@ -41,8 +45,22 @@ public class NoctBeaconRunData : MonoBehaviour
 
     public int GetHeight()
     {
-        //TODO: Complete this.
-        return 1;
+        return _currentHeight;
+    }
+
+    public void SetHeight(int height)
+    {
+        _currentHeight = height;
+    }
+
+    public void GetSelectedNodeList(string nodeId)
+    {
+        _selectedNodeList.Add(nodeId);
+    }
+
+    public List<string> GetNodeId()
+    {
+        return _selectedNodeList;
     }
 
    
