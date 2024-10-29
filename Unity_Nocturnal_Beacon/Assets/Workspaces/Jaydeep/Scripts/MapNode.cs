@@ -1,0 +1,106 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MapNode : MonoBehaviour
+{
+    public static event Action<MapNode> OnMapNodeSelected;
+
+    [Header("Node Settings")]
+    [SerializeField] private SpriteRenderer lockSprite;
+
+    [Header("Connected Map Nodes")]
+    [SerializeField] private List<MapNode> mapNodesList;
+
+    // For Debug
+    [field:SerializeField] public List<MapNode> ConnectedNodeList { get; set; }
+
+    private bool isConnected;
+    private bool isLocked;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D nodeCollider;
+
+    public int Id { get; private set; }
+
+    private void Awake()
+    {
+        ConnectedNodeList = new();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        nodeCollider = GetComponent<Collider2D>();
+    }
+
+    private void OnMouseDown()
+    {
+        SetMapNodeSelected();
+    }
+
+    public void SetMapNodeSelected()
+    {
+        OnMapNodeSelected?.Invoke(this);
+    }
+
+    public void SetNodeId(int nodeId) { Id = nodeId; }
+
+    public bool IsConnected() { return isConnected; }
+
+    public void SetConnected(bool isConnected) { this.isConnected = isConnected; }
+
+    public void AddNode(MapNode newNode)
+    {
+        mapNodesList.Add(newNode);
+    }
+
+    public List<MapNode> GetNodesList()
+    {
+        return mapNodesList;
+    }
+
+    public void ConnectNode(MapNode node)
+    {
+        if(ConnectedNodeList.Contains(node)) return;
+
+        ConnectedNodeList.Add(node);
+        isConnected = true;
+    }
+
+    public void CleanupDisconnectedNodes()
+    {
+        gameObject.SetActive(isConnected);
+    }
+
+    public void SetDataForReconnectingNodes()
+    {
+        isConnected = false;
+        ConnectedNodeList.Clear();
+        gameObject.SetActive(true);
+    }
+
+    public void SetAsUnavailableNode()
+    {
+        var color = spriteRenderer.color;
+        //color.a = .25f;
+        spriteRenderer.color = color;
+    }
+
+    public void SetAsSelectableNode()
+    {
+        var color = spriteRenderer.color;
+        color.a = 1f;
+        spriteRenderer.color = color;
+    }
+
+    public void UnlockNode()
+    {
+        isLocked = false;
+        lockSprite.gameObject.SetActive(isLocked);
+        nodeCollider.enabled = !isLocked;
+    }
+
+    public void LockNode()
+    {
+        isLocked = true;
+        lockSprite.gameObject.SetActive(isLocked);
+        nodeCollider.enabled = !isLocked; // If it is locked then disable collider so, click won't work on node
+    }
+}
