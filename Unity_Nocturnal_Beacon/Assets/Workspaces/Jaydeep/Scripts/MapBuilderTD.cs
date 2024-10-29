@@ -11,9 +11,14 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private MapNode mapNodePrefab;
     [SerializeField] private LineRenderer lineRendererPrefab;
     [SerializeField] private Transform selectedNodeEffectTrans;
+
+    [Header("Node Grid")]
     [SerializeField] private int maxSplitsAllowed;
     [SerializeField] private int depthLevel;
-    [SerializeField, Range(0f, 100f)] private float nodeDestructionPercent;
+
+    [Header("Node Spacing")]
+    [SerializeField] private float horizontalSpacing = 3f;
+    [SerializeField] private float verticalSpacing = 3f;
 
     [Header("Textures for Lines")]
     [SerializeField] private Material unavailablePathMaterial;
@@ -29,11 +34,14 @@ public class MapBuilderTD : MonoBehaviour
 
     private List<LineRenderer> linesList = new();
     private LineRenderer selectedLine;
-    private MapRow selectedLineList = new();
+    [SerializeField] private MapRow selectedLineList = new();
 
-    #region Gradient
+    [SerializeField] private MapNode currentSelectedNode;
+    
+    [SerializeField] private List<MapRow> connectedNodesList = new();
+
+    [Header("Gradients")]
     [SerializeField] private List<Gradient> _selectedPathGradient = new List<Gradient>();
-    #endregion
 
     private void Start()
     {
@@ -43,9 +51,33 @@ public class MapBuilderTD : MonoBehaviour
 
         ConnectNodes();
 
-        SelectNode(null);
-
         selectedLineList.nodesList = new();
+        nodes2DList.ForEach(list => list.nodesList.Clear());
+        nodes2DList.Clear();
+
+        SetSelectedLineParams();
+    }
+
+    private void OnEnable()
+    {
+        MapNode.OnMapNodeSelected += SelectNode;
+    }
+
+    private void OnDisable()
+    {
+        MapNode.OnMapNodeSelected -= SelectNode;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Proceed();
+        }
+    }
+
+    private void SetSelectedLineParams()
+    {
         selectedLine = Instantiate(lineRendererPrefab, bossNode.transform);
         selectedLine.name = "Selected Line";
         selectedLine.material = walkedPathMaterial;
@@ -83,21 +115,19 @@ public class MapBuilderTD : MonoBehaviour
 
     private void SetSelectedNode(MapNode node)
     {
-        Transform parent = node == null ? null : node.transform;
-        selectedNodeEffectTrans.SetParent(parent);
+        var previousSelectedNode = currentSelectedNode;
+        var modifier = node != bossNode ? 1.5f : 3f;
+        Vector3 targetScale = Vector3.one * modifier;
+
+        currentSelectedNode = node;
+        selectedNodeEffectTrans.SetParent(node.transform);
         selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        if (parent != null)
-        selectedNodeEffectTrans.localScale = parent.localScale;
-    }
+        selectedNodeEffectTrans.localScale = targetScale;
 
-    private void OnEnable()
-    {
-        MapNode.OnMapNodeSelected += SelectNode;
-    }
+        if (previousSelectedNode != null)
+            previousSelectedNode.transform.DOScale(Vector3.one, .25f);
 
-    private void OnDisable()
-    {
-        MapNode.OnMapNodeSelected -= SelectNode;
+        currentSelectedNode.transform.DOScale(targetScale, .25f);
     }
 
     private void CreateNodes()
@@ -108,12 +138,12 @@ public class MapBuilderTD : MonoBehaviour
         // Columns
         for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++)
         {
-            pos.y -= 3;
-            pos.x = bossNode.transform.position.x + (maxSplitsAllowed / 2 * -3);
+            pos.y -= verticalSpacing;
+            pos.x = bossNode.transform.position.x + (maxSplitsAllowed / 2 * -horizontalSpacing);
             nodes2DList.Add(new MapRow());
 
             // Rows
-            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += 3)
+            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += horizontalSpacing)
             {
                 // Creating Node
                 var node = Instantiate(mapNodePrefab, transform);
@@ -123,43 +153,38 @@ public class MapBuilderTD : MonoBehaviour
                 node.OnClick = () => { SaveNodeList(); };
                 nodes2DList[currentDepth].nodesList.Add(node);
 
-                int nodeId = int.Parse(node.name.Replace(":", string.Empty).Replace(" ", string.Empty));
-                //Debug.Log(nodeId);
+                int nodeId = int.Parse((currentDepth + 1).ToString() + (currentSplit + 1));
                 node.SetNodeId(nodeId);
 
                 // Adding Boss Node to the first row, so all will point to boss node
                 if (currentDepth == 0)
                 {
                     node.AddNode(bossNode);
-                    node.SetNodeId(currentSplit + 1);
                     continue;
                 }
 
                 // Add upper left node
-                if (currentSplit > 0 && nodes2DList[currentDepth - 1].nodesList[currentSplit - 1] != null)
+                if (currentSplit > 0)
                     node.AddNode(nodes2DList[currentDepth - 1].nodesList[currentSplit - 1]);
 
                 // Add upper middle node
-                if (nodes2DList[currentDepth - 1].nodesList[currentSplit] != null)
-                    node.AddNode(nodes2DList[currentDepth - 1].nodesList[currentSplit]);
+                node.AddNode(nodes2DList[currentDepth - 1].nodesList[currentSplit]);
 
                 // Add upper right node
-                if (currentSplit + 1 < maxSplitsAllowed && nodes2DList[currentDepth - 1].nodesList[currentSplit + 1] != null)
+                if (currentSplit + 1 < maxSplitsAllowed)
                     node.AddNode(nodes2DList[currentDepth - 1].nodesList[currentSplit + 1]);
             }
         }
     }
 
-    [SerializeField] List<MapRow> connectedNodes = new();
-
     private void ConnectNodes()
     {
-        connectedNodes.Clear();
+        connectedNodesList.Clear();
         linesList.Clear();
 
         for (int i = 0; i < maxSplitsAllowed; i++)
         {
-            connectedNodes.Add(new());
+            connectedNodesList.Add(new());
 
             // Get a new line to connect all nodes
             int depth = depthLevel - 1;
@@ -176,7 +201,7 @@ public class MapBuilderTD : MonoBehaviour
             while (curr != null)
             {
                 line.SetPosition(depth + 1, curr.transform.position);
-                connectedNodes[i].nodesList.Add(curr);
+                connectedNodesList[i].nodesList.Add(curr);
                 if (depth < 0) break;
 
                 var upperConnectableNodes = curr.GetNodesList();
@@ -194,6 +219,34 @@ public class MapBuilderTD : MonoBehaviour
         
     }
 
+    private void Proceed()
+    {
+        // Lock all nodes
+        foreach (var lines in connectedNodesList)
+        {
+            foreach (var node in lines.nodesList)
+            {
+                node.LockNode();
+            }
+        }
+
+        // Unlock Nodes Which we have taken
+        currentSelectedNode.UnlockNode();
+        currentSelectedNode.ConnectedNodeList.ForEach(x => x.UnlockNode());
+
+        if (!selectedLineList.nodesList.Contains(currentSelectedNode))
+            selectedLineList.nodesList.Add(currentSelectedNode);
+
+        var count = selectedLineList.nodesList.Count;
+        selectedLine.positionCount = count;
+
+        for (int i = 0; i < count; i++)
+        {
+            MapNode node = selectedLineList.nodesList[i];
+            selectedLine.SetPosition(i, node.transform.position);
+        }
+    }
+
     public void DeselectNode()
     {
         SelectNode(null);
@@ -201,131 +254,70 @@ public class MapBuilderTD : MonoBehaviour
 
     public void SelectNode(MapNode selectedNode)
     {
-        for (int i = 0; i < connectedNodes.Count; i++)
-        {
-            MapRow row = connectedNodes[i];
+        // Reset Line color
+        linesList.ForEach(x => x.colorGradient = GetDisabledAlphaGradient());
 
-            var line = linesList[i];
-
-            line.colorGradient = GetDisabledAlphaGradient();
-            line.material = unavailablePathMaterial;
-
-            for (int j = 0; j < row.nodesList.Count; j++)
-            {
-                var node = row.nodesList[j];
-                node.SetAsUnavailableNode();
-                node.LockNode();
-
-                if (j == 0 && selectedLineList.nodesList.Count < 1)
-                {
-                    node.UnlockNode();
-                    selectedLineList.nodesList.Clear();
-                }
-
-                if (node == bossNode)
-                    continue;
-
-                node.transform.localScale = Vector3.one;
-            }
-        }
-
-        SetSelectedNode(null);
-
-        if (!selectedNode)
-            return;
-        if (selectedNode != bossNode)
-        selectedNode.transform.DOScale(1.5f, .5f).OnComplete(() => { SetSelectedNode(selectedNode); });
-        else
         SetSelectedNode(selectedNode);
-
-        if (selectedNode.Id > depthLevel * 10)
-        {
-            //selectedLineList = connectedNodes.Find(line => line.nodesList.Contains(selectedNode));
-            //Debug.Log(selectedLineList);
-        }
-
-        selectedNode.UnlockNode();
-        selectedNode.ConnectedNodeList.ForEach(nextNodes => nextNodes.UnlockNode());
-        selectedLineList.nodesList.ForEach(node => node.UnlockNode());
-        Debug.Log(selectedNode.name + " is selected");
 
         int selectedNodeDepth = 0;
         List<MapRow> selectableLinesList = new();
         var gradient = _selectedPathGradient[Random.Range(0, _selectedPathGradient.Count)];
+        selectedLine.colorGradient = gradient;
 
-        for (int i = 0; i < connectedNodes.Count; i++)
+        // Colorize the selectable lines
+        for (int i = 0; i < connectedNodesList.Count; i++)
         {
-            MapRow row = connectedNodes[i];
+            MapRow row = connectedNodesList[i];
             if (row.nodesList.Exists(node => node == selectedNode))
             {
                 var line = linesList[i];
                 line.colorGradient = gradient;
                 selectableLinesList.Add(row);
-                
-                // Selected Node's Emmision and color should be based on gradiant that is selected
-                Renderer renderer = selectedNodeEffectTrans.GetComponent<Renderer>();
-                Color selectedCircleColor = gradient.Evaluate(1 - ((float)i / depthLevel));
-                renderer.material.color = selectedCircleColor;
+
+                // Selected Node's Effect based on gradient
+                var renderer = selectedNodeEffectTrans.GetComponent<Renderer>();
+                var selectedCircleColor = gradient.Evaluate(1 - ((float)i / depthLevel));
+                //renderer.material.color = selectedCircleColor;
                 renderer.material.SetColor("_EmissionColor", selectedCircleColor);
                 selectedNodeDepth = row.nodesList.IndexOf(selectedNode);
             }
         }
 
-        var walkableLinesList = connectedNodes.FindAll(line => line.nodesList.Exists(node => node == selectedNode));
-        //var index = connectedNodes.IndexOf(selectedLineList);
-        //var selectedLine = linesList[index];
-
-        //selectedLine.material = walkablePathMaterial;
-        //walkableLinesList.Remove(selectedLineList);
+        var walkableLinesList = connectedNodesList.FindAll(line => line.nodesList.Exists(node => node == selectedNode));
 
         for (int i = 0; i < walkableLinesList.Count; i++)
         {
-            var nonWalkableNodelist = walkableLinesList[i];
-            var lineToDisableIndex = connectedNodes.IndexOf(walkableLinesList[i]);
-            var lineToDisable = linesList[lineToDisableIndex];
+            var lineToDisableIndex = connectedNodesList.IndexOf(walkableLinesList[i]);
+            var lineToColorize = linesList[lineToDisableIndex];
             var disabledGradient = GetDisabledAlphaGradient();
             float time = 1 - (float)selectedNodeDepth / depthLevel;
 
-            Debug.Log(lineToDisable + " : " + time);
+            Debug.Log(lineToColorize + " : " + time);
 
             var alphaKeys = new GradientAlphaKey[]
             {
                 new (1, 0),
-                new (1, time - .01f),
-                new (disabledGradient.alphaKeys[0].alpha, time),
-                new (disabledGradient.alphaKeys[0].alpha, 1),
+                new (1, time),
+                new (disabledGradient.Evaluate(0).a, time + .01f),
+                new (disabledGradient.Evaluate(0).a, 1),
             };
             var colorKeys = new GradientColorKey[]
             {
-                new (gradient.colorKeys[0].color, 0),
-                new (gradient.Evaluate(time - .1f), time - .01f),
-                new (disabledGradient.colorKeys[0].color, 1),
-                new (disabledGradient.colorKeys[0].color, time),
+                new (gradient.Evaluate(0), 0),
+                new (gradient.Evaluate(time), time),
+                new (disabledGradient.Evaluate(0), time + .01f),
+                new (disabledGradient.Evaluate(0), 1),
             };
-            lineToDisable.colorGradient = new Gradient()
+            lineToColorize.colorGradient = new Gradient()
             {
                 alphaKeys = alphaKeys,
                 colorKeys = colorKeys,
             };
+
+            // TO-DO: Walkable material swap
+            //lineToColorize.material = walkablePathMaterial;
         }
 
-        if (!selectedLineList.nodesList.Contains(selectedNode))
-            selectedLineList.nodesList.Add(selectedNode);
-
-        var count = selectedLineList.nodesList.Count;
-        this.selectedLine.positionCount = count;
-        this.selectedLine.colorGradient = gradient;
-
-        for (int i = 0; i < count; i++)
-        {
-            MapNode node = selectedLineList.nodesList[i];
-            this.selectedLine.SetPosition(i, node.transform.position);
-        }
-
-        selectableLinesList.ForEach(row =>
-        {
-            row.nodesList.ForEach(node => node.SetAsSelectableNode());
-        });
     }
 
 
@@ -409,15 +401,17 @@ public class MapBuilderTD : MonoBehaviour
 
         void ReconnectNodeLines()
         {
-            foreach (Transform child in bossNode.transform)
+            foreach (var child in linesList)
             {
                 Destroy(child.gameObject);
             }
 
-            connectedNodes.Clear();
+            linesList.Clear();
+            connectedNodesList.Clear();
+
             for (int i = 0; i < maxSplitsAllowed; i++)
             {
-                connectedNodes.Add(new());
+                connectedNodesList.Add(new());
 
                 // Get a new line to connect all nodes
                 int depth = depthLevel - 1;
@@ -426,11 +420,12 @@ public class MapBuilderTD : MonoBehaviour
                 //line.endColor = line.startColor = Random.ColorHSV();
                 line.endColor = line.startColor = Color.grey;
                 line.positionCount = depthLevel + 1;
+                linesList.Add(line);
 
                 while (curr != null)
                 {
                     line.SetPosition(depth + 1, curr.transform.position);
-                    connectedNodes[i].nodesList.Add(curr);
+                    connectedNodesList[i].nodesList.Add(curr);
                     if (depth < 0) break;
 
                     var next = curr.ConnectedNodeList[0];

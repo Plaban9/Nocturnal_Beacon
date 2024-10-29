@@ -20,10 +20,9 @@ public class MapNode : MonoBehaviour
     private bool isConnected;
     private bool isLocked;
     private SpriteRenderer spriteRenderer;
+    private Collider2D nodeCollider;
 
     public int Id { get; private set; }
-    public int Depth { get; private set; }
-    public int Split { get; private set; }
 
     /// <summary>
     /// Difficulty/Encounter related
@@ -35,6 +34,7 @@ public class MapNode : MonoBehaviour
     {
         ConnectedNodeList = new();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        nodeCollider = GetComponent<Collider2D>();
     }
 
     private void OnMouseDown()
@@ -103,14 +103,14 @@ public class MapNode : MonoBehaviour
     public void UnlockNode()
     {
         isLocked = false;
-        lockSprite.gameObject.SetActive(false);
-        GetComponent<Collider2D>().enabled = true;
+        lockSprite.gameObject.SetActive(isLocked);
+        nodeCollider.enabled = !isLocked;
     }
 
     public void LockNode()
     {
         isLocked = true;
-        lockSprite.gameObject.SetActive(true);
-        GetComponent<Collider2D>().enabled = false;
+        lockSprite.gameObject.SetActive(isLocked);
+        nodeCollider.enabled = !isLocked; // If it is locked then disable collider so, click won't work on node
     }
 }

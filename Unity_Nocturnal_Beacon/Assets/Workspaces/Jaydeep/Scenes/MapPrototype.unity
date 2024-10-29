@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 195916842}
   - component: {fileID: 195916841}
   - component: {fileID: 195916844}
+  - component: {fileID: 195916846}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -197,7 +198,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &195916843
@@ -209,7 +210,7 @@ Transform:
   m_GameObject: {fileID: 195916840}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -30.8, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -228,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -260,6 +261,20 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &195916846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195916840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea98edafa9d6acb44829c0966991c723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSensitivityMultiplier: 0.5
+  maxScrollLength: -50
 --- !u!1 &673042255
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,13 +310,18 @@ MonoBehaviour:
   selectedNodeEffectTrans: {fileID: 710824495}
   maxSplitsAllowed: 9
   depthLevel: 15
-  nodeDestructionPercent: 0
+  horizontalSpacing: 5
+  verticalSpacing: 4
   unavailablePathMaterial: {fileID: 2100000, guid: 82c028380afa7c3419e78d9417c586fc, type: 2}
-  walkablePathMaterial: {fileID: 2100000, guid: 82c028380afa7c3419e78d9417c586fc, type: 2}
+  walkablePathMaterial: {fileID: 2100000, guid: 38d665b1786bdc14bb3ad63b3d2a3827, type: 2}
   walkedPathMaterial: {fileID: 2100000, guid: b5e97fd1d8fc75d4e932fcf4611473c4, type: 2}
   disabledLinesAlpha: 0.3
   nodes2DList: []
   mapNodeListSO: {fileID: 11400000, guid: fd6405315623fb142aee925cb4f70ea1, type: 2}
+  selectedLineList:
+    nodesList: []
+  hasProceeded: 0
+  connectedNodesList: []
   _selectedPathGradient:
   - serializedVersion: 2
     key0: {r: 1, g: 0, b: 0.8661113, a: 1}
@@ -506,7 +526,6 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  connectedNodes: []
 --- !u!4 &673042258
 Transform:
   m_ObjectHideFlags: 0
@@ -5523,7 +5542,7 @@ Transform:
   m_GameObject: {fileID: 1567001510}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.62155, y: -28.535646, z: 0.019954903}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5744,7 +5763,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2082036287}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
