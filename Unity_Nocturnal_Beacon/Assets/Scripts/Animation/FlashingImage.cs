@@ -33,11 +33,12 @@ namespace DoTween.Animation
         public void DoFlashing()
         {
             if (main == null) return;
+            main.DOFade(minAlpha, 0);
 
             seq = DOTween.Sequence();
             seq.Append(main.DOFade(maxAlpha, interval));
-            seq.Append(main.DOFade(minAlpha, interval));
-            seq.SetLoops(count);
+            //seq.Append(main.DOFade(minAlpha, interval));
+            seq.SetLoops(count, LoopType.Yoyo);
         }
     }
 }
