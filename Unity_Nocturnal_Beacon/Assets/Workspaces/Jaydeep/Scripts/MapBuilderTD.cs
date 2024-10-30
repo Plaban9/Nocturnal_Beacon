@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,17 +46,23 @@ public class MapBuilderTD : MonoBehaviour
 
     private void Start()
     {
-        GetDisabledAlphaGradient();
+        SetSelectedLineParams();
 
         CreateNodes();
 
-        ConnectNodes();
+        if (PlayerPrefs.HasKey("Map"))
+        {
+            LoadNodeList();
+        }
+        else
+        {
+            ConnectNodes();
+            SaveNodeList();
+        }
 
-        selectedLineList.nodesList = new();
-        nodes2DList.ForEach(list => list.nodesList.Clear());
-        nodes2DList.Clear();
-
-        SetSelectedLineParams();
+        //selectedLineList.nodesList = new();
+        //nodes2DList.ForEach(list => list.nodesList.Clear());
+        //nodes2DList.Clear();
     }
 
     private void OnEnable()
@@ -83,16 +90,6 @@ public class MapBuilderTD : MonoBehaviour
         selectedLine.material = walkedPathMaterial;
         selectedLine.startWidth = selectedLine.endWidth = .1f;
         selectedLine.sortingOrder = 1;
-
-        if (NoctBeaconRunData.Instance.GetHeight() != -1)
-        {
-            LoadNodeList();
-
-        }
-
-
-
-
     }
 
     private Gradient GetDisabledAlphaGradient()
@@ -120,9 +117,7 @@ public class MapBuilderTD : MonoBehaviour
         Vector3 targetScale = Vector3.one * modifier;
 
         currentSelectedNode = node;
-        selectedNodeEffectTrans.SetParent(node.transform);
-        selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        selectedNodeEffectTrans.localScale = targetScale;
+        
 
         if (previousSelectedNode != null)
             previousSelectedNode.transform.DOScale(Vector3.one, .25f);
@@ -134,6 +129,7 @@ public class MapBuilderTD : MonoBehaviour
     {
         var pos = bossNode.transform.position;
         bossNode.SetNodeId(0);
+        bossNode.gameObject.SetActive(true);
 
         // Columns
         for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++)
@@ -149,8 +145,8 @@ public class MapBuilderTD : MonoBehaviour
                 var node = Instantiate(mapNodePrefab, transform);
                 node.name = $"{currentDepth + 1} : {currentSplit + 1}";
                 node.transform.position = pos;
-                node.height = depthLevel - currentDepth;
-                node.OnClick = () => { SaveNodeList(); };
+                //node.height = depthLevel - currentDepth;
+                //node.OnClick = () => { SaveNodeList(); };
                 nodes2DList[currentDepth].nodesList.Add(node);
 
                 int nodeId = int.Parse((currentDepth + 1).ToString() + (currentSplit + 1));
@@ -173,6 +169,7 @@ public class MapBuilderTD : MonoBehaviour
                 // Add upper right node
                 if (currentSplit + 1 < maxSplitsAllowed)
                     node.AddNode(nodes2DList[currentDepth - 1].nodesList[currentSplit + 1]);
+
             }
         }
     }
@@ -196,27 +193,30 @@ public class MapBuilderTD : MonoBehaviour
             line.SetPosition(0, bossNode.transform.position);
             linesList.Add(line);
 
-            curr.UnlockNode();
+            //curr.SetConnected(true);
+            //curr.UnlockNode();
 
-            while (curr != null)
+            for (int j = depth; j >= 0; j--)
             {
-                line.SetPosition(depth + 1, curr.transform.position);
+                line.SetPosition(j + 1, curr.transform.position);
                 connectedNodesList[i].nodesList.Add(curr);
-                if (depth < 0) break;
 
                 var upperConnectableNodes = curr.GetNodesList();
                 int luckyIndex = Random.Range(0, upperConnectableNodes.Count); // Get random node from list to connect
                 var next = upperConnectableNodes[luckyIndex].GetComponent<MapNode>();
-                //Debug.Log("Next is " + next.name);
+                Debug.Log("Next is " + next.name);
                 curr.ConnectNode(next); // Add selected node to connected list // [Internal list] for each node
                 curr = next;
-
-                depth--;
             }
+
+            connectedNodesList[i].nodesList.Add(curr);
         }
 
-        nodes2DList.ForEach(x => x.nodesList.ForEach(y => y.CleanupDisconnectedNodes()));
-        
+        for (int i = 0; i < connectedNodesList.Count; i++)
+        {
+            // Unlocking very bottom nodes
+            connectedNodesList[i].nodesList[0].UnlockNode();
+        }
     }
 
     private void Proceed()
@@ -232,10 +232,29 @@ public class MapBuilderTD : MonoBehaviour
 
         // Unlock Nodes Which we have taken
         currentSelectedNode.UnlockNode();
+        currentSelectedNode.DisableSelectableEffect();
+
+        selectedNodeEffectTrans.SetParent(currentSelectedNode.transform);
+        selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
         currentSelectedNode.ConnectedNodeList.ForEach(x => x.UnlockNode());
 
         if (!selectedLineList.nodesList.Contains(currentSelectedNode))
             selectedLineList.nodesList.Add(currentSelectedNode);
+
+        var selectedNodes = new NodeDataList();
+        foreach (var node in selectedLineList.nodesList)
+        {
+            var nodeData = new NodeData()
+            {
+                name = node.name,
+                nodeId = node.Id,
+                isConnected = true,
+            };
+            selectedNodes.nodeDataList.Add(nodeData);
+        }
+
+        mapNodeListSO.SelectedLine = selectedNodes;
 
         var count = selectedLineList.nodesList.Count;
         selectedLine.positionCount = count;
@@ -243,6 +262,7 @@ public class MapBuilderTD : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             MapNode node = selectedLineList.nodesList[i];
+            node.SetAsAvailableNode();
             selectedLine.SetPosition(i, node.transform.position);
         }
     }
@@ -317,7 +337,6 @@ public class MapBuilderTD : MonoBehaviour
             // TO-DO: Walkable material swap
             //lineToColorize.material = walkablePathMaterial;
         }
-
     }
 
 
@@ -346,7 +365,6 @@ public class MapBuilderTD : MonoBehaviour
     private void SaveNodeList()
     {
         var saveNodeList = new NodeDataList();
-
         foreach (var mapRow in nodes2DList)
         {
             foreach (var node in mapRow.nodesList)
@@ -363,41 +381,68 @@ public class MapBuilderTD : MonoBehaviour
             }
         }
 
-        mapNodeListSO.MapNodeList = new List<NodeDataList> { saveNodeList };
-
-        var mapNodeListJson = JsonUtility.ToJson(saveNodeList);
-        PlayerPrefs.SetString("Map", mapNodeListJson);
-        PlayerPrefs.Save();
-        Debug.Log(mapNodeListJson);
+        mapNodeListSO.SaveNodeList(saveNodeList);
     }
 
     [ContextMenu("Load Map Data")]
     private void LoadNodeList()
     {
-        var mapJson = PlayerPrefs.GetString("Map");
-        var loadedNodeList = JsonUtility.FromJson<NodeDataList>(mapJson);
+        var loadedNodeList = mapNodeListSO.MapNodeList;
 
         // Load node data into map nodes
-        int index = 0;
-        foreach (var mapRow in nodes2DList)
+        foreach (var nodeData in loadedNodeList.nodeDataList)
         {
-            foreach (var node in mapRow.nodesList)
+            var node = GetNodeById(nodeData.nodeId);
+            node.ResetNode();
+            node.LockNode();
+            node.SetConnected(nodeData.isConnected);
+            foreach (var connectedNodeId in nodeData.connectedNodes)
             {
-                node.SetDataForReconnectingNodes();
-
-                var nodeData = loadedNodeList.nodeDataList[index];
-                index++;
-                node.SetConnected(nodeData.isConnected);
-                foreach (var connectedNodeId in nodeData.connectedNodes)
-                {
-                    MapNode nextNode = GetNodeById(connectedNodeId);
-                    node.ConnectedNodeList.Add(nextNode);
-                    //Debug.Log($"{node} -> {nextNode}");
-                }
+                MapNode nextNode = GetNodeById(connectedNodeId);
+                node.ConnectedNodeList.Add(nextNode);
             }
         }
 
         ReconnectNodeLines();
+
+        SetSelectedLine();
+
+        UnlockNodes();
+
+        void UnlockNodes()
+        {
+            if (selectedLineList.nodesList.Count == 0)
+            {
+                for (int i = 0; i < connectedNodesList.Count; i++)
+                {
+                    // Unlocking very bottom nodes
+                    connectedNodesList[i].nodesList[0].UnlockNode();
+                }
+            }
+            else
+            {
+                var lastSelectedNode = selectedLineList.nodesList[^1];
+                SetSelectedNode(lastSelectedNode);
+                currentSelectedNode.UnlockNode();
+                currentSelectedNode.DisableSelectableEffect();
+                currentSelectedNode.ConnectedNodeList.ForEach(nextNode => nextNode.UnlockNode());
+            }
+        }
+
+        void SetSelectedLine()
+        {
+            int index = 0;
+            selectedLineList.nodesList.Clear();
+            selectedLine.positionCount = mapNodeListSO.SelectedLine.nodeDataList.Count;
+            foreach (var nodeData in mapNodeListSO.SelectedLine.nodeDataList)
+            {
+                var node = GetNodeById(nodeData.nodeId);
+                node.SetAsAvailableNode();
+                selectedLineList.nodesList.Add(node);
+                selectedLine.SetPosition(index, node.transform.position);
+                index++;
+            }
+        }
 
         void ReconnectNodeLines()
         {
@@ -418,7 +463,7 @@ public class MapBuilderTD : MonoBehaviour
                 var curr = nodes2DList[depth].nodesList[i];
                 var line = Instantiate(lineRendererPrefab, bossNode.transform);
                 //line.endColor = line.startColor = Random.ColorHSV();
-                line.endColor = line.startColor = Color.grey;
+                line.colorGradient = GetDisabledAlphaGradient();
                 line.positionCount = depthLevel + 1;
                 linesList.Add(line);
 
@@ -440,7 +485,7 @@ public class MapBuilderTD : MonoBehaviour
                 Debug.Log("==========================");
             }
 
-            nodes2DList.ForEach(x => x.nodesList.ForEach(y => y.CleanupDisconnectedNodes()));
+            //nodes2DList.ForEach(x => x.nodesList.ForEach(y => y.CleanupDisconnectedNodes()));
         }
     }
 
@@ -458,7 +503,7 @@ public class MapBuilderTD : MonoBehaviour
         {
             foreach (var node in nodeRows.nodesList)
             {
-                node.SetDataForReconnectingNodes();
+                node.ResetNode();
             }
         }
 
