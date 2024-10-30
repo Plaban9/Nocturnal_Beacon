@@ -8,12 +8,13 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
 {
     [SerializeField] private float scrollSensitivityMultiplier = .5f;
     [SerializeField] private float maxScrollLength;
+    [SerializeField, Range(1f, 10f)] private float initialScrollTime = 10f;
 
     private void Start()
     {
         var pos = transform.position;
         pos.y -= 50;
-        transform.DOMove(pos, 10f).SetEase(Ease.InOutCubic);
+        transform.DOMove(pos, initialScrollTime).SetEase(Ease.InOutCubic);
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)

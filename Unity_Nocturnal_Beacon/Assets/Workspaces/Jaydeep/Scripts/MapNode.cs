@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class MapNode : MonoBehaviour
@@ -10,6 +11,7 @@ public class MapNode : MonoBehaviour
 
     [Header("Node Settings")]
     [SerializeField] private SpriteRenderer lockSprite;
+    [SerializeField] private GameObject selectedEffect;
 
     [Header("Connected Map Nodes")]
     [SerializeField] private List<MapNode> mapNodesList;
@@ -35,6 +37,7 @@ public class MapNode : MonoBehaviour
         ConnectedNodeList = new();
         spriteRenderer = GetComponent<SpriteRenderer>();
         nodeCollider = GetComponent<Collider2D>();
+        gameObject.SetActive(false); // This is required
     }
 
     private void OnMouseDown()
@@ -45,16 +48,17 @@ public class MapNode : MonoBehaviour
     public void SetMapNodeSelected()
     {
         OnMapNodeSelected?.Invoke(this);
-        OnClick.Invoke(); 
-        NoctBeaconRunData.Instance.SetHeight(height);
-        SceneController.Instance.ToBattle();
     }
 
     public void SetNodeId(int nodeId) { Id = nodeId; }
 
     public bool IsConnected() { return isConnected; }
 
-    public void SetConnected(bool isConnected) { this.isConnected = isConnected; }
+    public void SetConnected(bool isConnected)
+    {
+        this.isConnected = isConnected;
+        gameObject.SetActive(isConnected);
+    }
 
     public void AddNode(MapNode newNode)
     {
@@ -71,17 +75,12 @@ public class MapNode : MonoBehaviour
         if(ConnectedNodeList.Contains(node)) return;
 
         ConnectedNodeList.Add(node);
-        isConnected = true;
+        SetConnected(true);
     }
 
-    public void CleanupDisconnectedNodes()
+    public void ResetNode()
     {
-        gameObject.SetActive(isConnected);
-    }
-
-    public void SetDataForReconnectingNodes()
-    {
-        isConnected = false;
+        SetConnected(false);
         ConnectedNodeList.Clear();
         gameObject.SetActive(true);
     }
@@ -89,11 +88,11 @@ public class MapNode : MonoBehaviour
     public void SetAsUnavailableNode()
     {
         var color = spriteRenderer.color;
-        //color.a = .25f;
+        color.a = .25f;
         spriteRenderer.color = color;
     }
 
-    public void SetAsSelectableNode()
+    public void SetAsAvailableNode()
     {
         var color = spriteRenderer.color;
         color.a = 1f;
@@ -105,12 +104,24 @@ public class MapNode : MonoBehaviour
         isLocked = false;
         lockSprite.gameObject.SetActive(isLocked);
         nodeCollider.enabled = !isLocked;
+
+        EnableSelectableEffect();
+
+        SetAsAvailableNode();
     }
+
+    public void EnableSelectableEffect() => selectedEffect.SetActive(true);
+
+    public void DisableSelectableEffect() => selectedEffect.SetActive(false);
 
     public void LockNode()
     {
         isLocked = true;
         lockSprite.gameObject.SetActive(isLocked);
         nodeCollider.enabled = !isLocked; // If it is locked then disable collider so, click won't work on node
+
+        DisableSelectableEffect();
+
+        SetAsUnavailableNode();
     }
 }
