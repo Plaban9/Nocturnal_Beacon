@@ -62,15 +62,22 @@ public class SceneController : MonoBehaviour
         StartCoroutine(LoadSceneAsync(sceneNames[gameScene]));
     }
 
-   
-
-    IEnumerator LoadSceneAsync(string sceneName)
+    public IEnumerator LoadSceneAsync(string sceneName)
     {
+        LoadingScreenAnimations.Instance.ToLoading();
+
+        yield return new WaitForSeconds(2f);
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.completed += (AsyncOperation) => {
+            LoadingScreenAnimations.Instance.DoneLoading();
+        };
 
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+
+        Debug.Log("Aie!");
     }
 }
