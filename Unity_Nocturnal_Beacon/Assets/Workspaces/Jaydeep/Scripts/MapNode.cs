@@ -17,7 +17,8 @@ public class MapNode : MonoBehaviour
     [SerializeField] private List<MapNode> mapNodesList;
 
     // For Debug
-    [field:SerializeField] public List<MapNode> ConnectedNodeList { get; set; }
+    [field:SerializeField] public List<MapNode> ForwardNodeList { get; set; }
+    [field:SerializeField] public List<MapNode> BackwardNodeList { get; set; }
 
     private bool isConnected;
     private bool isLocked;
@@ -34,7 +35,7 @@ public class MapNode : MonoBehaviour
 
     private void Awake()
     {
-        ConnectedNodeList = new();
+        ForwardNodeList = new();
         spriteRenderer = GetComponent<SpriteRenderer>();
         nodeCollider = GetComponent<Collider2D>();
         gameObject.SetActive(false); // This is required
@@ -72,16 +73,17 @@ public class MapNode : MonoBehaviour
 
     public void ConnectNode(MapNode node)
     {
-        if(ConnectedNodeList.Contains(node)) return;
+        //if(ForwardNodeList.Contains(node)) return;
 
-        ConnectedNodeList.Add(node);
+        ForwardNodeList.Add(node);
+        node.BackwardNodeList.Add(this);
         SetConnected(true);
     }
 
     public void ResetNode()
     {
         SetConnected(false);
-        ConnectedNodeList.Clear();
+        ForwardNodeList.Clear();
         gameObject.SetActive(true);
     }
 

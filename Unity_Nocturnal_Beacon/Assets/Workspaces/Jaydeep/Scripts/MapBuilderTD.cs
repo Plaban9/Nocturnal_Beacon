@@ -73,6 +73,7 @@ public class MapBuilderTD : MonoBehaviour
     private void OnDisable()
     {
         MapNode.OnMapNodeSelected -= SelectNode;
+        mapNodeListSO.ResetData();
     }
 
     private void Update()
@@ -123,6 +124,8 @@ public class MapBuilderTD : MonoBehaviour
             previousSelectedNode.transform.DOScale(Vector3.one, .25f);
 
         currentSelectedNode.transform.DOScale(targetScale, .25f);
+
+        Debug.Log($"{GetCurrentNodeHeight()} is the height for {currentSelectedNode.name}!");
     }
 
     private void CreateNodes()
@@ -145,6 +148,8 @@ public class MapBuilderTD : MonoBehaviour
                 var node = Instantiate(mapNodePrefab, transform);
                 node.name = $"{currentDepth + 1} : {currentSplit + 1}";
                 node.transform.position = pos;
+                node.DisableSelectableEffect();
+                node.SetAsUnavailableNode();
                 //node.height = depthLevel - currentDepth;
                 //node.OnClick = () => { SaveNodeList(); };
                 nodes2DList[currentDepth].nodesList.Add(node);
@@ -219,51 +224,96 @@ public class MapBuilderTD : MonoBehaviour
         }
     }
 
+    private int GetCurrentNodeHeight()
+    {
+        int i = 0;
+        int height = -1;
+
+        if (currentSelectedNode == bossNode)
+        {
+            height = 0;
+            return height;
+        }
+
+        foreach (var list in connectedNodesList)
+        {
+            foreach (var node in list.nodesList)
+            {
+                i++; // 1 for top nodes after boss node and onwards
+                if (node == currentSelectedNode)
+                {
+                    height = i;
+                    break;
+                }
+            }
+        }
+        return height;
+    }
+
     private void Proceed()
     {
         // Lock all nodes
-        foreach (var lines in connectedNodesList)
+        //foreach (var lines in connectedNodesList)
+        //{
+        //    foreach (var node in lines.nodesList)
+        //    {
+        //        node.LockNode();
+        //    }
+        //}
+
+        //// Unlock Nodes Which we have taken
+        //currentSelectedNode.UnlockNode();
+        //currentSelectedNode.DisableSelectableEffect();
+
+        //selectedNodeEffectTrans.SetParent(currentSelectedNode.transform);
+        //selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //selectedNodeEffectTrans.localScale = Vector3.one;
+
+        //currentSelectedNode.ConnectedNodeList.ForEach(x => x.UnlockNode());
+
+        //if (!selectedLineList.nodesList.Contains(currentSelectedNode))
+        //    selectedLineList.nodesList.Add(currentSelectedNode);
+
+        //var selectedNodes = new NodeDataList();
+        //foreach (var node in selectedLineList.nodesList)
+        //{
+        //    var nodeData = new NodeData()
+        //    {
+        //        name = node.name,
+        //        nodeId = node.Id,
+        //        isConnected = true,
+        //    };
+        //    selectedNodes.nodeDataList.Add(nodeData);
+        //}
+
+        // Add Current Selected Node to SaveData
+
+        //var count = selectedLineList.nodesList.Count;
+        //selectedLine.positionCount = count;
+
+        //for (int i = 0; i < count; i++)
+        //{
+        //    MapNode node = selectedLineList.nodesList[i];
+        //    node.SetAsAvailableNode();
+        //    selectedLine.SetPosition(i, node.transform.position);
+        //}
+
+        var nodeData = new NodeData()
         {
-            foreach (var node in lines.nodesList)
-            {
-                node.LockNode();
-            }
+            name = currentSelectedNode.name,
+            nodeId = currentSelectedNode.Id,
+            isConnected = currentSelectedNode.IsConnected(),
+        };
+        mapNodeListSO.AddToSelectedLineAndSaveList(nodeData);
+
+        if (NoctBeaconRunData.Instance)
+        {
+            NoctBeaconRunData.Instance.SetHeight(GetCurrentNodeHeight());
         }
 
-        // Unlock Nodes Which we have taken
-        currentSelectedNode.UnlockNode();
-        currentSelectedNode.DisableSelectableEffect();
-
-        selectedNodeEffectTrans.SetParent(currentSelectedNode.transform);
-        selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-        currentSelectedNode.ConnectedNodeList.ForEach(x => x.UnlockNode());
-
-        if (!selectedLineList.nodesList.Contains(currentSelectedNode))
-            selectedLineList.nodesList.Add(currentSelectedNode);
-
-        var selectedNodes = new NodeDataList();
-        foreach (var node in selectedLineList.nodesList)
+        if (SceneController.Instance)
         {
-            var nodeData = new NodeData()
-            {
-                name = node.name,
-                nodeId = node.Id,
-                isConnected = true,
-            };
-            selectedNodes.nodeDataList.Add(nodeData);
-        }
-
-        mapNodeListSO.SelectedLine = selectedNodes;
-
-        var count = selectedLineList.nodesList.Count;
-        selectedLine.positionCount = count;
-
-        for (int i = 0; i < count; i++)
-        {
-            MapNode node = selectedLineList.nodesList[i];
-            node.SetAsAvailableNode();
-            selectedLine.SetPosition(i, node.transform.position);
+            SceneController.Instance.ToBattle();
         }
     }
 
@@ -339,7 +389,6 @@ public class MapBuilderTD : MonoBehaviour
         }
     }
 
-
     private MapNode GetNodeById(int id)
     {
         if (id == bossNode.Id)
@@ -364,6 +413,12 @@ public class MapBuilderTD : MonoBehaviour
     [ContextMenu("Save Map Data")]
     private void SaveNodeList()
     {
+        NodeDataList saveNodeList = GetNodeDataList();
+        mapNodeListSO.SaveNodeList(saveNodeList);
+    }
+
+    private NodeDataList GetNodeDataList()
+    {
         var saveNodeList = new NodeDataList();
         foreach (var mapRow in nodes2DList)
         {
@@ -376,17 +431,18 @@ public class MapBuilderTD : MonoBehaviour
                     isConnected = node.IsConnected(),
                 };
 
-                node.ConnectedNodeList.ForEach(x => nodeData.connectedNodes.Add(x.Id));
+                node.ForwardNodeList.ForEach(x => nodeData.connectedNodes.Add(x.Id));
                 saveNodeList.nodeDataList.Add(nodeData);
             }
         }
 
-        mapNodeListSO.SaveNodeList(saveNodeList);
+        return saveNodeList;
     }
 
     [ContextMenu("Load Map Data")]
     private void LoadNodeList()
     {
+        mapNodeListSO.RetriveNodeListData();
         var loadedNodeList = mapNodeListSO.MapNodeList;
 
         // Load node data into map nodes
@@ -399,7 +455,7 @@ public class MapBuilderTD : MonoBehaviour
             foreach (var connectedNodeId in nodeData.connectedNodes)
             {
                 MapNode nextNode = GetNodeById(connectedNodeId);
-                node.ConnectedNodeList.Add(nextNode);
+                node.ForwardNodeList.Add(nextNode);
             }
         }
 
@@ -425,7 +481,11 @@ public class MapBuilderTD : MonoBehaviour
                 SetSelectedNode(lastSelectedNode);
                 currentSelectedNode.UnlockNode();
                 currentSelectedNode.DisableSelectableEffect();
-                currentSelectedNode.ConnectedNodeList.ForEach(nextNode => nextNode.UnlockNode());
+                currentSelectedNode.ForwardNodeList.ForEach(nextNode => nextNode.UnlockNode());
+
+                selectedNodeEffectTrans.SetParent(currentSelectedNode.transform);
+                selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                selectedNodeEffectTrans.localScale = Vector3.one;
             }
         }
 
@@ -473,9 +533,9 @@ public class MapBuilderTD : MonoBehaviour
                     connectedNodesList[i].nodesList.Add(curr);
                     if (depth < 0) break;
 
-                    var next = curr.ConnectedNodeList[0];
-                    curr.ConnectedNodeList.RemoveAt(0);
-                    Debug.Log($"{curr}:{curr.IsConnected()} |||| {curr} -> {next}");
+                    var next = curr.ForwardNodeList[0];
+                    curr.ForwardNodeList.RemoveAt(0);
+                    Debug.Log($"{curr} -> {next}");
                     curr.ConnectNode(next);
                     curr = next;
 
