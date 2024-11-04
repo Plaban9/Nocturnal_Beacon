@@ -9,7 +9,7 @@ public class TooltipMouseHover : MonoBehaviour
 {
     public GameObject tooltip;
 
-    public static Action<AbilityInformation, Vector2> OnMouseOver;
+    //public static Action<null, Vector2> OnMouseOver;
     public static Action OnMouseOut;
 
     private Image img;
@@ -18,32 +18,32 @@ public class TooltipMouseHover : MonoBehaviour
 
     private void OnEnable()
     {
-        OnMouseOver += ShowTooltip;
+        //OnMouseOver += ShowTooltip;
         OnMouseOut += HideTooltip;
     }
 
     private void OnDisable()
     {
-        OnMouseOver -= ShowTooltip;
+        //OnMouseOver -= ShowTooltip;
         OnMouseOut -= HideTooltip;
     }
 
     private void Start()
     {
-        img = tooltip.transform.Find("TopRow/AbilityIcon").GetComponent<Image>();
-        title = tooltip.transform.Find("TopRow/AbilityName").GetComponent<TextMeshProUGUI>();
-        desc = tooltip.transform.Find("AbilityDescription").GetComponent<TextMeshProUGUI>();
+        //img = tooltip.transform.Find("TopRow/AbilityIcon").GetComponent<Image>();
+        //title = tooltip.transform.Find("TopRow/AbilityName").GetComponent<TextMeshProUGUI>();
+        //desc = tooltip.transform.Find("AbilityDescription").GetComponent<TextMeshProUGUI>();
         HideTooltip();
     }
 
-    private void ShowTooltip(AbilityInformation info, Vector2 position)
+    private void ShowTooltip(/*AbilityInformation info,*/ Vector2 position)
     {
-        img.sprite = info.icon;
-        title.text = info.title;
-        desc.text = info.description;
+        //img.sprite = info.icon;
+        //title.text = info.title;
+        //desc.text = info.description;
 
-        tooltip.gameObject.SetActive(true);
-        tooltip.transform.position = new Vector2(position.x + 1, position.y);
+        //tooltip.gameObject.SetActive(true);
+        //tooltip.transform.position = new Vector2(position.x + 1, position.y);
     }
 
     private void HideTooltip()

@@ -9,7 +9,6 @@ public class TooltipHoverable : MonoBehaviour, IPointerEnterHandler, IPointerExi
 {
     
 
-    public AbilityInformation displayedInfo;
     public float delay = 0.5f;
 
     private Image icon;
@@ -29,7 +28,7 @@ public class TooltipHoverable : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private void ShowTooltip()
     {
-        TooltipMouseHover.OnMouseOver(displayedInfo, Input.mousePosition);
+        //TooltipMouseHover.OnMouseOver(displayedInfo, Input.mousePosition);
     }
 
     private IEnumerator StartTimer()
@@ -42,11 +41,11 @@ public class TooltipHoverable : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     private void Start()
     {
-        icon = transform.Find("AbilityIcon").GetComponent<Image>();
-        displayedName = transform.Find("AbilityName").GetComponent<TextMeshProUGUI>();
+        //icon = transform.Find("AbilityIcon").GetComponent<Image>();
+        //displayedName = transform.Find("AbilityName").GetComponent<TextMeshProUGUI>();
 
-        icon.sprite = displayedInfo.icon;
-        displayedName.text = displayedInfo.title;
+        //icon.sprite = displayedInfo.icon;
+        //displayedName.text = displayedInfo.title;
     }
 
 }

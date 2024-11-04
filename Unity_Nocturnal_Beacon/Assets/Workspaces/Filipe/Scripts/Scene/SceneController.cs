@@ -18,6 +18,7 @@ public class SceneController : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -29,12 +30,14 @@ public class SceneController : MonoBehaviour
         BATTLE
     }
 
+    private LoadingScreenAnimations _loadingScreenAnimation; 
+
     public Dictionary<GAME_SCENE, string> sceneNames;
 
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        _loadingScreenAnimation = GetComponent<LoadingScreenAnimations>();
         sceneNames = new Dictionary<GAME_SCENE, string>();
         sceneNames.Add(GAME_SCENE.MAIN_MENU, "MainMenu_InProgress");
         sceneNames.Add(GAME_SCENE.MAP, "MapPrototype");
@@ -64,17 +67,20 @@ public class SceneController : MonoBehaviour
 
     public IEnumerator LoadSceneAsync(string sceneName)
     {
-        LoadingScreenAnimations.Instance.ToLoading();
+        _loadingScreenAnimation.ToLoading();
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.completed += (AsyncOperation) => {
-            LoadingScreenAnimations.Instance.DoneLoading();
+            _loadingScreenAnimation.ToScene();
         };
+
+
 
         while (!asyncLoad.isDone)
         {
+            
             yield return null;
         }
 

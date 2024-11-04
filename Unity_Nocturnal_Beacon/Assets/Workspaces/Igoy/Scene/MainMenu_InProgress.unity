@@ -10995,10 +10995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e5b3a80f86c6845882fb89c2dda954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0
-  fallOff: 0
-  target: {fileID: 0}
-  umbrellaHolder: {fileID: 0}
+  loadingScreen: {fileID: 272960052}
 --- !u!1 &716608983
 GameObject:
   m_ObjectHideFlags: 0
