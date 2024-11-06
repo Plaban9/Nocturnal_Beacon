@@ -109,7 +109,7 @@ public class Card : ScriptableObject
      * List of Effects to run
      */
     [SerializeReference, SubclassSelector]
-    public List<ICardEffect> effects = new List<ICardEffect>();
+    public List<CardEffect> effects = new List<CardEffect>();
 
     public string GetEffectDescStr()
     {
