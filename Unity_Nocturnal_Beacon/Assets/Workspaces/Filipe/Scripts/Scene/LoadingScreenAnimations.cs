@@ -46,9 +46,11 @@ public class LoadingScreenAnimations : MonoBehaviour
 
     IEnumerator ToLoading(float time)
     {
+        _currentProgress = 0f;
+        loadingScreen.material.SetFloat("_Transition", 0f);
         float amountToMove = 0.5f - _currentProgress;
 
-        while(_currentProgress <= 0.5f)
+        while (_currentProgress <= 0.5f)
         {
             loadingScreen.material.SetFloat("_Transition", _currentProgress);
             _currentProgress += Time.deltaTime*amountToMove/time;
@@ -68,6 +70,7 @@ public class LoadingScreenAnimations : MonoBehaviour
             _currentProgress += Time.deltaTime * amountToMove / time;
             yield return new WaitForFixedUpdate();
         }
+        loadingScreen.material.SetFloat("_Transition", 0f);
 
         DoneLoading();
     }

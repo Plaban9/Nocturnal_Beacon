@@ -1,3 +1,4 @@
+using Minimalist.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,6 +62,8 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Gameplay, 0f, true);
+
         _cardManager = GetComponent<CardManager>();
         SetupBattle();
 

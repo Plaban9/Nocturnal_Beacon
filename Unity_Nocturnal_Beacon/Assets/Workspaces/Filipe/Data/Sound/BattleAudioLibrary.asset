@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511981b6c2146894fbd87855374f98a6, type: 3}
+  m_Name: BattleAudioLibrary
+  m_EditorClassIdentifier: 
+  musicLibrary:
+  - name: BattleMusic
+    musicType: 0
+    audioClip: {fileID: 8300000, guid: 81e698dcdf978ed4e9a6e63d1d41e9c4, type: 3}
+    volume: 1
+    shouldLoop: 0
+  soundLibrary: []

@@ -32,6 +32,7 @@ public class UITopBarManager : MonoBehaviour
     void Start()
     {
         _beaconRunData = NoctBeaconRunData.Instance;
+        _animator = GetComponent<Animator>();
 
         floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
         floorTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
@@ -46,14 +47,19 @@ public class UITopBarManager : MonoBehaviour
         
     }
 
-    void PullDown()
+    public void PullDown()
     {
         _animator.SetBool("isVisible", true); 
     }
 
-    void PushUp()
+    public void PushUp()
     {
         _animator.SetBool("isVisible", false);
 
+    }
+
+    public bool IsDown()
+    {
+        return _animator.GetBool("isVisible");
     }
 }

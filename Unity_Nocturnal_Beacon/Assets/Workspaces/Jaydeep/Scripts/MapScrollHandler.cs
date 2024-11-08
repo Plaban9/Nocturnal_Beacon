@@ -25,7 +25,22 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
 
         var pos = transform.position;
         pos.y += scrollPos;
-        transform.DOMove(pos, initialScrollTime).SetEase(Ease.InOutCubic);
+         
+        //Occurs first time, then it doesnt anymore -FMM
+        if(NoctBeaconRunData.Instance.GetHeight() == -1)
+        {
+            transform.DOMove(pos, initialScrollTime).SetEase(Ease.InOutCubic);
+            StartCoroutine(WaitToEnableTopBar(initialScrollTime));
+        }
+        else
+        {
+            transform.position = pos;
+            if (!UITopBarManager.Instance.IsDown())
+            {
+                UITopBarManager.Instance.PullDown(); 
+            }
+
+        }
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
@@ -37,5 +52,11 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
         var min = Mathf.Min(0, maxScrollLength);
         var max = Mathf.Max(0, maxScrollLength);
         transform.position = new(pos.x, Mathf.Clamp(pos.y, min, max), pos.z);
+    }
+
+    IEnumerator WaitToEnableTopBar(float time)
+    {
+        yield return new WaitForSeconds(time);
+        UITopBarManager.Instance.PullDown();
     }
 }
