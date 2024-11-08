@@ -40,14 +40,8 @@ public class MapNodeListSO : ScriptableObject
 
         Debug.Log(mapJson);
 
-        if (SelectedLine == null)
-        {
-            SelectedLine = new();
-        }
-        if (MapNodeList == null)
-        {
-            MapNodeList = new();
-        }
+        SelectedLine ??= new();
+        MapNodeList ??= new();
     }
 
     public void ResetData()
