@@ -6,26 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Map Node SO/ New MapNode List")]
 public class MapNodeListSO : ScriptableObject
 {
-    [SerializeField] private NodeDataList nodeList;
-
+    [field: SerializeField] public NodeDataList MapNodeList { get; private set; } = new();
     [field: SerializeField] public NodeDataList SelectedLine { get; set; } = new();
-    public NodeDataList MapNodeList
-    {
-        get
-        {
-            RetriveNodeList();
-            return nodeList;
-        }
-        private set
-        {
-            nodeList = value;
-        }
-    }
 
     public void SaveNodeList(NodeDataList list)
     {
-        SelectedLine.nodeDataList.Clear();
-        nodeList = list;
+        //SelectedLine.nodeDataList.Clear();
+        MapNodeList = list;
         var nodeDataListJson = JsonUtility.ToJson(list);
         Debug.Log(nodeDataListJson);
 
@@ -33,14 +20,33 @@ public class MapNodeListSO : ScriptableObject
         PlayerPrefs.Save();
     }
 
-    public void SetSelectedLine()
+    public void AddToSelectedLineAndSaveList(NodeData nodeData)
     {
+        if (SelectedLine.nodeDataList.Contains(nodeData))
+            return;
 
+        SelectedLine.nodeDataList.Add(nodeData);
+        var selectedLineListJson = JsonUtility.ToJson(SelectedLine);
+        PlayerPrefs.SetString("SelectedLine", selectedLineListJson);
+        PlayerPrefs.Save();
     }
 
-    private void RetriveNodeList()
+    public void RetriveNodeListData()
     {
         var mapJson = PlayerPrefs.GetString("Map");
-        nodeList = JsonUtility.FromJson<NodeDataList>(mapJson);
+        var selectedLineJson = PlayerPrefs.GetString("SelectedLine");
+        SelectedLine = JsonUtility.FromJson<NodeDataList>(selectedLineJson);
+        MapNodeList = JsonUtility.FromJson<NodeDataList>(mapJson);
+
+        Debug.Log(mapJson);
+
+        SelectedLine ??= new();
+        MapNodeList ??= new();
+    }
+
+    public void ResetData()
+    {
+        MapNodeList = new();
+        SelectedLine = new();
     }
 }

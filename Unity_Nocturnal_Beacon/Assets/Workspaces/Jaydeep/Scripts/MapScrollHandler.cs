@@ -10,10 +10,21 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
     [SerializeField] private float maxScrollLength;
     [SerializeField, Range(1f, 10f)] private float initialScrollTime = 10f;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        // This will hold the function until the grid is created and current node is set;
+        yield return new WaitForSeconds(0.1f);
+
+        var currentlySelectedNode = MapBuilderTD.Instance.GetCurrentlySelectedNode();
+        var scrollPos = maxScrollLength;
+
+        if (currentlySelectedNode != null)
+        {
+            scrollPos = currentlySelectedNode.transform.position.y;
+        }
+
         var pos = transform.position;
-        pos.y -= 50;
+        pos.y += scrollPos;
         transform.DOMove(pos, initialScrollTime).SetEase(Ease.InOutCubic);
     }
 
