@@ -15,4 +15,6 @@ MonoBehaviour:
   unitName: Wendigo
   sprite: {fileID: 2800000, guid: 2bcbb3fad6e43a0409a24dd5438f0d06, type: 3}
   startingHp: 30
+  flipSprite: 1
+  scale: 13
   behavior: {fileID: 11400000, guid: 70d8e079bff916f40bc18782049b2e24, type: 2}

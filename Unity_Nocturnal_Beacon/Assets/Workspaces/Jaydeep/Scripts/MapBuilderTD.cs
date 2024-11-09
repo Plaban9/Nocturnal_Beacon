@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Minimalist.Audio;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -43,6 +44,9 @@ public class MapBuilderTD : MonoBehaviour
     [Header("Gradients")]
     [SerializeField] private List<Gradient> selectedLineGradientList = new List<Gradient>();
 
+    [Header("Audio")]
+    [SerializeField] private Minimalist.Audio.AudioLibrary menuAudioLibrary;
+
     private void Awake()
     {
         if (Instance != null)
@@ -55,6 +59,8 @@ public class MapBuilderTD : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Menu, 0f, true);
+
         SetSelectedLineParams();
 
         CreateNodes();
@@ -199,6 +205,9 @@ public class MapBuilderTD : MonoBehaviour
 
     private void Proceed()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Spawn);
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Jump);
+
         var nodeData = new NodeData()
         {
             name = currentSelectedNode.name,
@@ -211,6 +220,7 @@ public class MapBuilderTD : MonoBehaviour
         {
             var height = currentSelectedNode.GetHeight();
             NoctBeaconRunData.Instance.SetHeight(height);
+            //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
         if (SceneController.Instance)

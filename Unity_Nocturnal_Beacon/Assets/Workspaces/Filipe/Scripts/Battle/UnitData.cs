@@ -9,4 +9,7 @@ public class UnitData : ScriptableObject
     [SerializeField] public Texture2D sprite;
     [SerializeField] public int startingHp = 100;
 
+
+    [SerializeField] public bool flipSprite = true;
+    [SerializeField] public float scale = 13f;
 }

@@ -1,3 +1,4 @@
+using Minimalist.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,12 +13,14 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] public List<UnitData> _possibleEnemies;
+    [SerializeField] public UnitData _finalBoss;
 
     [Header("UI")]
     [SerializeField] public TextMeshProUGUI _battleStateText;
     [SerializeField] public TextMeshProUGUI _manaText;
 
     [SerializeField] public GameObject _endScreenCanvas;
+    [SerializeField] public TextMeshProUGUI _scoreText;
 
     /*
      * Player Info
@@ -61,6 +64,9 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Menu, 0.5f, true);
+        AudioManager.SetMusicVolume(1f);
+
         _cardManager = GetComponent<CardManager>();
         SetupBattle();
 
@@ -95,6 +101,8 @@ public class BattleManager : MonoBehaviour
         // Used when we start making multiple floors stuff
 
         UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
+
+        if (height == 0) unit = _finalBoss;
         _enemies[0].SetupUnit(unit);
     }
 
@@ -193,14 +201,37 @@ public class BattleManager : MonoBehaviour
     {
         PlayerUnitData data = NoctBeaconRunData.Instance.GetPlayerInformation();
         data.SetCurrentHp(_player.GetHPData().GetCurrentHP());
+        NoctBeaconRunData.Instance.ModifyGold(15);
         _endScreenCanvas.SetActive(true);
         Animator anim = _endScreenCanvas.GetComponent<Animator>();
         if (_player.GetHPData().IsDead())
             anim.Play("BattleEndScreenLose");
         else
         {
-            anim.Play("BattleEndScreenWin");
-            
+            if (NoctBeaconRunData.Instance.GetHeight() == 0)
+            {
+                float healthPct = 1.0f + _player.GetHPData().GetCurrentHP() / _player.GetUnitData().startingHp;
+                float goldAmassed = NoctBeaconRunData.Instance.GetGold();
+                float bonusRare = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Rare).Count * 0.1f;
+                float bonusLeg = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Legendary).Count * 0.2f;
+                anim.Play("BattleGameEndScreen");
+                _scoreText.text = String.Format(
+                    "Gold Amassed: {0}\n" +
+                    "Health Bonus: {1}\n" +
+                    "Card Bonus: Rare Cards: {2}, Legendary Cards: {3}\n" +
+                    "<size=80><b>FINAL SCORE: {4}</b></size>",
+                    goldAmassed,
+                    healthPct,
+                    bonusRare,
+                    bonusLeg,
+                    100f + goldAmassed * healthPct * bonusRare * bonusLeg
+                    );
+            }
+            else
+            {
+                anim.Play("BattleEndScreenWin");
+            }
+
         }
     }
 

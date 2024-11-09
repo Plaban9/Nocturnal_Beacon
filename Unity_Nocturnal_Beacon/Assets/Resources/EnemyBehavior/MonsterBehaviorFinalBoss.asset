@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add83bd661b3d214ab3b2245c4fc3d97, type: 3}
+  m_Name: MonsterBehaviorFinalBoss
+  m_EditorClassIdentifier: 
+  _cards:
+  - {fileID: 11400000, guid: d9f456ddad4be4b41ab72bc6b510e12f, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: 31c4ae04e2c87314b919146a92c6728b, type: 2}
+  - {fileID: 11400000, guid: 2d27b0d9bd1f9e34eba2b8ddfe429ccf, type: 2}
+  - {fileID: 11400000, guid: b91620c212bb98842a6f35cd2d813e99, type: 2}

@@ -54,10 +54,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeThickness: 0.93
+    - _EdgeThickness: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Transition: 0.061
+    - _Transition: 0
     m_Colors:
     - _LighthouseColor: {r: 442.33224, g: 1162.549, b: 0, a: 1}
   m_BuildTextureStacks: []
