@@ -6,7 +6,7 @@ public class UnitData : ScriptableObject
 {
     [Header("Unit Data")]
     [SerializeField] public string unitName ;
-    [SerializeField] public Texture2D sprite;
+    [SerializeField] public Sprite sprite;
     [SerializeField] public int startingHp = 100;
 
 
