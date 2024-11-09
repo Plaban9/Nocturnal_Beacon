@@ -61,6 +61,8 @@ public class BattleUnit : MonoBehaviour
         new Rect(0, 0, texture.width, texture.height),
                                          new Vector2(0.5f, 0.5f));
         _sprite.sprite = newSprite;
+        _sprite.transform.parent.localScale = new Vector3(_unitData.scale, 1f, _unitData.scale);
+        _sprite.flipX = _unitData.flipSprite;
 
         _name.text = _unitData.unitName;
     }

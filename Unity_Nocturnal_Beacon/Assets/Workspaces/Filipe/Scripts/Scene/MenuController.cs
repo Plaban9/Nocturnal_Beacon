@@ -31,6 +31,7 @@ public class MenuController : MonoBehaviour
     public void StartNewGame()
     {
         PlayerPrefs.DeleteKey("Map");
+        _DEBUG_DATA_FOR_PROTOTYPE1.SetCurrentHp(_DEBUG_DATA_FOR_PROTOTYPE1.GetMaxHP());
         NoctBeaconRunData.Instance.SetPlayer(_DEBUG_DATA_FOR_PROTOTYPE1);
         SceneController.Instance.ToMap(); 
     }

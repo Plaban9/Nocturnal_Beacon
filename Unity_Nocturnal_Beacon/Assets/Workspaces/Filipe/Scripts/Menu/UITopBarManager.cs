@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UITopBarManager : MonoBehaviour
 {
@@ -34,11 +35,24 @@ public class UITopBarManager : MonoBehaviour
         _beaconRunData = NoctBeaconRunData.Instance;
         _animator = GetComponent<Animator>();
 
+
+
+
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
         floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
-        floorTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
-        floorTxt.text = $"{_beaconRunData.GetGold()}";
-
-
+        hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
+        goldTxt.text = $"{_beaconRunData.GetGold()}";
+        if (level == 2) // if not map level
+        {
+            PushUp();
+        }
+        else
+        {
+            PullDown();
+        }
     }
 
     // Update is called once per frame
@@ -61,5 +75,15 @@ public class UITopBarManager : MonoBehaviour
     public bool IsDown()
     {
         return _animator.GetBool("isVisible");
+    }
+
+    public void SetHP(int hp)
+    {
+        hpTxt.text = hp.ToString();
+    }
+
+    public void SetGold(int gold)
+    {
+        goldTxt.text = gold.ToString();
     }
 }

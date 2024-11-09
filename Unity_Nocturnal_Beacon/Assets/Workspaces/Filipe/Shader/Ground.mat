@@ -58,7 +58,7 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _phasing: 0.21
+    - _phasing: 0.19
     m_Colors: []
   m_BuildTextureStacks: []
 --- !u!114 &2898555883805535809

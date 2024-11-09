@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSensitivityMultiplier: 0.5
-  maxScrollLength: -60
+  maxScrollLength: -3
   initialScrollTime: 2
 --- !u!4 &402388465 stripped
 Transform:
@@ -319,7 +319,7 @@ MonoBehaviour:
   mapNodePrefab: {fileID: 8810144144743982383, guid: 046b37b0326c8ea45a32d8b0287bff25, type: 3}
   selectedNodeEffectTrans: {fileID: 710824495}
   maxSplitsAllowed: 9
-  depthLevel: 15
+  depthLevel: 4
   horizontalSpacing: 5
   verticalSpacing: 4
   unavailablePathMaterial: {fileID: 2100000, guid: 82c028380afa7c3419e78d9417c586fc, type: 2}
@@ -479,6 +479,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  menuAudioLibrary: {fileID: 0}
 --- !u!4 &673042258
 Transform:
   m_ObjectHideFlags: 0

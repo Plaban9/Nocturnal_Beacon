@@ -220,6 +220,7 @@ public class MapBuilderTD : MonoBehaviour
         {
             var height = currentSelectedNode.GetHeight();
             NoctBeaconRunData.Instance.SetHeight(height);
+            //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
         if (SceneController.Instance)
