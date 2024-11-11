@@ -1,5 +1,6 @@
 using CardAttribute;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -21,10 +22,14 @@ public class ModifyShield : CardEffect
 
     public ModifyShield() { }
 
-    public void OnUse(EffectTarget target)
+    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {
-        /*
-         * target.AddShield(amount)
-         */
+        foreach (BattleUnit target in targets)
+        {
+            if (val1 > 0)
+                target.GetHPData().AddShield(val1);
+            else if (val1 < 0)
+                target.GetHPData().RemoveShield(val1);
+        }
     }
 }

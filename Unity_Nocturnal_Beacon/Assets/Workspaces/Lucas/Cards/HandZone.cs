@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UniRx;
+using System.Linq;
 
 public class HandZone : MonoBehaviour
 {
@@ -48,13 +49,27 @@ public class HandZone : MonoBehaviour
 
     public void AddCard(Card card)
     {
+        StartCoroutine(PerformAddCard(card));
+    }
+
+    IEnumerator PerformAddCard(Card card)
+    {
         var handCard = Instantiate(HandCardPrefab, transform).GetComponent<CardInHand>();
         handCard.Setup(card);
         handCard.SubscribeOnDrag().Subscribe(x => isDraggingCard = x).AddTo(handCard.gameObject);
-        handCard.SubscribeOnDeploy().Subscribe(x => DeployCard(x)).AddTo(handCard);
+        handCard.SubscribeOnDeploy().Subscribe(x =>
+        {
+            if (!DeployCard(x))
+                handCard.ResetToOriPos();
+        }).AddTo(handCard);
+        
         cardInHands.Add(handCard);
 
+        //yield return StartCoroutine(handCard.PerformDrawFromPile());  //Temp disabled
+
         Resize();
+
+        yield return null;
     }
 
     #region For display
@@ -147,11 +162,35 @@ public class HandZone : MonoBehaviour
     }
     #endregion
 
-    void DeployCard(CardInHand cardInHand)
+    bool DeployCard(CardInHand cardInHand)
     {
-        PrototypeController.Instance.DeployCard(cardInHand.GetCard());
 
+        if (BattleManager.Instance._cardManager.DeployCard(cardInHand.GetCard()))
+        {
+            RemoveCard(cardInHand);
+            return true;
+        }
+        else
+        {
+            // TODO: Show player why cant use this
+            return false;
+        }
+
+    }
+
+    public List<Card> GetCards()
+    {
+        return cardInHands.Select(x => x.GetCard()).ToList();
+    }
+
+    public List<CardInHand> GetCardsInHand()
+    {
+        return cardInHands.ToList();
+    }
+
+    public void RemoveCard(CardInHand cardInHand)
+    {
         cardInHands.Remove(cardInHand);
-        Destroy(cardInHand.gameObject);
+        cardInHand.Destroy();
     }
 }

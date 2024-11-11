@@ -10,14 +10,24 @@ public class HPData : MonoBehaviour
     private int _shield;
     private TextMeshProUGUI _hpText;
     private Material _hpMaterial;
-    public void InitializeMaxHP(int maxHP)
+
+    public void InitializeMaxHP(UnitData _monsterData)
     {
-        _maxHp = maxHP;
-        _currentHp = maxHP;
+        _maxHp = _monsterData.startingHp;
+        _currentHp = _monsterData.startingHp;
+        _shield = 0;
+    }
+
+    public void InitializeMaxHp(PlayerUnitData _playerData)
+    {
+        _maxHp = _playerData.GetMaxHP();
+        _currentHp = _playerData.GetCurrentHP();
         _shield = 0;
     }
     public void DealDamage(int amount)
     {
+        amount = Mathf.Abs(amount);
+        if (_currentHp == 0) return;
         EffectManager.Instance.CreateNumber(
             EffectManager.EFFECTS_NUMBER.DAMAGE,
             transform.gameObject,
@@ -72,6 +82,20 @@ public class HPData : MonoBehaviour
         UpdateVisual();
     }
 
+    public void RemoveShield(int amount)
+    {
+        int displayedValue = _shield;
+        _shield -= amount;
+        if (_shield >= 0)
+            displayedValue = amount; 
+        EffectManager.Instance.CreateNumber(
+        EffectManager.EFFECTS_NUMBER.CORROSION,
+        transform.gameObject,
+        displayedValue);
+        if (_shield < 0) _shield = 0; ;
+        UpdateVisual();
+    }
+
     public void SetupAssets(TextMeshProUGUI text, Material hpMaterial)
     {
         _hpMaterial = hpMaterial;
@@ -90,5 +114,22 @@ public class HPData : MonoBehaviour
 
         _hpMaterial.SetFloat("_pctHealthNShield", ((float)_currentHp)/((float)_maxHp));
         _hpMaterial.SetFloat("_pctShield", ((float) _shield) / ((float)_currentHp));
+    }
+
+    public bool IsDead()
+    {
+        if (_currentHp == 0) return true;
+        return false;
+    }
+
+    public void EndTurnFlushShield()
+    {
+        _shield = 0;
+        UpdateVisual();
+    }
+
+    public int GetCurrentHP()
+    {
+        return _currentHp;
     }
 }

@@ -1,5 +1,6 @@
 using CardAttribute;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -19,7 +20,7 @@ public class ModifyHealth : CardEffect
             }
             else
             {
-                result = $"Deal {val1} damage";
+                result = $"Deal {Mathf.Abs(val1)} damage";
 
                 switch (target)
                 {
@@ -31,6 +32,7 @@ public class ModifyHealth : CardEffect
                     case EffectTarget.OpponentRandom:
                         result += " to a random enemy";
                         break;
+                        
                 }
 
                 if (val2 > 0)
@@ -54,7 +56,6 @@ public class ModifyHealth : CardEffect
         this.val1 = val1;
         this.val2 = val2;
     }
-
 
 
     public override int GetEffectCost()
@@ -90,13 +91,20 @@ public class ModifyHealth : CardEffect
     }
 
 
-    public void OnUse(EffectTarget target)
+    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {
-        /*
-         * DealDamage/HealTarget({target}, {amount}, {user})
-         * TODO: Implement
-         * Deal {amount} damage/ Heal {amount} damage to the {target}
-         */
+        foreach(BattleUnit target in targets)
+        {
+            if (val1 < 0)
+            {
+                int damage = val1;
+                damage = owner.GetUnitStatusData().OnDealDamage(damage);
+                target.GetHPData().DealDamage(damage);
+            }
+            else if (val1 > 0)
+                target.GetHPData().RecoverHealth(val1);
+        }
     }
+
 
 }

@@ -1,12 +1,20 @@
 using CardAttribute;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class ModifyStatuses : CardEffect
 {
+    [SerializeField] StatusEffectObject statusEffectObject;
     [SerializeField] StatusEffect statusEffect;
     [SerializeField] StatusStacks statusStacks;
+
+    BattleStatusEffect _bstf;
+
+    StatusEffectObject _statusObj;
+    int _duration;
+    int _intensity;
 
     public override string LocalizationKey => "CE_DESC_ModifyStatuses";
 
@@ -51,14 +59,37 @@ public class ModifyStatuses : CardEffect
     }
 
     public ModifyStatuses() { }
-    public ModifyStatuses(StatusEffect statusEffect, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
+    public ModifyStatuses(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
-         this.appMechanic = appMechanic;
+        statusEffect = statusObj.statusEffect;
+        _bstf = null;
+        switch (statusEffect)
+        {
+            case StatusEffect.Strength:
+                _bstf = new StatusEffect_Strength();
+                break;
+            case StatusEffect.Dexterity:
+                _bstf = new StatusEffect_Dexterity();
+                break;
+            case StatusEffect.Regenerate:
+                _bstf = new StatusEffect_Regeneration();
+                break;
+            default:
+                break;
+        }
+
+        if (_bstf == null)
+            return;
+        _bstf._intensity = val1;
+        _bstf._duration = val2;
+
+        /* this.appMechanic = appMechanic;
         this.statusEffect = statusEffect;
         this.val1 = val1;
         this.val2 = val2;
         this.val3 = val3;
         this.val4 = val4; 
+        */
     }
 
     public void OnUse(EffectTarget target)
@@ -82,6 +113,38 @@ public class ModifyStatuses : CardEffect
              * ModifyStatus(statusEffect, duration)
              * If a status effect requires more values (damage dealt by poison per turn, etc), save on val1~val4 
              */
+        }
+    }
+
+    public override void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    {
+        base.OnUse(owner, targets);
+        _bstf = null;
+        switch (statusEffect)
+        {
+            case StatusEffect.Strength:
+                _bstf = new StatusEffect_Strength();
+                break;
+            case StatusEffect.Dexterity:
+                _bstf = new StatusEffect_Dexterity();
+                break;
+            case StatusEffect.Regenerate:
+                _bstf = new StatusEffect_Regeneration();
+                break;
+            default:
+                break;
+        }
+
+        if (_bstf == null)
+            return;
+        _bstf._status = statusEffectObject;
+        _bstf._intensity = val1;
+        _bstf._duration = val2;
+        foreach (var unit in targets)
+        {
+            BattleStatusEffect newEffect = _bstf;
+            newEffect.owner = unit;
+            unit.GetUnitStatusData().AddStatusEffect(_bstf);
         }
     }
 }

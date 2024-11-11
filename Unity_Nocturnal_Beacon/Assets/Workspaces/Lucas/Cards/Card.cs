@@ -91,6 +91,18 @@ namespace CardAttribute
         Duration        // Lost 1 stack every turn.
     }
 
+    [Serializable]
+    public enum Element
+    {
+        NONE = 0,
+        EARTH,
+        WIND,
+        WATER,
+        FIRE,
+        DARK,
+        LIGHT
+    }
+
 }
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
@@ -104,6 +116,7 @@ public class Card : ScriptableObject
     public CardType cardType;
     public int manaCost = 1;
     public Sprite sprite;
+    public Element element;
 
     /*
      * List of Effects to run

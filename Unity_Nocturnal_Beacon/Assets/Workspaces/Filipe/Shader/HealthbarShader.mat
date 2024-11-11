@@ -36,6 +36,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _mainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -63,7 +67,7 @@ Material:
     m_Colors:
     - _healthColor: {r: 0.8113207, g: 0.19876397, b: 0, a: 0}
     - _healthGlowColor: {r: 1, g: 0.4715431, b: 0, a: 0}
-    - _shieldBackground: {r: 0, g: 0.35118046, b: 0.8490566, a: 0}
+    - _shieldBackground: {r: 0, g: 0.35118043, b: 0.8490566, a: 0}
     - _shieldGlow: {r: 0.42830187, g: 0.9551609, b: 1, a: 0}
     - _shieldScale: {r: 5, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
