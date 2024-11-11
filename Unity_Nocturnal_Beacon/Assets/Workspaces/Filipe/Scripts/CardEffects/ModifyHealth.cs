@@ -50,6 +50,7 @@ public class ModifyHealth : CardEffect
 
     public ModifyHealth(EffectTarget target, int val1, int val2)
     {
+        this.target = target;
         this.val1 = val1;
         this.val2 = val2;
     }

@@ -9,7 +9,19 @@ public class ModifyStatuses : CardEffect
     [SerializeField] StatusStacks statusStacks;
 
     public override string LocalizationKey => "CE_DESC_ModifyStatuses";
+
     public override string EffectDescription
+    {
+        get
+        {
+            string result = string.Empty;
+
+            //result = $"Gain {DurationUnit}"
+            return result;
+        }
+    }
+
+    public override string EffectDetailDescription
     {
         get
         {
@@ -41,12 +53,12 @@ public class ModifyStatuses : CardEffect
     public ModifyStatuses() { }
     public ModifyStatuses(StatusEffect statusEffect, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
-        /* this.appMechanic = appMechanic;
+         this.appMechanic = appMechanic;
         this.statusEffect = statusEffect;
         this.val1 = val1;
         this.val2 = val2;
         this.val3 = val3;
-        this.val4 = val4; */
+        this.val4 = val4; 
     }
 
     public void OnUse(EffectTarget target)

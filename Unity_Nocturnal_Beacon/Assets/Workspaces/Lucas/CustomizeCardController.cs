@@ -19,15 +19,17 @@ public class CustomizeCardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var effects = TypeHelper.GetAllDerivedTypes<CardEffect>();
+        //var effects = TypeHelper.GetAllDerivedTypes<CardEffect>();
 
-        foreach(var v in effects)
-        {
-            Debug.Log(v.Name);
+        //foreach(var v in effects)
+        //{
+        //    Debug.Log(v.Name);
 
-            var inst = Activator.CreateInstance(v) as CardEffect;
-            cardEffects.Add(inst);
-        }
+        //    var inst = Activator.CreateInstance(v) as CardEffect;
+        //    cardEffects.Add(inst);
+        //}
+
+        cardEffects = CardEffectManager.Instance.CardEffectList;
 
         cardEffectList.Setup(cardEffects);
         cardEffectList.SelectingCardEffect.Subscribe(x =>

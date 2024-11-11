@@ -6,13 +6,25 @@ using UnityEngine;
 
 public class CardEffectManager : MonoBehaviour
 {
-    static List<CardEffect> cardEffectList = new List<CardEffect>();
+    private static CardEffectManager instance;
 
-    public static List<CardEffect> CardEffectList => cardEffectList;
+    List<CardEffect> cardEffectList = new List<CardEffect>();
+
+    public List<CardEffect> CardEffectList => cardEffectList;
+
+    public static CardEffectManager Instance => instance;
 
     private void Awake()
     {
-        Init();
+        if(Instance == null)
+        {
+            Init();
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Init()
@@ -21,10 +33,16 @@ public class CardEffectManager : MonoBehaviour
 
         cardEffectList.Add(new ModifyCardCount());
 
-        foreach(var c in Enum.GetValues(typeof(EffectTarget)))
+        foreach (var c in Enum.GetValues(typeof(EffectTarget)))
         {
-            
+            cardEffectList.Add(new ModifyHealth((EffectTarget)c, 0, 0));
         }
 
+        cardEffectList.Add(new ModifyShield());
+
+        foreach (var c in Enum.GetValues(typeof(StatusEffect)))
+        {
+            cardEffectList.Add(new ModifyStatuses((StatusEffect)c, 0, AppMechanic.OnUse, 0));
+        }
     }
 }
