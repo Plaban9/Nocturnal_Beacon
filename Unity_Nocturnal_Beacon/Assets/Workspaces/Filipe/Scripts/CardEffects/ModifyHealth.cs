@@ -47,6 +47,7 @@ public class ModifyHealth : CardEffect
     }
     public ModifyHealth() { }
 
+
     public ModifyHealth(EffectTarget target, int val1, int val2)
     {
         this.val1 = val1;
@@ -54,6 +55,38 @@ public class ModifyHealth : CardEffect
     }
 
 
+
+    public override int GetEffectCost()
+    {
+        int result;
+        float multiplier = 1;
+
+        switch (target)
+        {
+            case EffectTarget.OpponentSingle:
+                multiplier = 2;
+                break;
+            case EffectTarget.OpponentAll:
+                multiplier = 4;
+                break;
+            case EffectTarget.OpponentRandom:
+                multiplier = 1;
+                break;
+        }
+
+        if (val2 > 0)
+        {
+            multiplier += val2;
+        }
+        else if (val2 == -1)
+        {
+            multiplier += 2;
+        }
+
+        result = (int)multiplier * val1;
+
+        return result;
+    }
 
 
     public void OnUse(EffectTarget target)

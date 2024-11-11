@@ -14,6 +14,11 @@ public class ModifyShield : CardEffect
         val1 = amount;
     }
 
+    public override int GetEffectCost()
+    {
+        return 3 * val1;
+    }
+
     public ModifyShield() { }
 
     public void OnUse(EffectTarget target)

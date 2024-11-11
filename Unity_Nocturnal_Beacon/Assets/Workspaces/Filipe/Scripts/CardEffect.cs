@@ -67,4 +67,8 @@ public class CardEffect : ICardEffect
 
     public virtual string LocalizationKey => "";
     public virtual string EffectDescription => "";
+
+    public virtual int GetEffectCost() => 0;
+
+    public void SetMainValue(int val) => val1 = val;
 }

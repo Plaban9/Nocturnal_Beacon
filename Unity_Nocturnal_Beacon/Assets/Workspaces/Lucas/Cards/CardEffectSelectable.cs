@@ -13,6 +13,10 @@ public class CardEffectSelectable : MonoBehaviour
     public CardEffect cardEffect { get; private set; }
     public Subject<CardEffect> onClick { get; private set; }
 
+    int cost = 0;
+
+    public int GetCost() => cost;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,7 @@ public class CardEffectSelectable : MonoBehaviour
     public void Setup(CardEffect cardEffect, int cost = 3)
     {
         this.cardEffect = cardEffect;
+        this.cost = cost;
         onClick = new Subject<CardEffect>();
 
         effectText.text = cardEffect.EffectDescription;
@@ -42,5 +47,11 @@ public class CardEffectSelectable : MonoBehaviour
     public void OnClick()
     {
         onClick.OnNext(cardEffect);
+    }
+
+    public void UpdateInfo()
+    {
+        effectText.text = cardEffect.EffectDescription;
+        costText.text = cost.ToString();
     }
 }

@@ -7,11 +7,17 @@ using DG.Tweening;
 
 public class CardEffectList : MonoBehaviour
 {
+    [Header("Effect value")]
+    [SerializeField] TMPro.TextMeshProUGUI valueText;
+
+    [Header("Scrollview")]
     [SerializeField] GameObject prefab;
     [SerializeField] Transform content;
 
     ReactiveProperty<CardEffectSelectable> selectingCardEffect = new ReactiveProperty<CardEffectSelectable>();
     List<CardEffectSelectable> cardEffectSelectables = new List<CardEffectSelectable>();
+
+    ReactiveProperty<int> effectValue = new ReactiveProperty<int>(0);
 
     public ReactiveProperty<CardEffectSelectable> SelectingCardEffect => selectingCardEffect;
 
@@ -27,6 +33,16 @@ public class CardEffectList : MonoBehaviour
 
             ShowSelectingEffect(x.cardEffect);
 
+        }).AddTo(this);
+
+        effectValue.Subscribe(x =>
+        {
+            valueText.text = x.ToString();
+            foreach(var c in cardEffectSelectables)
+            {
+                c.cardEffect.SetMainValue(x);
+                c.UpdateInfo();
+            }
         }).AddTo(this);
     }
 
@@ -74,10 +90,13 @@ public class CardEffectList : MonoBehaviour
 
     public void Reset()
     {
-        foreach(Transform c in content)
-        {
-            Destroy(c.gameObject);
-        }
+        //foreach(Transform c in content)
+        //{
+        //    Destroy(c.gameObject);
+        //}
+
+        selectingCardEffect.Value = null;
+
     }
 
     public void Show()
@@ -93,6 +112,16 @@ public class CardEffectList : MonoBehaviour
 
         transform.DOLocalMoveX(Screen.width * 0.5f + rt.sizeDelta.x, 0.3f).SetEase(Ease.InOutQuint);
 
-        selectingCardEffect.Value = null;
+        Reset();
+    }
+
+    public void AddEffectValue(int val)
+    {
+        effectValue.Value += val;
+    }
+
+    public void MinusEffectValue(int val)
+    {
+        effectValue.Value -= val;
     }
 }

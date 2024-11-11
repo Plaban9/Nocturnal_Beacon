@@ -24,6 +24,10 @@ public class ModifyCardCount : CardEffect
         }
     }
 
+    public override int GetEffectCost()
+    {
+        return (6 + val1) * val1;
+    }
 
     public ModifyCardCount(int amount)
     {

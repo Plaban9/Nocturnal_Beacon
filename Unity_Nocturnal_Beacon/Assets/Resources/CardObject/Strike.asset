@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Strike
   m_EditorClassIdentifier: 
   id: 10001
+  uId: 0
   name: Strike
   rarity: 0
   cardType: 0
@@ -20,9 +21,21 @@ MonoBehaviour:
   sprite: {fileID: -599024079, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
   effects:
   - rid: 7132537793946845184
+  - rid: 2062770829910605824
   references:
     version: 2
     RefIds:
+    - rid: 2062770829910605824
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        target: 0
+        statusEffect: 0
+        statusStacks: 0
     - rid: 7132537793946845184
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
