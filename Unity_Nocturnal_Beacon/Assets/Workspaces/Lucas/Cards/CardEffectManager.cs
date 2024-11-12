@@ -35,14 +35,20 @@ public class CardEffectManager : MonoBehaviour
 
         foreach (var c in Enum.GetValues(typeof(EffectTarget)))
         {
+            if ((EffectTarget)c == EffectTarget.Both) continue;
+
             cardEffectList.Add(new ModifyHealth((EffectTarget)c, 0, 0));
         }
 
         cardEffectList.Add(new ModifyShield());
 
-        foreach (var c in Enum.GetValues(typeof(StatusEffect)))
-        {
-            cardEffectList.Add(new ModifyStatuses((StatusEffect)c, 0, AppMechanic.OnUse, 0));
-        }
+        //foreach (var c in Enum.GetValues(typeof(StatusEffect)))
+        //{
+        //    cardEffectList.Add(new ModifyStatuses(new StatusEffectObject((StatusEffect)c), 0, AppMechanic.OnUse, 0));
+        //}
+
+        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Strength), 0, AppMechanic.OnUse, 0));
+        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Dexterity), 0, AppMechanic.OnUse, 0));
+        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Regenerate), 0, AppMechanic.OnUse, 0));
     }
 }

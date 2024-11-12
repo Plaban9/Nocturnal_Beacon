@@ -39,6 +39,11 @@ public class CardEffectSelectable : MonoBehaviour
         costText.text = cost.ToString();
     }
 
+    public void SetCost(int cost)
+    {
+        this.cost = cost;
+    }
+
     public void SetSelecting(bool set)
     {
         onSelectGO.SetActive(set);

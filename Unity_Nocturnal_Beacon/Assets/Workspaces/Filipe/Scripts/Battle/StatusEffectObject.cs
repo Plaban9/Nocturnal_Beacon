@@ -14,5 +14,8 @@ public class StatusEffectObject : ScriptableObject
     [SerializeField] public string name;
     [SerializeReference, SubclassSelector] public BattleStatusEffect effect;
     
-    
+    public StatusEffectObject(StatusEffect statusEffect)
+    {
+        this.statusEffect = statusEffect;
+    }
 }

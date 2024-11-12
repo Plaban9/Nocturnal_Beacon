@@ -24,7 +24,8 @@ public class ModifyStatuses : CardEffect
         {
             string result = string.Empty;
 
-            //result = $"Gain {DurationUnit}"
+            result = $"Gain {_bstf._intensity} <color=#FB8B48>{statusEffect.ToString()}</color>";
+
             return result;
         }
     }

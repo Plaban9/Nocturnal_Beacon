@@ -292,6 +292,9 @@ MonoBehaviour:
   titleText: {fileID: 6174951230511968822}
   typeText: {fileID: 7970053965693040392}
   descText: {fileID: 1832394335915505048}
+  element: {fileID: 4660954089851124556}
+  background: {fileID: 6001863650630939619}
+  title: {fileID: 2789419274772819226}
   mainImg: {fileID: 5523262043667790910}
 --- !u!1 &1821428248960720220
 GameObject:

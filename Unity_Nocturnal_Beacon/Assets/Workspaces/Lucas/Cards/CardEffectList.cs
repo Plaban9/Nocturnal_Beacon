@@ -41,6 +41,7 @@ public class CardEffectList : MonoBehaviour
             foreach(var c in cardEffectSelectables)
             {
                 c.cardEffect.SetMainValue(x);
+                c.SetCost(c.cardEffect.GetEffectCost());
                 c.UpdateInfo();
             }
         }).AddTo(this);
