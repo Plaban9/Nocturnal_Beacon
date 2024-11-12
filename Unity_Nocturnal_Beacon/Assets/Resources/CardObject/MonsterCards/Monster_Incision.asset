@@ -19,6 +19,7 @@ MonoBehaviour:
   cardType: 0
   manaCost: 0
   sprite: {fileID: 0}
+  element: 0
   effects:
   - rid: 9114498965169766400
   references:
@@ -28,7 +29,7 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -10
+        val1: -6
         val2: 0
         val3: 0
         val4: 0

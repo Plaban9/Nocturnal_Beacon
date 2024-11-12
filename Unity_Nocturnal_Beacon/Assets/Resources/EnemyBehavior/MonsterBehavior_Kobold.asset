@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: add83bd661b3d214ab3b2245c4fc3d97, type: 3}
-  m_Name: MonsterBehavior_Weegee
+  m_Name: MonsterBehavior_Kobold
   m_EditorClassIdentifier: 
   _cards:
   - {fileID: 11400000, guid: 22ca28c9dd9e1304bb2ec5180e9515c8, type: 2}
+  - {fileID: 11400000, guid: 22ca28c9dd9e1304bb2ec5180e9515c8, type: 2}
+  - {fileID: 11400000, guid: ab8a174b862dbf9448c01fb48bdb4e83, type: 2}

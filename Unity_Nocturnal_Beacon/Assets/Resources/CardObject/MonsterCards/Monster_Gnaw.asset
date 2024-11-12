@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: Defend
+  m_Name: Monster_Gnaw
   m_EditorClassIdentifier: 
-  id: 10002
-  uId: 1000009
-  name: Defend
+  id: 9005
+  uId: 0
+  name: Gnaw
   rarity: 0
-  cardType: 1
-  manaCost: 1
-  sprite: {fileID: 21300000, guid: 6ecbb0667be97284d91156fee5929bbb, type: 3}
+  cardType: 0
+  manaCost: 0
+  sprite: {fileID: 0}
   element: 0
   effects:
-  - rid: 7132537793946845186
+  - rid: 9114498965169766400
   references:
     version: 2
     RefIds:
-    - rid: 7132537793946845186
-      type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
+    - rid: 9114498965169766400
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 5
+        val1: -12
         val2: 0
         val3: 0
         val4: 0
-        target: 0
+        target: 1

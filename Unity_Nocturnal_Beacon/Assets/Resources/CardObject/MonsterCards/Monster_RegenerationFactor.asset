@@ -10,27 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: Strike
+  m_Name: Monster_RegenerationFactor
   m_EditorClassIdentifier: 
-  id: 10001
-  uId: 1000004
-  name: Strike
+  id: 9010
+  uId: 0
+  name: Regeration Factor
   rarity: 0
-  cardType: 0
-  manaCost: 1
-  sprite: {fileID: 21300000, guid: cad7baf578c8ad54cbebc2751d764d53, type: 3}
-  element: 0
+  cardType: 1
+  manaCost: 0
+  sprite: {fileID: 0}
+  element: 1
   effects:
-  - rid: 7132537793946845184
+  - rid: 4405684009241673733
   references:
     version: 2
     RefIds:
-    - rid: 7132537793946845184
-      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+    - rid: 4405684009241673733
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -18
-        val2: 0
+        val1: 3
+        val2: 6
         val3: 0
         val4: 0
-        target: 1
+        target: 0
+        statusEffectObject: {fileID: 11400000, guid: 414d35e8ca6199148a63c20b76af132d, type: 2}
+        statusEffect: 0
+        statusStacks: 1

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Final Boss
   sprite: {fileID: 21300000, guid: 18b65d71cca9d73449f30e0939de40e4, type: 3}
-  startingHp: 200
+  startingHp: 80
   flipSprite: 0
   scale: 1
   behavior: {fileID: 11400000, guid: 44a51aadff4381d43bcf9ce3f9ef259e, type: 2}

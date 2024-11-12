@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Monster_Brace
   m_EditorClassIdentifier: 
   id: 9001
+  uId: 0
   name: Brace
-  rarity: 1
+  rarity: 0
   cardType: 1
   manaCost: 0
   sprite: {fileID: 0}
+  element: 0
   effects:
   - rid: 9114498965169766401
   references:
@@ -27,7 +29,7 @@ MonoBehaviour:
       type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 10
+        val1: 6
         val2: 0
         val3: 0
         val4: 0

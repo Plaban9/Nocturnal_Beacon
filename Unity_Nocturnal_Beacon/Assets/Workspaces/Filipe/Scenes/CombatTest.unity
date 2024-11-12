@@ -4118,6 +4118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 279495439139279465, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 509391583718599548, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4137,7 +4141,7 @@ PrefabInstance:
     - target: {fileID: 2435996914235731517, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 18b65d71cca9d73449f30e0939de40e4, type: 3}
+      objectReference: {fileID: 21300000, guid: 185a76f055239f648ab7fb824f4fbd89, type: 3}
     - target: {fileID: 2435996914235731517, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
       propertyPath: m_SpriteSortPoint
       value: 1
@@ -4216,6 +4220,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5194789320104239751, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479272629699270195, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
