@@ -50,5 +50,10 @@ public class CardEffectManager : MonoBehaviour
         cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Strength), 0, AppMechanic.OnUse, 0));
         cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Dexterity), 0, AppMechanic.OnUse, 0));
         cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Regenerate), 0, AppMechanic.OnUse, 0));
+
+        for(int i=0; i<cardEffectList.Count; i++)
+        {
+            cardEffectList[i].Id = i;
+        }
     }
 }

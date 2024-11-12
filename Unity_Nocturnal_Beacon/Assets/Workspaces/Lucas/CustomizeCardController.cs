@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UniRx;
 using System;
+using DoTween.Animation;
 
 public class CustomizeCardController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class CustomizeCardController : MonoBehaviour
     [SerializeField] List<GameObject> editableNotices = new List<GameObject>();
     [SerializeField] List<EffectSlot> effectSlots = new List<EffectSlot>();
     [SerializeField] CardEffectList cardEffectList;
+    [SerializeField] CardManaList cardManaList;
+    [SerializeField] CardManaSetting cardManaSetting;
+    [SerializeField] ScrollingNumber manaScrollingNumber;
 
     ReactiveProperty<EffectSlot> selectingSlot = new ReactiveProperty<EffectSlot>();
 
@@ -29,35 +33,58 @@ public class CustomizeCardController : MonoBehaviour
         //    cardEffects.Add(inst);
         //}
 
+        if(cardManaSetting == null)
+        {
+            cardManaSetting = Resources.Load<CardManaSetting>("Settings");
+        }
+
+        cardManaList.Setup(cardManaSetting.CardManaCosts);
+        cardManaList.Selecting.Subscribe(x =>
+        {
+            if (x == null) return;
+
+            if (x.data.mana >= 0)
+                manaScrollingNumber.SetVal(x.data.mana);
+            else
+                manaScrollingNumber.SetVal("X");
+
+            // TODO
+            // handle resources - cost
+        }).AddTo(this);
+
         cardEffects = CardEffectManager.Instance.CardEffectList;
 
         cardEffectList.Setup(cardEffects);
-        cardEffectList.SelectingCardEffect.Subscribe(x =>
+        cardEffectList.Selecting.Subscribe(x =>
         {
             if(selectingSlot.Value != null)
             {
-
                 if (x == null)
                 {
                     selectingSlot.Value.SetCardEffect(null);
                     return;
                 }
 
-                selectingSlot.Value.SetCardEffect(x.cardEffect);
+                selectingSlot.Value.SetCardEffect(x.data);
             }
 
         }).AddTo(this);
 
+
         selectingSlot.Subscribe(x =>
         {
-            
-        }).AddTo(this);
-    }
+            if (x == null) return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            if(x.cardEffect != null)
+            {
+                cardEffectList.SetEffectValue(x.cardEffect.GetMainValue());
+                cardEffectList.SetSelecting(x.cardEffect);
+            }
+
+            // TODO
+            // handle resources - cost
+
+        }).AddTo(this);
     }
 
     public void SetActiveAllEditableNotice(bool set)
@@ -81,7 +108,7 @@ public class CustomizeCardController : MonoBehaviour
         cardEffectList.Show();
 
         if(slot != null)
-            cardEffectList.SetSelectingEffect(slot.cardEffect);
+            cardEffectList.SetSelecting(slot.cardEffect);
     }
 
     public void Reset()

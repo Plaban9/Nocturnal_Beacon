@@ -96,6 +96,37 @@ namespace DoTween.Animation
             }
         }
 
+        public void SetVal(int v)
+        {
+            if(v > targetNum)
+            {
+                Add(targetNum - v);
+            }
+            else
+            {
+                Minus(targetNum - v);
+            }
+        }
+
+        public void SetVal(string s)
+        {
+            curNum.Value = targetNum;
+            currentNumberText.text = curNum.Value.ToString();
+            nextNumberText.text = s.ToString();
+
+            curNumTween.Kill();
+            nextNumTween.Kill();
+
+            if (direction == Direction.Horizontal)
+            {
+
+            }
+            else
+            {
+                DoUpScroll();
+            }
+        }
+
         void DoUpScroll()
         {
             curNumRect.localPosition = oriPos;

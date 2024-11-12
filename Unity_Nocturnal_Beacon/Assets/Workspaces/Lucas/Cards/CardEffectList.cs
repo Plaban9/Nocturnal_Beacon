@@ -5,99 +5,28 @@ using UniRx;
 using System.Linq;
 using DG.Tweening;
 
-public class CardEffectList : MonoBehaviour
+public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
 {
     [Header("Effect value")]
     [SerializeField] TMPro.TextMeshProUGUI valueText;
 
-    [Header("Scrollview")]
-    [SerializeField] GameObject prefab;
-    [SerializeField] Transform content;
-
-    ReactiveProperty<CardEffectSelectable> selectingCardEffect = new ReactiveProperty<CardEffectSelectable>();
-    List<CardEffectSelectable> cardEffectSelectables = new List<CardEffectSelectable>();
-
     ReactiveProperty<int> effectValue = new ReactiveProperty<int>(0);
-
-    public ReactiveProperty<CardEffectSelectable> SelectingCardEffect => selectingCardEffect;
-
-    private void Start()
+    
+    protected override void Start()
     {
-        selectingCardEffect.Subscribe(x =>
-        {
-            if(x == null)
-            {
-                ShowSelectingEffect(null);
-                return;
-            }
-
-            ShowSelectingEffect(x.cardEffect);
-
-        }).AddTo(this);
+        base.Start();
 
         effectValue.Subscribe(x =>
         {
             valueText.text = x.ToString();
-            foreach(var c in cardEffectSelectables)
+
+        foreach (var c in selectables)
             {
-                c.cardEffect.SetMainValue(x);
-                c.SetCost(c.cardEffect.GetEffectCost());
+                c.data.SetMainValue(x);
+                c.SetCost(c.data.GetEffectCost());
                 c.UpdateInfo();
             }
         }).AddTo(this);
-    }
-
-    public void Setup(List<CardEffect> effects)
-    {
-        Reset();
-
-        foreach(var e in effects)
-        {
-            var ces = Instantiate(prefab, content).GetComponent<CardEffectSelectable>();
-            ces.Setup(e);
-            ces.onClick.Subscribe(x => {
-                if (x == null) return;
-                SetSelectingEffect(x);
-            }).AddTo(ces);
-            cardEffectSelectables.Add(ces);
-        }
-    }
-
-    public void SetSelectingEffect(CardEffect cardEffect)
-    {
-        if (cardEffect == null)
-        {
-            selectingCardEffect.Value = null;
-            return;
-        }
-
-        if (selectingCardEffect.Value != null && selectingCardEffect.Value.cardEffect == cardEffect)
-        {
-            // Unselect
-            selectingCardEffect.Value = null;
-            return;
-        }
-
-        selectingCardEffect.Value = cardEffectSelectables.First(x => x.cardEffect == cardEffect);
-    }
-
-    void ShowSelectingEffect(CardEffect cardEffect)
-    {
-        foreach(var c in cardEffectSelectables)
-        {
-            c.SetSelecting(c.cardEffect == cardEffect);
-        }
-    }
-
-    public void Reset()
-    {
-        //foreach(Transform c in content)
-        //{
-        //    Destroy(c.gameObject);
-        //}
-
-        selectingCardEffect.Value = null;
-
     }
 
     public void Show()
@@ -116,6 +45,26 @@ public class CardEffectList : MonoBehaviour
         Reset();
     }
 
+    public override void SetSelecting(CardEffect data)
+    {
+        if (data == null)
+        {
+            selecting.Value = null;
+            return;
+        }
+
+        if (selecting.Value != null && selecting.Value.data == data)
+        {
+            // Unselect
+            selecting.Value = null;
+            return;
+        }
+
+        selecting.Value = selectables.First(x => x.data.Id == data.Id);
+
+
+    }
+
     public void AddEffectValue(int val)
     {
         effectValue.Value += val;
@@ -124,5 +73,10 @@ public class CardEffectList : MonoBehaviour
     public void MinusEffectValue(int val)
     {
         effectValue.Value -= val;
+    }
+
+    public void SetEffectValue(int val)
+    {
+        effectValue.Value = val;
     }
 }

@@ -34,6 +34,8 @@ public interface ICardEffect
 [Serializable]
 public class CardEffect : ICardEffect
 {
+    public int Id = 0;
+
     [SerializeField] protected AppMechanic appMechanic;
     [Tooltip("Main value")]
     [SerializeField] protected int val1 = 0;       // main value
@@ -52,7 +54,7 @@ public class CardEffect : ICardEffect
     public virtual int GetEffectCost() => 0;
 
     public void SetMainValue(int val) => val1 = val;
-
+    public int GetMainValue() => val1;
     
     public EffectTarget GetTargetting()
     {

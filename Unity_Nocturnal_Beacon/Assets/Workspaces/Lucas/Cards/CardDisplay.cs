@@ -33,7 +33,7 @@ public class CardDisplay : MonoBehaviour
     {
         this.card = card;
 
-        manaText.text = card.manaCost.ToString();
+        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
         descText.text = card.GetEffectDescStr();

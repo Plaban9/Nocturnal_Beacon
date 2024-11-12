@@ -4,39 +4,23 @@ using UnityEngine;
 using TMPro;
 using UniRx;
 
-public class CardEffectSelectable : MonoBehaviour
+public class CardEffectSelectable : SelectionItem<CardEffect>
 {
     [SerializeField] TextMeshProUGUI effectText;
-    [SerializeField] TextMeshProUGUI costText;
-    [SerializeField] GameObject onSelectGO;
-    
-    public CardEffect cardEffect { get; private set; }
-    public Subject<CardEffect> onClick { get; private set; }
+    [SerializeField] CardEffectCost cardEffectCost;
 
     int cost = 0;
 
     public int GetCost() => cost;
-
-    // Start is called before the first frame update
-    void Start()
+    
+    public override void Setup(CardEffect cardEffect)
     {
+        base.Setup(cardEffect);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Setup(CardEffect cardEffect, int cost = 3)
-    {
-        this.cardEffect = cardEffect;
-        this.cost = cost;
-        onClick = new Subject<CardEffect>();
+        cost = cardEffect.GetEffectCost();
 
         effectText.text = cardEffect.EffectDescription;
-        costText.text = cost.ToString();
+        cardEffectCost.SetCost(cost);
     }
 
     public void SetCost(int cost)
@@ -44,19 +28,10 @@ public class CardEffectSelectable : MonoBehaviour
         this.cost = cost;
     }
 
-    public void SetSelecting(bool set)
-    {
-        onSelectGO.SetActive(set);
-    }
-
-    public void OnClick()
-    {
-        onClick.OnNext(cardEffect);
-    }
-
     public void UpdateInfo()
     {
-        effectText.text = cardEffect.EffectDescription;
-        costText.text = cost.ToString();
+        effectText.text = data.EffectDescription;
+        cardEffectCost.SetCost(cost);
     }
+
 }

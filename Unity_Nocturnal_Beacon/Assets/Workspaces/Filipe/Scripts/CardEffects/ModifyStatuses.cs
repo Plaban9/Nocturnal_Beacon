@@ -59,6 +59,28 @@ public class ModifyStatuses : CardEffect
         }
     }
 
+    public override int GetEffectCost()
+    {
+        int val = 0;
+
+        switch (statusEffect)
+        {
+            case StatusEffect.Strength:
+                val = (5 + 3 * (val-1)) * val;
+                break;
+            case StatusEffect.Dexterity:
+                val = (5 + 3 * (val - 1)) * val;
+                break;
+            case StatusEffect.Regenerate:
+                val = (4 + 2 * (val - 1)) * val;
+                break;
+            default:
+                break;
+        }
+
+        return val;
+    }
+
     public ModifyStatuses() { }
     public ModifyStatuses(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
