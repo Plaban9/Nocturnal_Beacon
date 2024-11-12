@@ -20,6 +20,9 @@ public class UITopBarManager : MonoBehaviour
         {
             Destroy(this); 
         }
+
+        _animator = GetComponent<Animator>();
+
     }
 
     [Header("Text Objects")]
@@ -29,23 +32,14 @@ public class UITopBarManager : MonoBehaviour
 
     private NoctBeaconRunData   _beaconRunData;
     private Animator            _animator;
-    // Start is called before the first frame update
+
     void Start()
     {
-        _beaconRunData = NoctBeaconRunData.Instance;
-        _animator = GetComponent<Animator>();
-
-        floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
-        hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
-        goldTxt.text = $"{_beaconRunData.GetGold()}";
-
-
-
     }
-
 
     private void OnLevelWasLoaded(int level)
     {
+        _beaconRunData = NoctBeaconRunData.Instance;
         floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
         hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
         goldTxt.text = $"{_beaconRunData.GetGold()}";
@@ -59,12 +53,6 @@ public class UITopBarManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void PullDown()
     {
         _animator.SetBool("isVisible", true); 
@@ -73,7 +61,6 @@ public class UITopBarManager : MonoBehaviour
     public void PushUp()
     {
         _animator.SetBool("isVisible", false);
-
     }
 
     public bool IsDown()

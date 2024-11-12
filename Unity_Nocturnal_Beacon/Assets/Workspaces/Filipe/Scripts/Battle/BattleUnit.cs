@@ -56,11 +56,7 @@ public class BattleUnit : MonoBehaviour
         if (!_unitData.sprite) {
             throw (new Exception($"{_unitData.name} missing sprite."));
         }
-        Texture2D texture = _unitData.sprite;
-        Sprite newSprite = Sprite.Create(texture,
-        new Rect(0, 0, texture.width, texture.height),
-                                         new Vector2(0.5f, 0.5f));
-        _sprite.sprite = newSprite;
+        _sprite.sprite = _unitData.sprite;
         _sprite.transform.parent.localScale = new Vector3(_unitData.scale, 1f, _unitData.scale);
         _sprite.flipX = _unitData.flipSprite;
 
