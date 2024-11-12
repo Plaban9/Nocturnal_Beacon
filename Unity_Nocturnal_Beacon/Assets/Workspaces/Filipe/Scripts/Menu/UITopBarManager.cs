@@ -35,10 +35,14 @@ public class UITopBarManager : MonoBehaviour
         _beaconRunData = NoctBeaconRunData.Instance;
         _animator = GetComponent<Animator>();
 
+        floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
+        hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
+        goldTxt.text = $"{_beaconRunData.GetGold()}";
 
 
 
     }
+
 
     private void OnLevelWasLoaded(int level)
     {
