@@ -224,6 +224,7 @@ public class BattleManager : MonoBehaviour
         {
             if (NoctBeaconRunData.Instance.GetHeight() == 0)
             {
+                AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Gameplay, 0.5f, true);
                 float healthPct = 1.0f + _player.GetHPData().GetCurrentHP() / _player.GetUnitData().startingHp;
                 float goldAmassed = NoctBeaconRunData.Instance.GetGold();
                 float bonusRare = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Rare).Count * 0.1f;

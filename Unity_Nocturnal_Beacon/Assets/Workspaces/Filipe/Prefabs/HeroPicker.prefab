@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 4697052530280316797}
   - component: {fileID: 7349851822242190117}
   - component: {fileID: 4653851854633796984}
+  - component: {fileID: 2560631587531035703}
   m_Layer: 5
   m_Name: HeroPicker
   m_TagString: Untagged
@@ -532,3 +533,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2560631587531035703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263527719022288467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ad92c4cca4b0c46bfff2b4b944197f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unitData: {fileID: 0}
+  _name: {fileID: 764128606413634077}
+  _description: {fileID: 7002087355344110178}
+  _sprite: {fileID: 433346365059558313}

@@ -111,7 +111,12 @@ public class MenuPrototype : MonoBehaviour
         menu.alpha = 1f; 
     }
 
-    void DisableMenu(CanvasGroup menu, Action doOnFinish)
+    public void DisableMainMenu()
+    {
+        DisableMenu(mainMenuUI.GetComponent<CanvasGroup>(), () => { });
+    }
+
+    public void DisableMenu(CanvasGroup menu, Action doOnFinish)
     {
         StartCoroutine(DisableMenuAnimation(menu, doOnFinish));
     }

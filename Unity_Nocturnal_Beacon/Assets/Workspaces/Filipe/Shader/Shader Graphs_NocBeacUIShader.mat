@@ -52,15 +52,15 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _edgeBlurriness: 1
+    - _edgeBlurriness: 10.09
     - _flameAngle: 303.61
-    - _flameLength: 3.88
-    - _flameSize: 20
-    - _flameSpeed: -0.5
-    - _flameVolatility: 9
-    - _flameWavering: 3
-    - _flameWeaveringIntesity: 0.1
+    - _flameLength: 3.86
+    - _flameSize: 15.51
+    - _flameSpeed: -1
+    - _flameVolatility: 15.81
+    - _flameWavering: 0.87
+    - _flameWeaveringIntesity: 0.4
     m_Colors:
     - _backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    - _flameColor: {r: 0, g: 1, b: 0.067815065, a: 1}
+    - _flameColor: {r: 1, g: 0.6978312, b: 0.36320752, a: 1}
   m_BuildTextureStacks: []

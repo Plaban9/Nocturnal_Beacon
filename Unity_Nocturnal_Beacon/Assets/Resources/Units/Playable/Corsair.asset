@@ -15,7 +15,8 @@ MonoBehaviour:
   unitName: Corsair
   sprite: {fileID: 21300000, guid: e84dc1e6c3c137f4ca75ba1ad04727af, type: 3}
   startingHp: 60
-  flipSprite: 1
-  scale: 7
+  flipSprite: 0
+  scale: 1
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
   startingMana: 5
+  description: HIGH DAMAGE\nFRAGILE
