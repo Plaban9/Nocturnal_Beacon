@@ -100,7 +100,7 @@ namespace DoTween.Animation
         {
             if(v > targetNum)
             {
-                Add(targetNum - v);
+                Add(v - targetNum);
             }
             else
             {

@@ -70,6 +70,14 @@ public class CustomizeCardController : MonoBehaviour
 
         }).AddTo(this);
 
+        cardEffectList.EffectValue().Subscribe(x =>
+        {
+            if(selectingSlot.HasValue)
+            {
+                selectingSlot.Value.cardEffect.SetMainValue(x);
+                
+            }
+        }).AddTo(this);
 
         selectingSlot.Subscribe(x =>
         {
@@ -95,26 +103,29 @@ public class CustomizeCardController : MonoBehaviour
 
     public void SetSelectingSlot(EffectSlot slot = null)
     {
-        if (selectingSlot.Value != null && selectingSlot.Value == slot) return;
+        if (selectingSlot.HasValue && selectingSlot.Value == slot) return;
 
         selectingSlot.Value = slot;
 
-        foreach(var s in effectSlots)
+        if (slot != null)
+        {
+            cardEffectList.SetSelecting(slot.cardEffect);
+            cardEffectList.Show();
+        }
+
+        foreach (var s in effectSlots)
         {
             s.SetSelecting(s == slot);
         }
 
         //SetActiveAllEditableNotice(false);
-        cardEffectList.Show();
 
-        if(slot != null)
-            cardEffectList.SetSelecting(slot.cardEffect);
     }
 
     public void Reset()
     {
         SetSelectingSlot(null);
-        SetActiveAllEditableNotice(true);
+        //SetActiveAllEditableNotice(true);
     }
 
     public List<CardEffect> GetCardEffects()

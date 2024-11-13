@@ -31,7 +31,7 @@ public abstract class SelectionList<T, T2> : MonoBehaviour where T : SelectionIt
         }).AddTo(this);
     }
 
-    public void Reset()
+    public virtual void Reset()
     {
         selecting.Value = null;
     }

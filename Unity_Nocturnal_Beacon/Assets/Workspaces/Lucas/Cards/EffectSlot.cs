@@ -46,4 +46,16 @@ public class EffectSlot : MonoBehaviour
             effectText.text = "";
         }
     }
+
+    public void UpdateInfo()
+    {
+        if (cardEffect != null)
+        {
+            effectText.text = cardEffect.EffectDescription;
+        }
+        else
+        {
+            effectText.text = "";
+        }
+    }
 }

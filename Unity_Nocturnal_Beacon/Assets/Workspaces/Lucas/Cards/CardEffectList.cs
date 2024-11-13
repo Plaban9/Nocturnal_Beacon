@@ -11,7 +11,13 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
     [SerializeField] TMPro.TextMeshProUGUI valueText;
 
     ReactiveProperty<int> effectValue = new ReactiveProperty<int>(0);
-    
+
+    public ReactiveProperty<int> EffectValue() => effectValue;
+
+    bool isLocked = false;
+
+    public bool IsLocked() => isLocked;
+
     protected override void Start()
     {
         base.Start();
@@ -20,7 +26,7 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
         {
             valueText.text = x.ToString();
 
-        foreach (var c in selectables)
+            foreach (var c in selectables)
             {
                 c.data.SetMainValue(x);
                 c.SetCost(c.data.GetEffectCost());
@@ -45,11 +51,19 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
         Reset();
     }
 
+    public void SetSelectingWithLock(CardEffect data)
+    {
+        isLocked = true;
+    }
+
     public override void SetSelecting(CardEffect data)
     {
+        if (isLocked) return;
+
         if (data == null)
         {
             selecting.Value = null;
+            effectValue.Value = 0;
             return;
         }
 
@@ -61,8 +75,13 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
         }
 
         selecting.Value = selectables.First(x => x.data.Id == data.Id);
+    }
 
+    public override void Reset()
+    {
+        base.Reset();
 
+        isLocked = false;
     }
 
     public void AddEffectValue(int val)
