@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MonsterBehavior_Kobold
   m_EditorClassIdentifier: 
   _cards:
-  - {fileID: 11400000, guid: 22ca28c9dd9e1304bb2ec5180e9515c8, type: 2}
-  - {fileID: 11400000, guid: 22ca28c9dd9e1304bb2ec5180e9515c8, type: 2}
-  - {fileID: 11400000, guid: ab8a174b862dbf9448c01fb48bdb4e83, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
+  - {fileID: 11400000, guid: c0fee7399f8540e4a950ff51b4911009, type: 2}

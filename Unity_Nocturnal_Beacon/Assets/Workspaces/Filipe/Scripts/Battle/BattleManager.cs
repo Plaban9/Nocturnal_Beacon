@@ -70,6 +70,10 @@ public class BattleManager : MonoBehaviour
         _cardManager = GetComponent<CardManager>();
         SetupBattle();
 
+    }
+
+    public void StartBattle()
+    {
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
     }
 
@@ -144,7 +148,12 @@ public class BattleManager : MonoBehaviour
         if (state == BATTLE_STATE.ENEMY_TURN)
         {
             _currentTurn++;
-            _player.GetHPData().EndTurnFlushShield(); 
+            _player.GetHPData().EndTurnFlushShield();
+            foreach(BattleUnit enemy in _enemies)
+            {
+                enemy.GetUnitStatusData().OnTurnEnd();
+            }
+
         }
     }
 
@@ -152,13 +161,18 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BATTLE_STATE.ENEMY_TURN)
         {
+            foreach (BattleUnit enemy in _enemies)
+            {
+                enemy.GetUnitStatusData().OnTurnStart();
+            }
             CheckIfBattleIsOver();
-            RunEnemyActions();
-            _player.GetUnitStatusData().OnTurnStart();
-
+            StartCoroutine(RunEnemyActions());
         }
         else if(state == BATTLE_STATE.PLAYER_TURN)
         {
+            _player.GetUnitStatusData().OnTurnStart();
+            SetupEnemiesIntent();
+
             int defaultDrawAmount = 5;
             int a = _player.GetUnitStatusData().OnDraw(defaultDrawAmount);
 
@@ -246,6 +260,17 @@ public class BattleManager : MonoBehaviour
     }
     #region ENEMY ACTIONS
 
+    private void SetupEnemiesIntent()
+    {
+        foreach(BattleUnit enemy in _enemies)
+        {
+            enemy.ShowIntent(0);
+            EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
+            Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
+            enemy.SetNextTurnIntent(0, enemyCard);
+        }
+    }
+
     private int EnemiesAlive()
     {
         int enemiesAlive = 0;
@@ -257,11 +282,16 @@ public class BattleManager : MonoBehaviour
         return enemiesAlive;
     }
 
-    private void RunEnemyActions()
+    private IEnumerator RunEnemyActions()
     {
+        yield return new WaitForSeconds(0.5f);
         foreach(BattleUnit enemy in _enemies)
         {
-            PerformEnemyBehavior(enemy); 
+            enemy.HighlightIntent(0);
+            yield return new WaitForSeconds(0.5f);
+            PerformEnemyBehavior(enemy);
+            yield return new WaitForSeconds(0.3f);
+            enemy.HideIntent(0);
         }
         /*
          * All enemies acted, can return to a player turn if the player is still alive

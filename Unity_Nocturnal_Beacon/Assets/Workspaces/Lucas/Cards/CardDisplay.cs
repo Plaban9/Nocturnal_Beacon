@@ -86,6 +86,8 @@ public class CardDisplay : MonoBehaviour
                 return new Color(1f, 0.6f, 0f);
             default:
                 return new Color(1f, 0, 0);
+            case Rarity.Enemy:
+                return new Color(0f, 1f, 0f);
         }
     }
 

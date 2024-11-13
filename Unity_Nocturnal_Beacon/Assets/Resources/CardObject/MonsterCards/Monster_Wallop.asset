@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 9002
   uId: 0
   name: Wallop
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 810f9a0a9769d3f48ae105dd5877f0aa, type: 3}
   element: 0
   effects:
   - rid: 9114498965169766400

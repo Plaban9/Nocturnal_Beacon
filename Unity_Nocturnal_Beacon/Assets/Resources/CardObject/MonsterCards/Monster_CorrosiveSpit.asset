@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 9003
   uId: 0
   name: Corrosive Spit
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: f4c0b32253a6f404d96f2d611c7bb928, type: 3}
   element: 0
   effects:
   - rid: 9114498965169766400

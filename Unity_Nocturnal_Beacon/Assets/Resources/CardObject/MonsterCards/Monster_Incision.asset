@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Monster_Incision
   m_EditorClassIdentifier: 
-  id: 9002
+  id: 9011
   uId: 0
   name: Incision
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 6ecbb0667be97284d91156fee5929bbb, type: 3}
   element: 0
   effects:
   - rid: 9114498965169766400

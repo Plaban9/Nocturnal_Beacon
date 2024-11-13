@@ -7,6 +7,8 @@ using UnityEngine;
 public class MonsterData : UnitData
 {
     [SerializeField] public EnemyBehavior behavior;
+    [SerializeField] public bool isBoss = false;
+    [SerializeField] public Color recolor = Color.white;
 
 
 

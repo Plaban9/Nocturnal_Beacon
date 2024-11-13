@@ -15,10 +15,10 @@ MonoBehaviour:
   id: 9006
   uId: 0
   name: Pass
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 45c2491e64b0d104cab95741a2b8f6d3, type: 3}
   element: 0
   effects:
   - rid: 4405684009241673734

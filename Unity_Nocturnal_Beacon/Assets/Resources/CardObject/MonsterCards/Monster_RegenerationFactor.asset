@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 9010
   uId: 0
-  name: Regeration Factor
-  rarity: 0
+  name: Unholy Fervor
+  rarity: -1
   cardType: 1
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 11452beb39cdf6a42a53d555458df3cf, type: 3}
   element: 1
   effects:
   - rid: 4405684009241673733
@@ -30,7 +30,7 @@ MonoBehaviour:
       data:
         appMechanic: 0
         val1: 3
-        val2: 6
+        val2: 30
         val3: 0
         val4: 0
         target: 0

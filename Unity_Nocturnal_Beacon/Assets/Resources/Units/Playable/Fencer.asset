@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Fencer
   sprite: {fileID: 21300000, guid: 5ff84ea0772943f458f998f35b743174, type: 3}
-  startingHp: 70
+  startingHp: 80
   flipSprite: 1
   scale: 7
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
