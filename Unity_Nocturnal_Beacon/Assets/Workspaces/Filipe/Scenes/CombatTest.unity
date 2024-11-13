@@ -4104,6 +4104,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 279495439139279465, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 279495439139279465, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 509391583718599548, guid: f7bc19da5c7b320498e0f40c42958b22, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -37,8 +37,8 @@ public class HPData : MonoBehaviour
         AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
-        _unitRenderer.transform.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 0.4f);
-        _unitRenderer.transform.DOScale(_unitData.scale, 0.4f);
+        _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
+        _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
         if (_unitData is MonsterData)
         {
             _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.4f);
@@ -175,7 +175,7 @@ public class HPData : MonoBehaviour
             {
                 _unitRenderer.DOColor(new Color(0.2f, 0f, 0f), 0.5f);
             }
-            _unitRenderer.transform.DOScaleY(0f, 1.2f);
+            _unitRenderer.transform.parent.DOScaleY(0f, 1.2f);
 
             return true;
         }
