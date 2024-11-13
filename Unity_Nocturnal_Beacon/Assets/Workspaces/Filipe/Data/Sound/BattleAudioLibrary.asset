@@ -18,4 +18,9 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 81e698dcdf978ed4e9a6e63d1d41e9c4, type: 3}
     volume: 0.732
     shouldLoop: 1
+  - name: WinMusic
+    musicType: 0
+    audioClip: {fileID: 8300000, guid: c11a3f023b3ef324b93a210a3255d48c, type: 3}
+    volume: 0.326
+    shouldLoop: 0
   soundLibrary: []

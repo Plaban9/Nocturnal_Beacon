@@ -19,4 +19,4 @@ MonoBehaviour:
   scale: 1
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
   startingMana: 4
-  description: BALANCED\nDURABLE
+  description: BALANCED
