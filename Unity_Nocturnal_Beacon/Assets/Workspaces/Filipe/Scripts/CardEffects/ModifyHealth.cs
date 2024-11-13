@@ -55,6 +55,11 @@ public class ModifyHealth : CardEffect
         this.target = target;
         this.val1 = val1;
         this.val2 = val2;
+
+        if (val1 > 0)
+            effectType = EffectType.GainHealth;
+        else
+            effectType = EffectType.DealDamage;
     }
 
 
@@ -85,7 +90,7 @@ public class ModifyHealth : CardEffect
             multiplier += 2;
         }
 
-        result = (int)multiplier * val1;
+        result = (int)multiplier * Mathf.Abs(val1);
 
         return result;
     }

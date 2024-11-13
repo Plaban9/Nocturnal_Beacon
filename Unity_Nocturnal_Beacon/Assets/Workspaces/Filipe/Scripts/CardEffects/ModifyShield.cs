@@ -17,10 +17,12 @@ public class ModifyShield : CardEffect
 
     public override int GetEffectCost()
     {
-        return 3 * val1;
+        return 3 * Mathf.Abs(val1);
     }
 
-    public ModifyShield() { }
+    public ModifyShield() {
+        effectType = EffectType.GainShield;
+    }
 
     override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
     {

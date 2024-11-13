@@ -29,31 +29,19 @@ public class CardEffectManager : MonoBehaviour
 
     void Init()
     {
-        cardEffectList = new List<CardEffect>();
-
-        cardEffectList.Add(new ModifyCardCount());
-
-        foreach (var c in Enum.GetValues(typeof(EffectTarget)))
+        cardEffectList = new List<CardEffect>
         {
-            if ((EffectTarget)c == EffectTarget.Both) continue;
-
-            cardEffectList.Add(new ModifyHealth((EffectTarget)c, 0, 0));
-        }
-
-        cardEffectList.Add(new ModifyShield());
-
-        //foreach (var c in Enum.GetValues(typeof(StatusEffect)))
-        //{
-        //    cardEffectList.Add(new ModifyStatuses(new StatusEffectObject((StatusEffect)c), 0, AppMechanic.OnUse, 0));
-        //}
-
-        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Strength), 0, AppMechanic.OnUse, 0));
-        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Dexterity), 0, AppMechanic.OnUse, 0));
-        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(StatusEffect.Regenerate), 0, AppMechanic.OnUse, 0));
-
-        for(int i=0; i<cardEffectList.Count; i++)
-        {
-            cardEffectList[i].Id = i;
-        }
+            new ModifyCardCount(1),
+            new ModifyCardCount(-1),
+            new ModifyHealth(EffectTarget.Self, 1, 0),
+            new ModifyHealth(EffectTarget.Self, -1, 0),
+            new ModifyHealth(EffectTarget.OpponentSingle, -1, 0),
+            new ModifyHealth(EffectTarget.OpponentRandom, -1, 0),
+            new ModifyHealth(EffectTarget.OpponentAll, -1, 0),
+            new ModifyShield(),
+            new ModifyStatuses(new StatusEffectObject(StatusEffect.Strength), 1, AppMechanic.OnUse, 1),
+            new ModifyStatuses(new StatusEffectObject(StatusEffect.Dexterity), 1, AppMechanic.OnUse, 1),
+            new ModifyStatuses(new StatusEffectObject(StatusEffect.Regenerate), 1, AppMechanic.OnUse, 1)
+        };
     }
 }

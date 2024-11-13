@@ -73,10 +73,18 @@ public abstract class SelectionList<T, T2> : MonoBehaviour where T : SelectionIt
             var selectionItem = Instantiate(prefab, content).GetComponent<T>();
             selectionItem.Setup(e);
             selectionItem.onClick.Subscribe(x => {
-                if (x == null) return;
+                if (x == null || selectionItem.IsLocked()) return;
                 SetSelecting(x);
             }).AddTo(selectionItem);
             selectables.Add(selectionItem);
+        }
+    }
+
+    public virtual void SetLock(T2 data, bool set)
+    {
+        if(data != null)
+        {
+            selectables.First(x => x == data).SetLocked(set);
         }
     }
 }

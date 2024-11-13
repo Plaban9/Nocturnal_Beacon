@@ -24,15 +24,16 @@ namespace CardAttribute
     };
 
     [Serializable]
-    public enum Effect
+    public enum EffectType
     {
         DealDamage = 0,
-        GainShield,
         GainHealth,
-        GainStrength,
+        GainShield,
+        GainStatusStrength,
+        GainStatusDexterity,
+        GainStatusRegenerate,
         DrawCard,
-        E
-
+        DiscardCard,
     };
 
     [Serializable]

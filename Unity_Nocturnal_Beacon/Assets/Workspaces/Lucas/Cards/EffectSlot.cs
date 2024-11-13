@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EffectSlot : MonoBehaviour
@@ -8,19 +9,10 @@ public class EffectSlot : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI effectText;
 
     public CardEffect cardEffect { get; private set; }
+
+    public int effectValue { get; private set; }
+
     public bool isDefault { get; private set; }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void SetSelecting(bool set)
     {
@@ -39,7 +31,8 @@ public class EffectSlot : MonoBehaviour
 
         if(cardEffect != null)
         {
-            effectText.text = cardEffect.EffectDescription;
+            effectValue = cardEffect.GetMainValue();
+            effectText.text = !isDefault ? $"<color=#FFFF43>{cardEffect.EffectDescription}</color>" : cardEffect.EffectDescription;
         }
         else
         {
@@ -47,11 +40,18 @@ public class EffectSlot : MonoBehaviour
         }
     }
 
+    public void SetEffectValue(int val)
+    {
+        effectValue = val;
+        cardEffect.SetMainValue(val);
+        UpdateInfo();
+    }
+
     public void UpdateInfo()
     {
         if (cardEffect != null)
         {
-            effectText.text = cardEffect.EffectDescription;
+            effectText.text = !isDefault ? $"<color=#FFFF43>{cardEffect.EffectDescription}</color>" : cardEffect.EffectDescription;
         }
         else
         {

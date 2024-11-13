@@ -34,8 +34,6 @@ public interface ICardEffect
 [Serializable]
 public class CardEffect : ICardEffect
 {
-    public int Id = 0;
-
     [SerializeField] protected AppMechanic appMechanic;
     [Tooltip("Main value")]
     [SerializeField] protected int val1 = 0;       // main value
@@ -45,7 +43,9 @@ public class CardEffect : ICardEffect
     [SerializeField] protected int val3;       // spare
     [Tooltip("Spare value")]
     [SerializeField] protected int val4;       // spare
+    [SerializeField] protected EffectType effectType;
     [SerializeField] protected EffectTarget target;
+    [SerializeField] protected EffectTargetAmount targetAmount;
 
     public virtual string LocalizationKey => "";
     public virtual string EffectDescription => "";
@@ -53,13 +53,17 @@ public class CardEffect : ICardEffect
 
     public virtual int GetEffectCost() => 0;
 
-    public void SetMainValue(int val) => val1 = val;
-    public int GetMainValue() => val1;
-    
-    public EffectTarget GetTargetting()
+    public void SetMainValue(int val)
     {
-        return target;
+        val1 = val1 >= 0 ? val : -val;
     }
+
+    public int GetMainValue() => val1;
+
+    public EffectTarget GetTarget() => target;
+    public EffectTargetAmount GetTargetAmount() => targetAmount;
+
+    public EffectType GetEffectType() => effectType;
 
     public virtual void OnCast(BattleUnit owner, List<BattleUnit> targets)
     {
@@ -95,5 +99,12 @@ public class CardEffect : ICardEffect
     public virtual void BeforeDealDamage(BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
+    }
+
+    public virtual bool Compare(CardEffect e)
+    {
+        return GetEffectType() == e.GetEffectType() 
+            && GetTarget() == e.GetTarget() 
+            && GetTargetAmount() == e.GetTargetAmount();
     }
 }

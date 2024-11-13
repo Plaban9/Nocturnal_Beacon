@@ -320,7 +320,7 @@ public class BattleManager : MonoBehaviour
         {
             CheckIfBattleIsOver();
             if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
-            if (effect.GetTargetting() == CardAttribute.EffectTarget.Self)
+            if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
             {
                 effect.OnUse(owner, new List<BattleUnit> { owner });
             }

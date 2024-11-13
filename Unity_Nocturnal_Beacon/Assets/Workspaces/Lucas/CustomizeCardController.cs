@@ -10,28 +10,27 @@ public class CustomizeCardController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] List<GameObject> editableNotices = new List<GameObject>();
+
+    [Header("Card")]
+    [SerializeField] Card cardSO;
+    [SerializeField] CardDisplay cardDisplay;
+
+    [Header("Card Effect")]
     [SerializeField] List<EffectSlot> effectSlots = new List<EffectSlot>();
     [SerializeField] CardEffectList cardEffectList;
+
+    [Header("Mana")]
     [SerializeField] CardManaList cardManaList;
     [SerializeField] CardManaSetting cardManaSetting;
     [SerializeField] ScrollingNumber manaScrollingNumber;
 
     ReactiveProperty<EffectSlot> selectingSlot = new ReactiveProperty<EffectSlot>();
-
     List<CardEffect> cardEffects = new List<CardEffect>();
 
     // Start is called before the first frame update
     void Start()
     {
-        //var effects = TypeHelper.GetAllDerivedTypes<CardEffect>();
-
-        //foreach(var v in effects)
-        //{
-        //    Debug.Log(v.Name);
-
-        //    var inst = Activator.CreateInstance(v) as CardEffect;
-        //    cardEffects.Add(inst);
-        //}
+        cardDisplay.Setup(cardSO);
 
         if(cardManaSetting == null)
         {
@@ -39,6 +38,7 @@ public class CustomizeCardController : MonoBehaviour
         }
 
         cardManaList.Setup(cardManaSetting.CardManaCosts);
+        cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.manaCost));
         cardManaList.Selecting.Subscribe(x =>
         {
             if (x == null) return;
@@ -57,7 +57,7 @@ public class CustomizeCardController : MonoBehaviour
         cardEffectList.Setup(cardEffects);
         cardEffectList.Selecting.Subscribe(x =>
         {
-            if(selectingSlot.Value != null)
+            if(selectingSlot.Value != null && !cardEffectList.IsClosed())
             {
                 if (x == null)
                 {
@@ -65,17 +65,17 @@ public class CustomizeCardController : MonoBehaviour
                     return;
                 }
 
-                selectingSlot.Value.SetCardEffect(x.data);
+                if(selectingSlot.Value.cardEffect == null || !selectingSlot.Value.cardEffect.Compare(x.data))
+                    selectingSlot.Value.SetCardEffect(x.data);
             }
 
         }).AddTo(this);
 
         cardEffectList.EffectValue().Subscribe(x =>
         {
-            if(selectingSlot.HasValue)
+            if(selectingSlot.Value != null && selectingSlot.Value.cardEffect != null)
             {
-                selectingSlot.Value.cardEffect.SetMainValue(x);
-                
+                selectingSlot.Value.SetEffectValue(x);
             }
         }).AddTo(this);
 
@@ -83,16 +83,36 @@ public class CustomizeCardController : MonoBehaviour
         {
             if (x == null) return;
 
-            if(x.cardEffect != null)
-            {
-                cardEffectList.SetEffectValue(x.cardEffect.GetMainValue());
-                cardEffectList.SetSelecting(x.cardEffect);
-            }
+            cardEffectList.SetLockedEffect(effectSlots.Where(y => y != x && y.cardEffect != null).Select(x => x.cardEffect).ToList());
 
+            if (x.cardEffect != null)
+            {
+                cardEffectList.SetEffectValue(x.effectValue);
+
+                if (!x.isDefault)
+                    cardEffectList.SetDefaultSelecting(x.cardEffect);
+                else
+                    cardEffectList.SetSelectingWithLock(x.cardEffect);
+
+
+            }
+            else
+            {
+                cardEffectList.Reset();
+            }
             // TODO
             // handle resources - cost
 
         }).AddTo(this);
+
+        for(int i=0; i<cardSO.effects.Count; i++)
+        {
+            if (i >= effectSlots.Count) break;
+
+            var e = cardSO.effects[i];
+
+            effectSlots[i].SetCardEffect(e, true);
+        }
     }
 
     public void SetActiveAllEditableNotice(bool set)
@@ -103,13 +123,10 @@ public class CustomizeCardController : MonoBehaviour
 
     public void SetSelectingSlot(EffectSlot slot = null)
     {
-        if (selectingSlot.HasValue && selectingSlot.Value == slot) return;
-
         selectingSlot.Value = slot;
 
         if (slot != null)
         {
-            cardEffectList.SetSelecting(slot.cardEffect);
             cardEffectList.Show();
         }
 
@@ -117,21 +134,16 @@ public class CustomizeCardController : MonoBehaviour
         {
             s.SetSelecting(s == slot);
         }
-
-        //SetActiveAllEditableNotice(false);
-
     }
 
     public void Reset()
     {
         SetSelectingSlot(null);
-        //SetActiveAllEditableNotice(true);
+        SetActiveAllEditableNotice(true);
     }
 
     public List<CardEffect> GetCardEffects()
     {
         return cardEffects;
     }
-
-
 }

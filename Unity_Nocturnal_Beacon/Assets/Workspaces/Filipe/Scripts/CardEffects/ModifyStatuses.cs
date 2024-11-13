@@ -90,12 +90,15 @@ public class ModifyStatuses : CardEffect
         {
             case StatusEffect.Strength:
                 _bstf = new StatusEffect_Strength();
+                effectType = EffectType.GainStatusStrength;
                 break;
             case StatusEffect.Dexterity:
                 _bstf = new StatusEffect_Dexterity();
+                effectType = EffectType.GainStatusDexterity;
                 break;
             case StatusEffect.Regenerate:
                 _bstf = new StatusEffect_Regeneration();
+                effectType = EffectType.GainStatusRegenerate;
                 break;
             default:
                 break;
@@ -170,4 +173,5 @@ public class ModifyStatuses : CardEffect
             unit.GetUnitStatusData().AddStatusEffect(_bstf);
         }
     }
+
 }
