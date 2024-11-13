@@ -1,3 +1,4 @@
+using Minimalist.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -21,6 +22,8 @@ public class SelectCharacterHover : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Spawn);
+
         _animator.SetTrigger("selected");
         StartCoroutine(StartGame()); 
     }

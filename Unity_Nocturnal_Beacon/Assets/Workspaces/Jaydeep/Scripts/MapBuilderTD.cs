@@ -104,6 +104,8 @@ public class MapBuilderTD : MonoBehaviour
 
     private void SetSelectedNode(MapNode node)
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
+
         var previousSelectedNode = currentSelectedNode;
         var modifier = node != bossNode ? 1.5f : 3f;
         Vector3 targetScale = Vector3.one * modifier;

@@ -46,6 +46,8 @@ public class MenuPrototype : MonoBehaviour
 
     public void OpenMainMenu()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Click);
+
         DisableMenu(currentMenu.GetComponent<CanvasGroup>(),
             () =>
             {
@@ -55,6 +57,8 @@ public class MenuPrototype : MonoBehaviour
 
     public void OpenSettingsMenu()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Click);
+
         DisableMenu(currentMenu.GetComponent<CanvasGroup>(),
             () =>
             {
@@ -64,6 +68,8 @@ public class MenuPrototype : MonoBehaviour
 
     public void OpenCreditsMenu()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Click);
+
         DisableMenu(currentMenu.GetComponent<CanvasGroup>(),
             () =>
             {

@@ -1,18 +1,25 @@
+using DG.Tweening;
+using Minimalist.Audio;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HPData : MonoBehaviour
 {
+
+    [SerializeField] private SpriteRenderer _unitRenderer;
+    private UnitData _unitData;
     private int _maxHp;
     private int _currentHp;
     private int _shield;
     private TextMeshProUGUI _hpText;
     private Material _hpMaterial;
 
-    public void InitializeMaxHP(UnitData _monsterData)
+    public void InitializeMaxHP(MonsterData _monsterData)
     {
+        _unitData = _monsterData;
         _maxHp = _monsterData.startingHp;
         _currentHp = _monsterData.startingHp;
         _shield = 0;
@@ -20,12 +27,27 @@ public class HPData : MonoBehaviour
 
     public void InitializeMaxHp(PlayerUnitData _playerData)
     {
+        _unitData = _playerData.GetUnitData();
         _maxHp = _playerData.GetMaxHP();
         _currentHp = _playerData.GetCurrentHP();
         _shield = 0;
     }
     public void DealDamage(int amount)
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
+
+        _unitRenderer.color = new Color(1.0f, 0f, 0f);
+        _unitRenderer.transform.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 0.4f);
+        _unitRenderer.transform.DOScale(_unitData.scale, 0.4f);
+        if (_unitData is MonsterData)
+        {
+            _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.4f);
+        }
+        else
+        {
+            _unitRenderer.DOColor(Color.white, 0.3f);
+        }
+
         amount = Mathf.Abs(amount);
         if (_currentHp == 0) return;
         EffectManager.Instance.CreateNumber(
@@ -60,6 +82,18 @@ public class HPData : MonoBehaviour
 
     public void RecoverHealth(int amount)
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogBark);
+        _unitRenderer.color = new Color(0.2f, 1.0f, 0.2f);
+        if(_unitData is MonsterData)
+        {
+            _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.6f);
+        }
+        else
+        {
+            _unitRenderer.DOColor(Color.white, 0.6f);
+        }
+
+
         EffectManager.Instance.CreateNumber(
             EffectManager.EFFECTS_NUMBER.HEAL,
             transform.gameObject,
@@ -74,6 +108,18 @@ public class HPData : MonoBehaviour
 
     public void AddShield(int amount)
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogInteract);
+
+        _unitRenderer.color = new Color(0.2f, 0.2f, 1.0f);
+        if (_unitData is MonsterData)
+        {
+            _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.5f);
+        }
+        else
+        {
+            _unitRenderer.DOColor(Color.white, 0.5f);
+        }
+
         EffectManager.Instance.CreateNumber(
         EffectManager.EFFECTS_NUMBER.GUARD,
         transform.gameObject,
@@ -96,8 +142,9 @@ public class HPData : MonoBehaviour
         UpdateVisual();
     }
 
-    public void SetupAssets(TextMeshProUGUI text, Material hpMaterial)
+    public void SetupAssets(SpriteRenderer unitRenderer, TextMeshProUGUI text, Material hpMaterial)
     {
+        _unitRenderer = unitRenderer;
         _hpMaterial = hpMaterial;
         _hpText = text;
         UpdateVisual();
@@ -118,7 +165,20 @@ public class HPData : MonoBehaviour
 
     public bool IsDead()
     {
-        if (_currentHp == 0) return true;
+        if (_currentHp == 0)
+        {
+            if(_unitData is MonsterData)
+            {
+                _unitRenderer.DOColor(new Color(0f, 0.2f, 0f), 0.5f);
+            }
+            else
+            {
+                _unitRenderer.DOColor(new Color(0.2f, 0f, 0f), 0.5f);
+            }
+            _unitRenderer.transform.DOScaleY(0f, 1.2f);
+
+            return true;
+        }
         return false;
     }
 

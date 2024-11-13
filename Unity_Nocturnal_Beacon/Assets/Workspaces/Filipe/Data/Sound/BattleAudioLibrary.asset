@@ -23,4 +23,24 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: c11a3f023b3ef324b93a210a3255d48c, type: 3}
     volume: 0.326
     shouldLoop: 0
-  soundLibrary: []
+  soundLibrary:
+  - name: Turnend
+    soundType: 21
+    clips:
+    - {fileID: 8300000, guid: 358d0fe9b23c8fa43b16e9868f8ce3df, type: 3}
+    volume: 0.173
+  - name: Hit
+    soundType: 2
+    clips:
+    - {fileID: 8300000, guid: 5afaedeca5b80214aacd46d7933913aa, type: 3}
+    volume: 0.173
+  - name: Heal
+    soundType: 4
+    clips:
+    - {fileID: 8300000, guid: 95ce731ccf773d642ae5bd43b7cc4f7e, type: 3}
+    volume: 0.173
+  - name: Shield
+    soundType: 5
+    clips:
+    - {fileID: 8300000, guid: 6ebe404eca47f8f4e881714c5054527a, type: 3}
+    volume: 0.173

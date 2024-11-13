@@ -12,8 +12,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] List<BattleUnit> _enemies;
     // Start is called before the first frame update
 
-    [SerializeField] public List<UnitData> _possibleEnemies;
-    [SerializeField] public UnitData _finalBoss;
+    [SerializeField] public List<MonsterData> _possibleEnemies;
+    [SerializeField] public MonsterData _finalBoss;
 
     [Header("UI")]
     [SerializeField] public TextMeshProUGUI _battleStateText;
@@ -104,7 +104,7 @@ public class BattleManager : MonoBehaviour
         int height = NoctBeaconRunData.Instance.GetHeight();
         // Used when we start making multiple floors stuff
 
-        UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
+        MonsterData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
 
         if (height == 0) unit = _finalBoss;
         _enemies[0].SetupUnit(unit);
@@ -182,6 +182,8 @@ public class BattleManager : MonoBehaviour
 
     public void EndTurn()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Transition_Clap);
+
         StartCoroutine(PerformEndTurn());
     }
 

@@ -39,10 +39,10 @@ public class BattleUnit : MonoBehaviour
 
     }
 
-    public void SetupUnit(UnitData _unitData)
+    public void SetupUnit(MonsterData _monsterData)
     {
-        this._unitData = _unitData; 
-        _hpData.InitializeMaxHP(_unitData);
+        _unitData = _monsterData; 
+        _hpData.InitializeMaxHP(_monsterData);
         SetUnitVisuals();
         SetupHealth();
     }
@@ -58,7 +58,7 @@ public class BattleUnit : MonoBehaviour
     private void SetupHealth()
     {
         SpriteRenderer spr = _hpSprite.GetComponent<SpriteRenderer>();
-        _hpData.SetupAssets(_hpText, spr.material);
+        _hpData.SetupAssets(_sprite, _hpText, spr.material);
     }
 
     private void SetUnitVisuals()
