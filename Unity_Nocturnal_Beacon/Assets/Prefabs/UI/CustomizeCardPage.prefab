@@ -1942,7 +1942,7 @@ MonoBehaviour:
   remainPoint:
     value: 0
   initPoint: 30
-  cardSO: {fileID: 11400000, guid: 506a25db3c42ce546b0fca30477f5845, type: 2}
+  cardSO: {fileID: 0}
   cardDisplay: {fileID: 5927352156993087521}
   cardNameInput: {fileID: 6069888864953386026}
   effectSlots:
@@ -2260,7 +2260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8666667}
+  m_Color: {r: 0, g: 0.10619088, b: 0.1509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4953,7 +4953,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ae5851abbecd7458603a0c9ac6694b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  card: {fileID: 11400000, guid: 6c35711b4c3143c44a8112eba389409a, type: 2}
+  enablePointToZoom: 0
+  zoomRatio: 0.6
+  onZoomCursor: {fileID: 0}
+  card: {fileID: 0}
   manaText: {fileID: 3941923164119340710}
   titleText: {fileID: 2623344173637447598}
   typeText: {fileID: 5739575201526124526}
@@ -4971,6 +4974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3827487605029537161}
+  - component: {fileID: 5136457017050663874}
   m_Layer: 5
   m_Name: CustomizeCardPage
   m_TagString: Untagged
@@ -5003,6 +5007,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5136457017050663874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255427734156723227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bab8e45fb60bb041afea3b670881c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardController: {fileID: 4631421410007845393}
 --- !u!1 &8312396279609617432
 GameObject:
   m_ObjectHideFlags: 0

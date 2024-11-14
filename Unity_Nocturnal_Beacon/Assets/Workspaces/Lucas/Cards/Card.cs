@@ -132,7 +132,8 @@ public class Card : ScriptableObject
 
         foreach(var effect in effects)
         {
-            result += effect.EffectDescription + "\n";
+            if(effect != null)
+                result += effect.EffectDescription + "\n";
         }
 
         return result;

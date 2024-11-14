@@ -8,6 +8,9 @@ public class Deck : ScriptableObject
 {
     [SerializeField, SerializeReference] List<Card> cards = new List<Card>();
 
+    public Dictionary<int, Card> CardByUID { get; private set; }
+
+    static readonly int InitCounter = 1000000;
     public int Counter { get; private set; }
 
     // Start is called before the first frame update
@@ -20,6 +23,21 @@ public class Deck : ScriptableObject
     void Update()
     {
         
+    }
+
+    public void InitDeck()
+    {
+        Counter = InitCounter;
+        CardByUID = new Dictionary<int, Card>();
+
+        for (int i=0; i<cards.Count; i++)
+        {
+            var uId = Counter++;
+            cards[i].uId = uId;
+
+            CardByUID[uId] = cards[i];
+        }
+
     }
 
     public Deck(bool playerDeck = false)
@@ -57,7 +75,7 @@ public class Deck : ScriptableObject
     void ResetDeck()
     {
         cards.Clear();
-        Counter = 1000000;
+        Counter = InitCounter;
     }
 
     void CloneFromDeck(Deck deck)
@@ -123,6 +141,14 @@ public class Deck : ScriptableObject
 
     }
 
+    public void ReplaceCard(int uId, Card card)
+    {
+        if(CardByUID.ContainsKey(uId))
+        {
+            CardByUID[uId] = card;
+            cards = CardByUID.Values.ToList();
+        }
+    }
 
 }
 

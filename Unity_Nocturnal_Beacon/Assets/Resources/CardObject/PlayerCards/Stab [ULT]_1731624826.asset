@@ -10,29 +10,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: Stab
+  m_Name: Stab [ULT]_1731624826
   m_EditorClassIdentifier: 
-  id: 10005
-  uId: 1000027
-  name: Stab
+  id: 10010
+  uId: 1000004
+  name: Stab [ULT]
   rarity: 0
   cardType: 0
   manaCost: 1
   sprite: {fileID: 21300000, guid: 33397c7c3af931b43b11b9ef89afef43, type: 3}
   element: 0
   effects:
-  - rid: 1688478563013754883
+  - rid: 1688478563013754900
+  - rid: 1688478563013754901
+  - rid: 1688478563013754902
   references:
     version: 2
     RefIds:
-    - rid: 1688478563013754883
+    - rid: 1688478563013754900
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -6
+        val1: -14
         val2: 0
         val3: 0
         val4: 0
         effectType: 0
         target: 1
+        targetAmount: 0
+    - rid: 1688478563013754901
+      type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 10
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 2
+        target: 0
+        targetAmount: 0
+    - rid: 1688478563013754902
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: -8
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 3
         targetAmount: 0

@@ -77,4 +77,12 @@ public class UITopBarManager : MonoBehaviour
     {
         goldTxt.text = gold.ToString();
     }
+
+    public void OnClickDeckBtn()
+    {
+        var dp = UIManager.Instance.ShowPage(GamePage.DeckPage).GetComponent<DeckPage>();
+
+        dp.Setup();
+        dp.Show();
+    }
 }

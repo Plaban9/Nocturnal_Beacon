@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CardLibrary : MonoBehaviour
@@ -20,7 +21,7 @@ public class CardLibrary : MonoBehaviour
         else
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
 
         Init();
@@ -34,7 +35,7 @@ public class CardLibrary : MonoBehaviour
 
     void LoadAllCards()
     {
-        var cardObjects = Resources.LoadAll<Card>("CardObject");
+        var cardObjects = Resources.LoadAll<Card>("CardObject/PlayerCards");
 
         foreach (var cardObject in cardObjects)
         {
@@ -63,7 +64,14 @@ public class CardLibrary : MonoBehaviour
     }
 
     public bool ValidateCardById(int id) => cardsDict.ContainsKey(id);
+
+    public int GetNextCardId() => cardsDict.Keys.Max() + 1;
     #endregion
 
-    
+
+    public bool AddNewCard(Card card)
+    {
+        card.id = GetNextCardId();
+        return cardsDict.TryAdd(card.id, card);
+    }
 }

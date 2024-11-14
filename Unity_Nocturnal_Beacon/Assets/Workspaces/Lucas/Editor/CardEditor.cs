@@ -31,7 +31,7 @@ public class CardEditor : Editor
         card = (Card)target;
 
         cardDict.Clear();
-        var cardObjects = Resources.LoadAll<Card>("CardObject");
+        var cardObjects = Resources.LoadAll<Card>("CardObject/PlayerCards");
 
         foreach (var cardObject in cardObjects)
         {
@@ -57,4 +57,5 @@ public class CardEditor : Editor
         string assetPath = AssetDatabase.GetAssetPath(card.GetInstanceID());
         card.name = Path.GetFileNameWithoutExtension(assetPath);
     }
+
 }

@@ -37,6 +37,7 @@ public class NoctBeaconRunData : MonoBehaviour
     public void SetPlayer(PlayerUnitData playerUnitData)
     {
         _playerInformation = playerUnitData;
+        _playerInformation.InitDeck();
     }
 
     public PlayerUnitData GetPlayerInformation()

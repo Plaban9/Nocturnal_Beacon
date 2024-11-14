@@ -287,6 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ae5851abbecd7458603a0c9ac6694b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enablePointToZoom: 0
+  zoomRatio: 0.6
+  onZoomCursor: {fileID: 2800000, guid: 0f0328c963d933841bdba08bb93c09c7, type: 3}
   card: {fileID: 11400000, guid: 6c35711b4c3143c44a8112eba389409a, type: 2}
   manaText: {fileID: 5300707495781942554}
   titleText: {fileID: 6174951230511968822}

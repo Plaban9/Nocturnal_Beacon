@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CardInHand
+  - UICanvas
   layers:
   - Default
   - TransparentFX

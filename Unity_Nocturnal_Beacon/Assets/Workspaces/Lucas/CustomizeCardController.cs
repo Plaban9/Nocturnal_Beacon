@@ -6,6 +6,7 @@ using UniRx;
 using System;
 using DoTween.Animation;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class CustomizeCardController : MonoBehaviour
 {
@@ -36,11 +37,30 @@ public class CustomizeCardController : MonoBehaviour
     ReactiveProperty<EffectSlot> selectingSlot = new ReactiveProperty<EffectSlot>();
     List<CardEffect> cardEffects = new List<CardEffect>();
 
+    Action<Card> onCustomized;
+    bool IsInited = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        Init();
+    }
+
+    public void Setup(Card c, Action<Card> onCustomized)
+    {
+        this.cardSO = c;
+        this.onCustomized = onCustomized;
+
+        Init();
+    }
+
+    private void Init()
+    {
+        if (IsInited) return;
+
         cardDisplay.Setup(cardSO);
         cardNameInput.text = cardSO.name;
+        manaScrollingNumber.Setup(cardSO.manaCost, 0, 99);
 
         remainPointText.SetInitValue(initPoint);
         remainPoint.Subscribe(x =>
@@ -64,7 +84,6 @@ public class CustomizeCardController : MonoBehaviour
         CardEffectCostManager.Instance.SetCardManaSetting(cardManaSetting);
 
         cardManaList.Setup(cardManaSetting.CardManaCosts);
-        cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.manaCost));
         cardManaList.Selecting.Subscribe(x =>
         {
             if (x == null) return;
@@ -76,13 +95,14 @@ public class CustomizeCardController : MonoBehaviour
 
             UpdateRemainPoint();
         }).AddTo(this);
+        cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.manaCost));
 
         cardEffects = CardEffectManager.Instance.CardEffectList;
 
         cardEffectList.Setup(cardEffects);
         cardEffectList.Selecting.Subscribe(x =>
         {
-            if(selectingSlot.Value != null && !cardEffectList.IsClosed())
+            if (selectingSlot.Value != null && !cardEffectList.IsClosed())
             {
                 if (x == null)
                 {
@@ -90,7 +110,7 @@ public class CustomizeCardController : MonoBehaviour
                     return;
                 }
 
-                if(selectingSlot.Value.cardEffect == null || !selectingSlot.Value.cardEffect.Compare(x.data))
+                if (selectingSlot.Value.cardEffect == null || !selectingSlot.Value.cardEffect.Compare(x.data))
                     selectingSlot.Value.SetCardEffect(x.data);
 
                 UpdateRemainPoint();
@@ -100,7 +120,7 @@ public class CustomizeCardController : MonoBehaviour
 
         cardEffectList.EffectValue().Subscribe(x =>
         {
-            if(selectingSlot.Value != null && selectingSlot.Value.cardEffect != null)
+            if (selectingSlot.Value != null && selectingSlot.Value.cardEffect != null)
             {
                 selectingSlot.Value.SetEffectValue(x);
                 UpdateRemainPoint();
@@ -128,7 +148,12 @@ public class CustomizeCardController : MonoBehaviour
             }
         }).AddTo(this);
 
-        for(int i=0; i<cardSO.effects.Count; i++)
+        editableNoticeToggle.OnValueChangedAsObservable().Subscribe(x =>
+        {
+            SetActiveAllEditableNotice(x);
+        }).AddTo(this);
+
+        for (int i = 0; i < cardSO.effects.Count; i++)
         {
             if (i >= effectSlots.Count) break;
 
@@ -137,10 +162,7 @@ public class CustomizeCardController : MonoBehaviour
             effectSlots[i].SetCardEffect(e, true);
         }
 
-        editableNoticeToggle.OnValueChangedAsObservable().Subscribe(x =>
-        {
-            SetActiveAllEditableNotice(x);
-        }).AddTo(this);
+        IsInited = true;
     }
 
     public void SetInitPoint(int val)
@@ -217,9 +239,20 @@ public class CustomizeCardController : MonoBehaviour
 
     void SaveChanges()
     {
-        cardSO.manaCost = cardManaList.Selecting.Value.data.mana;
-        cardSO.name = cardNameInput.text;
-        cardSO.effects = effectSlots.Select(x => x.cardEffect).ToList();
+        var newCard = Instantiate(cardSO);
+
+        newCard.manaCost = cardManaList.Selecting.Value.data.mana;
+        newCard.name = cardNameInput.text;
+        newCard.effects = effectSlots.Select(x => x.cardEffect).Where(x => x != null).ToList();
+
+        CardLibrary.Instance.AddNewCard(newCard);
+
+        int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+        AssetDatabase.CreateAsset(newCard, $"Assets/Resources/CardObject/PlayerCards/{newCard.name + "_" + sec}.asset");
+
+        onCustomized?.Invoke(newCard);
+
+        UIManager.Instance.ShowNoticeBar("Card customized successfully!!");
 
         Debug.Log("Card customized successfully!! Check on the scriptable object.");
     }

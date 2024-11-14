@@ -64,4 +64,9 @@ public class PlayerUnitData : ScriptableObject
     {
         return _maxMana;
     }
+
+    public void InitDeck()
+    {
+        _currentDeck.InitDeck();
+    }
 }

@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using CardAttribute;
+using UnityEngine.EventSystems;
+using UniRx;
+using System;
 
-public class CardDisplay : MonoBehaviour
+public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] protected Card card;
+    [SerializeField] bool enablePointToZoom = false;
+    [SerializeField] float zoomRatio = 0.6f;
+    [SerializeField] Texture2D onZoomCursor;
 
+    [SerializeField] protected Card card;
 
     [SerializeField] TMP_Text manaText;
     [SerializeField] TMP_Text titleText;
@@ -21,9 +27,14 @@ public class CardDisplay : MonoBehaviour
 
     [SerializeField] Image mainImg;
 
+    float oriZoomRatio = 1f;
+
+    Action onClick;
     protected virtual void Start()
     {
-        if(card != null)
+        oriZoomRatio = transform.localScale.x;
+
+        if (card != null)
         {
             Setup(card);
         }
@@ -40,6 +51,27 @@ public class CardDisplay : MonoBehaviour
 
         mainImg.sprite = card.sprite;
         SetColors(card); 
+    }
+
+    public void SetScale(float scale)
+    {
+        transform.localScale = Vector3.one * scale;
+        oriZoomRatio = transform.localScale.x;
+    }
+
+    public virtual void SetupForDeck(Card card, Action onClick)
+    {
+        enablePointToZoom = true;
+        this.card = card;
+        this.onClick = onClick;
+
+        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
+        titleText.text = card.name.ToString();
+        typeText.text = card.cardType.ToString();
+        descText.text = card.GetEffectDescStr();
+
+        mainImg.sprite = card.sprite;
+        SetColors(card);
     }
 
     public virtual void SetColors(Card card)
@@ -92,4 +124,32 @@ public class CardDisplay : MonoBehaviour
     }
 
     public Card GetCard() => card;
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!enablePointToZoom) return;
+
+        transform.localScale = Vector3.one * zoomRatio;
+        Cursor.SetCursor(onZoomCursor, Vector3.zero, CursorMode.Auto);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!enablePointToZoom) return;
+
+        transform.localScale = Vector3.one * oriZoomRatio;
+        Cursor.SetCursor(null, Vector3.zero, CursorMode.Auto);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!enablePointToZoom) return;
+        
+        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
+        cdp.Setup(card);
+        cdp.OnClose.Subscribe(x =>
+        {
+            onClick?.Invoke();
+        }).AddTo(this);
+    }
 }
