@@ -5,15 +5,24 @@ using System.Linq;
 using UniRx;
 using System;
 using DoTween.Animation;
+using UnityEngine.UI;
 
 public class CustomizeCardController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] List<GameObject> editableNotices = new List<GameObject>();
+    [SerializeField] Toggle editableNoticeToggle;
+
+    [Header("Points")]
+    [SerializeField] NumberText remainPointText;
+    [SerializeField] NumberText diffPointText;
+    [SerializeField] ReactiveProperty<int> remainPoint = new ReactiveProperty<int>(30);
+    [SerializeField] int initPoint;
 
     [Header("Card")]
     [SerializeField] Card cardSO;
     [SerializeField] CardDisplay cardDisplay;
+    [SerializeField] TMPro.TMP_InputField cardNameInput;
 
     [Header("Card Effect")]
     [SerializeField] List<EffectSlot> effectSlots = new List<EffectSlot>();
@@ -31,11 +40,28 @@ public class CustomizeCardController : MonoBehaviour
     void Start()
     {
         cardDisplay.Setup(cardSO);
+        cardNameInput.text = cardSO.name;
 
-        if(cardManaSetting == null)
+        remainPointText.SetInitValue(initPoint);
+        remainPoint.Subscribe(x =>
+        {
+            var diff = x - initPoint;
+            remainPointText.SetTargetValue(x);
+
+            diffPointText.gameObject.SetActive(diff != 0);
+            diffPointText.SetTargetValueWithDiff(diff);
+
+        }).AddTo(this);
+
+        remainPoint.Value = initPoint;
+
+        if (cardManaSetting == null)
         {
             cardManaSetting = Resources.Load<CardManaSetting>("Settings");
         }
+
+        CardEffectCostManager.Instance.SetCard(cardSO);
+        CardEffectCostManager.Instance.SetCardManaSetting(cardManaSetting);
 
         cardManaList.Setup(cardManaSetting.CardManaCosts);
         cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.manaCost));
@@ -48,8 +74,7 @@ public class CustomizeCardController : MonoBehaviour
             else
                 manaScrollingNumber.SetVal("X");
 
-            // TODO
-            // handle resources - cost
+            UpdateRemainPoint();
         }).AddTo(this);
 
         cardEffects = CardEffectManager.Instance.CardEffectList;
@@ -67,6 +92,8 @@ public class CustomizeCardController : MonoBehaviour
 
                 if(selectingSlot.Value.cardEffect == null || !selectingSlot.Value.cardEffect.Compare(x.data))
                     selectingSlot.Value.SetCardEffect(x.data);
+
+                UpdateRemainPoint();
             }
 
         }).AddTo(this);
@@ -76,6 +103,7 @@ public class CustomizeCardController : MonoBehaviour
             if(selectingSlot.Value != null && selectingSlot.Value.cardEffect != null)
             {
                 selectingSlot.Value.SetEffectValue(x);
+                UpdateRemainPoint();
             }
         }).AddTo(this);
 
@@ -93,16 +121,11 @@ public class CustomizeCardController : MonoBehaviour
                     cardEffectList.SetDefaultSelecting(x.cardEffect);
                 else
                     cardEffectList.SetSelectingWithLock(x.cardEffect);
-
-
             }
             else
             {
                 cardEffectList.Reset();
             }
-            // TODO
-            // handle resources - cost
-
         }).AddTo(this);
 
         for(int i=0; i<cardSO.effects.Count; i++)
@@ -113,6 +136,18 @@ public class CustomizeCardController : MonoBehaviour
 
             effectSlots[i].SetCardEffect(e, true);
         }
+
+        editableNoticeToggle.OnValueChangedAsObservable().Subscribe(x =>
+        {
+            SetActiveAllEditableNotice(x);
+        }).AddTo(this);
+    }
+
+    public void SetInitPoint(int val)
+    {
+        initPoint = val;
+        remainPointText.SetInitValue(val);
+        remainPoint.Value = val;
     }
 
     public void SetActiveAllEditableNotice(bool set)
@@ -139,11 +174,53 @@ public class CustomizeCardController : MonoBehaviour
     public void Reset()
     {
         SetSelectingSlot(null);
-        SetActiveAllEditableNotice(true);
     }
 
     public List<CardEffect> GetCardEffects()
     {
         return cardEffects;
+    }
+
+    public void UpdateRemainPoint()
+    {
+        var counter = 0;
+
+        counter += cardManaList.Selecting.Value.GetCost();
+
+        foreach(var slot in effectSlots)
+        {
+            if (slot.cardEffect == null) continue;
+
+            counter += CardEffectCostManager.Instance.GetEffectCost(slot.cardEffect);
+        }
+
+        remainPoint.Value = initPoint - counter;
+    }
+
+    public void OnClickContinue()
+    {
+        if(remainPoint.Value < 0)
+        {
+            UIManager.Instance.ShowNoticeBar("Not enough points!!");
+            return;
+        }
+
+        UIManager.Instance.ShowConfirmDialog("Confirm to make changes?").Subscribe(x =>
+        {
+            if(x)
+            {
+                SaveChanges();
+            }
+
+        }).AddTo(this);
+    }
+
+    void SaveChanges()
+    {
+        cardSO.manaCost = cardManaList.Selecting.Value.data.mana;
+        cardSO.name = cardNameInput.text;
+        cardSO.effects = effectSlots.Select(x => x.cardEffect).ToList();
+
+        Debug.Log("Card customized successfully!! Check on the scriptable object.");
     }
 }

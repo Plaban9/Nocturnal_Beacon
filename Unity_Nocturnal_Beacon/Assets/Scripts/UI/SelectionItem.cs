@@ -34,7 +34,8 @@ public abstract class SelectionItem<T> : MonoBehaviour where T : class
         if (onLockedGO != null)
             onLockedGO.SetActive(set);
 
-        SetSelecting(false);
+        if(set)
+            SetSelecting(false);
     }
     public virtual void Setup(T data)
     {

@@ -107,4 +107,9 @@ public class CardEffect : ICardEffect
             && GetTarget() == e.GetTarget() 
             && GetTargetAmount() == e.GetTargetAmount();
     }
+
+    public CardEffect Clone()
+    {
+        return (CardEffect)MemberwiseClone(); // Shallow copy
+    }
 }

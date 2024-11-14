@@ -19,8 +19,8 @@ public class ManaCostSelectable : SelectionItem<CardManaCost>
     {
         base.Setup(cardManaCost);
 
-        cost = cardManaCost.cost;
         mana = cardManaCost.mana;
+        cost = CardEffectCostManager.Instance.GetManaCost(mana);
 
         manaText.text = mana >= 0 ? mana.ToString() : "X";
         cardEffectCost.SetCost(cost);

@@ -31,7 +31,7 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
             foreach (var c in selectables)
             {
                 c.data.SetMainValue(x);
-                c.SetCost(c.data.GetEffectCost());
+                c.SetCost(CardEffectCostManager.Instance.GetEffectCost(c.data));
                 c.UpdateInfo();
             }
         }).AddTo(this);
@@ -61,7 +61,10 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
     {
         isLocked = true;
 
-        selecting.Value = selectables.First(x => x.data.Compare(data));
+        if (selecting.Value != null && data.Compare(selecting.Value.data))
+            ShowSelecting(selecting.Value);
+        else
+            selecting.Value = selectables.First(x => x.data.Compare(data));
     }
 
     public void SetDefaultSelecting(CardEffect data)
@@ -115,7 +118,9 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
                 if (c == selecting)
                     c.SetSelecting(true);
                 else
+                {
                     c.SetLocked(true);
+                }
             }
         }
     }
@@ -129,10 +134,10 @@ public class CardEffectList : SelectionList<CardEffectSelectable, CardEffect>
     }
     public override void Reset()
     {
-        base.Reset();
-
         effectValue.Value = 1;
         isLocked = false;
+
+        base.Reset();
     }
 
     public void AddEffectValue(int val)

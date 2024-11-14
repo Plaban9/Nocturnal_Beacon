@@ -26,7 +26,7 @@ public class EffectSlot : MonoBehaviour
 
     public void SetCardEffect(CardEffect cardEffect, bool isDefault)
     {
-        this.cardEffect = cardEffect;
+        this.cardEffect = cardEffect != null ? cardEffect.Clone() : null;
         this.isDefault = isDefault;
 
         if(cardEffect != null)

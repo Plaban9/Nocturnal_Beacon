@@ -16,7 +16,7 @@ public class ModifyHealth : CardEffect
 
             if(target == EffectTarget.Self)
             {
-                result = (val1 >= 0 ? "Heal " : "Lose ") + $"{val1} HP";
+                result = (val1 >= 0 ? "Heal " : "Lose ") + $"{Mathf.Abs(val1)} HP";
             }
             else
             {

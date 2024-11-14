@@ -35,7 +35,7 @@ public class CardManaList : SelectionList<ManaCostSelectable, CardManaCost>
 
     public void Hide()
     {
-        if (transform.localPosition.x < Screen.width * 0.5f) return;
+        if (transform.localPosition.x < -Screen.width * 0.5f) return;
 
         var rt = GetComponent<RectTransform>();
 
