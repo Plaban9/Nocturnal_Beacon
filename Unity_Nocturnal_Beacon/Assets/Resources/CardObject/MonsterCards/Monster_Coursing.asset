@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 9004
   uId: 0
   name: Coursing
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: e1d418c1f2b2ce3418351a6c919c116d, type: 3}
+  element: 0
   effects:
   - rid: 9114498965169766400
   - rid: 298649456338010113
@@ -29,7 +30,7 @@ MonoBehaviour:
       type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 10
+        val1: 6
         val2: 0
         val3: 0
         val4: 0
@@ -38,7 +39,7 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -20
+        val1: -6
         val2: 0
         val3: 0
         val4: 0

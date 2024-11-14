@@ -12,23 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Monster_Wallop
   m_EditorClassIdentifier: 
-  id: 9000
+  id: 9002
   uId: 0
   name: Wallop
-  rarity: 0
+  rarity: -1
   cardType: 0
   manaCost: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 810f9a0a9769d3f48ae105dd5877f0aa, type: 3}
+  element: 0
   effects:
   - rid: 9114498965169766400
+  - rid: 4405684009241673733
   references:
     version: 2
     RefIds:
+    - rid: 4405684009241673733
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 5
+        val2: 6
+        val3: 0
+        val4: 0
+        target: 0
+        statusEffectObject: {fileID: 11400000, guid: 414d35e8ca6199148a63c20b76af132d, type: 2}
+        statusEffect: 0
+        statusStacks: 1
     - rid: 9114498965169766400
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -20
+        val1: -4
         val2: 0
         val3: 0
         val4: 0

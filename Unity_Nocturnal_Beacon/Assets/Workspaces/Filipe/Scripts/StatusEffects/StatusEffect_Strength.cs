@@ -9,7 +9,7 @@ public class StatusEffect_Strength : BattleStatusEffect
 
     public override int OnDealDamage(int damage)
     {
-        int finalDamage = damage + _intensity;
+        int finalDamage = damage - _intensity;
         return finalDamage;
     }
 

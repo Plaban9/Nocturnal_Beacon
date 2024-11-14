@@ -15,7 +15,8 @@ MonoBehaviour:
   unitName: Knight
   sprite: {fileID: 21300000, guid: af87d6334d9427c45a0ebeb8b44df130, type: 3}
   startingHp: 120
-  flipSprite: 1
-  scale: 13
+  flipSprite: 0
+  scale: 6
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
   startingMana: 3
+  description: DURABLE

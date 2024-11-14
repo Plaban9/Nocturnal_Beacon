@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Minimalist.Audio;
 using Minimalist.Audio.Music;
 using Minimalist.Audio.Sound;
@@ -8,11 +9,13 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] public PlayerUnitData _DEBUG_DATA_FOR_PROTOTYPE1;
+    [SerializeField] public MenuPrototype menu;
 
     [SerializeField] public Slider masterVolume;
     [SerializeField] public Slider musicVolume;
     [SerializeField] public Slider sfxVolume;
+
+    [SerializeField] public GameObject heroSelectMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +31,11 @@ public class MenuController : MonoBehaviour
         
     }
 
-    public void StartNewGame()
+    public void OpenSelectionMenu()
     {
-        PlayerPrefs.DeleteKey("Map");
-        _DEBUG_DATA_FOR_PROTOTYPE1.SetCurrentHp(_DEBUG_DATA_FOR_PROTOTYPE1.GetMaxHP());
-        NoctBeaconRunData.Instance.SetPlayer(_DEBUG_DATA_FOR_PROTOTYPE1);
-        SceneController.Instance.ToMap(); 
+        menu.DisableMainMenu();
+        heroSelectMenu.SetActive(true);
+        heroSelectMenu.transform.DOScaleY(1f, 0.5f);
     }
 
     public void SetMasterVolume()

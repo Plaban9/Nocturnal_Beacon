@@ -40,7 +40,7 @@ public class UITopBarManager : MonoBehaviour
     private void OnLevelWasLoaded(int level)
     {
         _beaconRunData = NoctBeaconRunData.Instance;
-        floorTxt.text = $"Floor {_beaconRunData.GetHeight()}";
+        floorTxt.text = $"Floor to Summit: {_beaconRunData.GetHeight()}";
         hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
         goldTxt.text = $"{_beaconRunData.GetGold()}";
         if (level == 2) // if not map level

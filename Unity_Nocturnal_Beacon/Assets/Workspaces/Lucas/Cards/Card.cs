@@ -20,7 +20,8 @@ namespace CardAttribute
     {
         Normal = 0,
         Rare, 
-        Legendary
+        Legendary,
+        Enemy = -1
     };
 
     [Serializable]
