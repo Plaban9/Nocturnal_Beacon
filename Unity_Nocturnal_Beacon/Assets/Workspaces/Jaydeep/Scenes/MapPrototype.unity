@@ -5520,6 +5520,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ResourcesCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2725568302878789597, guid: b6a49489dca1cfb46ac66e46e8866021, type: 3}
+      propertyPath: m_text
+      value: Floor 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725568302878789597, guid: b6a49489dca1cfb46ac66e46e8866021, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b7b392db6e08fb48a45b2d8b80ec4c3, type: 2}
+    - target: {fileID: 2725568302878789597, guid: b6a49489dca1cfb46ac66e46e8866021, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1771184260079496424, guid: 9b7b392db6e08fb48a45b2d8b80ec4c3, type: 2}
+    - target: {fileID: 2725568302878789597, guid: b6a49489dca1cfb46ac66e46e8866021, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2980089671092298050, guid: b6a49489dca1cfb46ac66e46e8866021, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
