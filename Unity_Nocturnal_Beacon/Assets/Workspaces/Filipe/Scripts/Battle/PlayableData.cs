@@ -10,6 +10,7 @@ public class PlayableData : UnitData
     [Header("Playable Character Data")]
     [SerializeField] public Deck startingDeck;
     [SerializeField] public int startingMana;
+    [SerializeField] public string description;
 
     // Start is called before the first frame update
 

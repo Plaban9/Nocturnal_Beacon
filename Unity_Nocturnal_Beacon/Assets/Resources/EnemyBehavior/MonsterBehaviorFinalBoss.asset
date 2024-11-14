@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: MonsterBehaviorFinalBoss
   m_EditorClassIdentifier: 
   _cards:
-  - {fileID: 11400000, guid: d9f456ddad4be4b41ab72bc6b510e12f, type: 2}
+  - {fileID: 11400000, guid: 635c6048907ed184794cdd89a3a3c66a, type: 2}
+  - {fileID: 11400000, guid: 635c6048907ed184794cdd89a3a3c66a, type: 2}
+  - {fileID: 11400000, guid: bb4c16f72ab0e2940a5a9af22bab4310, type: 2}
   - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
-  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
-  - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
-  - {fileID: 11400000, guid: 31c4ae04e2c87314b919146a92c6728b, type: 2}
-  - {fileID: 11400000, guid: 2d27b0d9bd1f9e34eba2b8ddfe429ccf, type: 2}
-  - {fileID: 11400000, guid: b91620c212bb98842a6f35cd2d813e99, type: 2}
+  - {fileID: 11400000, guid: bff853c14083d6640b1beaff7337d843, type: 2}
+  - {fileID: 11400000, guid: bff853c14083d6640b1beaff7337d843, type: 2}

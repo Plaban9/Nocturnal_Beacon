@@ -1,3 +1,4 @@
+using Minimalist.Audio;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -22,6 +23,8 @@ public class ButtonPrototype : MonoBehaviour
 
     public void OnHoverEnter()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
+
         Debug.Log($"{gameObject.name}:Mouse is over GameObject.");
 
         if (_buttonText != null)

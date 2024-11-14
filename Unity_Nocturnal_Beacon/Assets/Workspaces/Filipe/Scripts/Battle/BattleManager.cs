@@ -12,8 +12,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] List<BattleUnit> _enemies;
     // Start is called before the first frame update
 
-    [SerializeField] public List<UnitData> _possibleEnemies;
-    [SerializeField] public UnitData _finalBoss;
+    [SerializeField] public List<MonsterData> _possibleEnemies;
+    [SerializeField] public MonsterData _finalBoss;
 
     [Header("UI")]
     [SerializeField] public TextMeshProUGUI _battleStateText;
@@ -70,6 +70,10 @@ public class BattleManager : MonoBehaviour
         _cardManager = GetComponent<CardManager>();
         SetupBattle();
 
+    }
+
+    public void StartBattle()
+    {
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
     }
 
@@ -100,7 +104,7 @@ public class BattleManager : MonoBehaviour
         int height = NoctBeaconRunData.Instance.GetHeight();
         // Used when we start making multiple floors stuff
 
-        UnitData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
+        MonsterData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
 
         if (height == 0) unit = _finalBoss;
         _enemies[0].SetupUnit(unit);
@@ -144,7 +148,12 @@ public class BattleManager : MonoBehaviour
         if (state == BATTLE_STATE.ENEMY_TURN)
         {
             _currentTurn++;
-            _player.GetHPData().EndTurnFlushShield(); 
+            _player.GetHPData().EndTurnFlushShield();
+            foreach(BattleUnit enemy in _enemies)
+            {
+                enemy.GetUnitStatusData().OnTurnEnd();
+            }
+
         }
     }
 
@@ -152,13 +161,18 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BATTLE_STATE.ENEMY_TURN)
         {
+            foreach (BattleUnit enemy in _enemies)
+            {
+                enemy.GetUnitStatusData().OnTurnStart();
+            }
             CheckIfBattleIsOver();
-            RunEnemyActions();
-            _player.GetUnitStatusData().OnTurnStart();
-
+            StartCoroutine(RunEnemyActions());
         }
         else if(state == BATTLE_STATE.PLAYER_TURN)
         {
+            _player.GetUnitStatusData().OnTurnStart();
+            SetupEnemiesIntent();
+
             int defaultDrawAmount = 5;
             int a = _player.GetUnitStatusData().OnDraw(defaultDrawAmount);
 
@@ -168,6 +182,8 @@ public class BattleManager : MonoBehaviour
 
     public void EndTurn()
     {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Transition_Clap);
+
         StartCoroutine(PerformEndTurn());
     }
 
@@ -210,6 +226,7 @@ public class BattleManager : MonoBehaviour
         {
             if (NoctBeaconRunData.Instance.GetHeight() == 0)
             {
+                AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Gameplay, 0.5f, true);
                 float healthPct = 1.0f + _player.GetHPData().GetCurrentHP() / _player.GetUnitData().startingHp;
                 float goldAmassed = NoctBeaconRunData.Instance.GetGold();
                 float bonusRare = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Rare).Count * 0.1f;
@@ -246,6 +263,17 @@ public class BattleManager : MonoBehaviour
     }
     #region ENEMY ACTIONS
 
+    private void SetupEnemiesIntent()
+    {
+        foreach(BattleUnit enemy in _enemies)
+        {
+            enemy.ShowIntent(0);
+            EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
+            Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
+            enemy.SetNextTurnIntent(0, enemyCard);
+        }
+    }
+
     private int EnemiesAlive()
     {
         int enemiesAlive = 0;
@@ -257,11 +285,16 @@ public class BattleManager : MonoBehaviour
         return enemiesAlive;
     }
 
-    private void RunEnemyActions()
+    private IEnumerator RunEnemyActions()
     {
+        yield return new WaitForSeconds(0.5f);
         foreach(BattleUnit enemy in _enemies)
         {
-            PerformEnemyBehavior(enemy); 
+            enemy.HighlightIntent(0);
+            yield return new WaitForSeconds(0.5f);
+            PerformEnemyBehavior(enemy);
+            yield return new WaitForSeconds(0.3f);
+            enemy.HideIntent(0);
         }
         /*
          * All enemies acted, can return to a player turn if the player is still alive
