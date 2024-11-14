@@ -27,7 +27,8 @@ public class SceneController : MonoBehaviour
     {
         MAIN_MENU = 0,
         MAP,
-        BATTLE
+        BATTLE,
+        CARD_CUSTOMIZE
     }
 
     private LoadingScreenAnimations _loadingScreenAnimation; 
@@ -42,6 +43,7 @@ public class SceneController : MonoBehaviour
         sceneNames.Add(GAME_SCENE.MAIN_MENU, "MainMenu_InProgress");
         sceneNames.Add(GAME_SCENE.MAP, "MapPrototype");
         sceneNames.Add(GAME_SCENE.BATTLE, "CombatTest");
+        sceneNames.Add(GAME_SCENE.CARD_CUSTOMIZE, "CARD_CUSTOMIZE");
     }
 
     public void ToMain()
@@ -58,6 +60,11 @@ public class SceneController : MonoBehaviour
     public void ToBattle()
     {
         ChangeToScene(GAME_SCENE.BATTLE);
+    }
+
+    public void ToCardCustomize()
+    {
+        ChangeToScene(GAME_SCENE.CARD_CUSTOMIZE);
     }
 
     public void ChangeToScene(GAME_SCENE gameScene)
