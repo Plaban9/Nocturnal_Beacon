@@ -11,6 +11,7 @@ public class MapNode : MonoBehaviour
     [SerializeField] private SpriteRenderer lockSprite;
     [SerializeField] private GameObject selectedEffect;
     [SerializeField] private LineRenderer linePrefab;
+    [SerializeField] private float disabledAlphaValue = .25f;
 
     [Header("Connected Map Nodes")]
     [SerializeField] private List<MapNode> mapNodesList;
@@ -111,7 +112,7 @@ public class MapNode : MonoBehaviour
     public void SetAsUnavailableNode()
     {
         var color = spriteRenderer.color;
-        color.a = .25f;
+        color.a = disabledAlphaValue;
         spriteRenderer.color = color;
 
         DisableConnectedLines();

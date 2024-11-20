@@ -318,10 +318,11 @@ MonoBehaviour:
   bossNode: {fileID: 1114054851}
   mapNodePrefab: {fileID: 8810144144743982383, guid: 046b37b0326c8ea45a32d8b0287bff25, type: 3}
   selectedNodeEffectTrans: {fileID: 710824495}
-  maxSplitsAllowed: 9
+  maxSplitsAllowed: 7
   depthLevel: 15
-  horizontalSpacing: 5
+  horizontalSpacing: 0.5
   verticalSpacing: 4
+  incrementalVerticalSpacing: 0
   unavailablePathMaterial: {fileID: 2100000, guid: 82c028380afa7c3419e78d9417c586fc, type: 2}
   walkablePathMaterial: {fileID: 2100000, guid: 38d665b1786bdc14bb3ad63b3d2a3827, type: 2}
   walkedPathMaterial: {fileID: 2100000, guid: b5e97fd1d8fc75d4e932fcf4611473c4, type: 2}

@@ -103,6 +103,7 @@ MonoBehaviour:
   lockSprite: {fileID: 7500191873131920945}
   selectedEffect: {fileID: 5697511427269410394}
   linePrefab: {fileID: 8828963287114586532, guid: d274798b5820ec2438bbcb2c6ade30e6, type: 3}
+  disabledAlphaValue: 0.1
   mapNodesList: []
   connectedLines: []
   <UpwardNodeList>k__BackingField: []

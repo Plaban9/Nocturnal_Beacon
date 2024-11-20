@@ -20,8 +20,9 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private int depthLevel;
 
     [Header("Node Spacing")]
-    [SerializeField] private float horizontalSpacing = 3f;
+    [SerializeField] private float horizontalSpacing = .5f;
     [SerializeField] private float verticalSpacing = 3f;
+    [SerializeField] private float incrementalVerticalSpacing = 0f;
 
     [Header("Textures for Lines")]
     [SerializeField] private Material unavailablePathMaterial;
@@ -128,15 +129,19 @@ public class MapBuilderTD : MonoBehaviour
         bossNode.SetAsAvailableNode();
         bossNode.gameObject.SetActive(true);
 
+        var spacing = 1 + horizontalSpacing;
+
         // Columns
-        for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++)
+        for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++, spacing += horizontalSpacing)
         {
-            pos.y -= verticalSpacing;
-            pos.x = bossNode.transform.position.x + (maxSplitsAllowed / 2 * -horizontalSpacing);
+            pos.y -= verticalSpacing + (incrementalVerticalSpacing * currentDepth);
             nodes2DList.Add(new MapRow());
+            var center = (maxSplitsAllowed - 1) * (spacing);
+            Debug.Log("For Depth " + (spacing + 1) + " the center is " + center + " and start pos is " + (-center / 2));
+            pos.x = bossNode.transform.position.x + -center / 2;
 
             // Rows
-            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += horizontalSpacing)
+            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += (spacing))
             {
                 // Creating Node
                 var node = Instantiate(mapNodePrefab, transform);
