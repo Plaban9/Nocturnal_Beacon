@@ -8,7 +8,7 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
 {
     [SerializeField] private float scrollSensitivityMultiplier = .5f;
     [SerializeField] private float maxScrollLength;
-    [SerializeField, Range(1f, 10f)] private float initialScrollTime = 10f;
+    [SerializeField, Range(0f, 10f)] private float initialScrollTime = 10f;
 
     private IEnumerator Start()
     {
@@ -16,30 +16,32 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
         yield return new WaitForSeconds(0.1f);
 
         var currentlySelectedNode = MapBuilderTD.Instance.GetCurrentlySelectedNode();
-        var scrollPos = maxScrollLength;
+        var scrollPos = transform.position;
 
         if (currentlySelectedNode != null)
         {
-            scrollPos = currentlySelectedNode.transform.position.y;
+            scrollPos = currentlySelectedNode.transform.position;
+            scrollPos.z = transform.position.z;
         }
 
-        var pos = transform.position;
-        pos.y += scrollPos;
-         
         //Occurs first time, then it doesnt anymore -FMM
-        if(NoctBeaconRunData.Instance.GetHeight() == -1)
+        if(NoctBeaconRunData.Instance.IsNewGameStarted())
         {
-            transform.DOMove(pos, initialScrollTime).SetEase(Ease.InOutCubic);
-            StartCoroutine(WaitToEnableTopBar(initialScrollTime));
+            transform.DOMove(scrollPos, initialScrollTime).SetEase(Ease.InOutCubic).OnComplete(() => 
+            {
+                if (!UITopBarManager.Instance.IsDown())
+                {
+                    UITopBarManager.Instance.PullDown();
+                }
+            });
         }
         else
         {
-            transform.position = pos;
+            transform.position = scrollPos;
             if (!UITopBarManager.Instance.IsDown())
             {
-                UITopBarManager.Instance.PullDown(); 
+                UITopBarManager.Instance.PullDown();
             }
-
         }
     }
 
@@ -52,11 +54,5 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
         var min = Mathf.Min(0, maxScrollLength);
         var max = Mathf.Max(0, maxScrollLength);
         transform.position = new(pos.x, Mathf.Clamp(pos.y, min, max), pos.z);
-    }
-
-    IEnumerator WaitToEnableTopBar(float time)
-    {
-        yield return new WaitForSeconds(time);
-        UITopBarManager.Instance.PullDown();
     }
 }

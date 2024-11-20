@@ -24,6 +24,7 @@ public class MapNode : MonoBehaviour
     private bool isLocked;
     private SpriteRenderer spriteRenderer;
     private Collider2D nodeCollider;
+    private Gradient defaultColorGradient;
 
     public int Id { get; private set; }
 
@@ -35,6 +36,7 @@ public class MapNode : MonoBehaviour
         DownwardNodeList = new();
         spriteRenderer = GetComponent<SpriteRenderer>();
         nodeCollider = GetComponent<Collider2D>();
+        defaultColorGradient = linePrefab.colorGradient;
         DisableSelectableEffect();
         SetAsUnavailableNode();
         gameObject.SetActive(false); // This is required as we are enabling only the connected nodes later
@@ -55,14 +57,6 @@ public class MapNode : MonoBehaviour
     public void SetMapNodeSelected()
     {
         OnMapNodeSelected?.Invoke(this);
-    }
-
-    public void SetConnectedLineColor(Gradient gradient)
-    {
-        foreach (var lines in connectedLines)
-        {
-            lines.colorGradient = gradient;
-        }
     }
 
     public void SetNodeId(int nodeId) { Id = nodeId; }
@@ -93,7 +87,8 @@ public class MapNode : MonoBehaviour
 
     public void ConnectNode(MapNode node)
     {
-        //if(ForwardNodeList.Contains(node)) return;
+        if (UpwardNodeList.Contains(node))
+            return;
 
         UpwardNodeList.Add(node);
         node.DownwardNodeList.Add(this);
@@ -118,6 +113,8 @@ public class MapNode : MonoBehaviour
         var color = spriteRenderer.color;
         color.a = .25f;
         spriteRenderer.color = color;
+
+        DisableConnectedLines();
     }
 
     public void SetAsAvailableNode()
@@ -125,6 +122,38 @@ public class MapNode : MonoBehaviour
         var color = spriteRenderer.color;
         color.a = 1f;
         spriteRenderer.color = color;
+    }
+
+    public void EnableConnectedLines()
+    {
+        foreach (var line in connectedLines)
+        {
+            var gradient = new Gradient()
+            {
+                alphaKeys = new GradientAlphaKey[]
+                {
+                    new() { alpha = 1, time = 0 },
+                    new() { alpha = 1, time = 1 },
+                },
+                colorKeys = new GradientColorKey[]
+                {
+                    new() { color = Color.white, time = 0 },
+                    new() { color = Color.white, time = 1 },
+                },
+            };
+
+            line.colorGradient = gradient;
+            Debug.Log("Node: " + transform.name + "  Line:" + line.name);
+        }
+    }
+
+    public void DisableConnectedLines()
+    {
+        foreach (var line in connectedLines)
+        {
+            line.colorGradient = defaultColorGradient;
+            Debug.Log("Node: " + transform.name + "  Line:" + line.name);
+        }
     }
 
     public void UnlockNode()

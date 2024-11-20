@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Minimalist.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class MapBuilderTD : MonoBehaviour
@@ -42,9 +43,6 @@ public class MapBuilderTD : MonoBehaviour
 
     [Header("Gradients")]
     [SerializeField] private List<Gradient> selectedLineGradientList = new List<Gradient>();
-
-    [Header("Audio")]
-    [SerializeField] private Minimalist.Audio.AudioLibrary menuAudioLibrary;
 
     private void Awake()
     {
@@ -224,10 +222,26 @@ public class MapBuilderTD : MonoBehaviour
             //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
+        if (currentSelectedNode == bossNode)
+        {
+            ResetMap();
+            return;
+        }
+
         if (SceneController.Instance)
         {
             SceneController.Instance.ToBattle();
         }
+        else
+        {
+            LoadNodeList();
+        }
+    }
+
+    private void ResetMap()
+    {
+        PlayerPrefs.DeleteKey("Map");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void DeselectNode()
@@ -316,7 +330,7 @@ public class MapBuilderTD : MonoBehaviour
             foreach (var connectedNodeId in nodeData.connectedNodes)
             {
                 MapNode nextNode = GetNodeById(connectedNodeId);
-                node.UpwardNodeList.Add(nextNode);
+                node.ConnectNode(nextNode);
             }
         }
 
@@ -339,13 +353,14 @@ public class MapBuilderTD : MonoBehaviour
             else
             {
                 var lastSelectedNode = selectedNodeLineList.nodesList[^1];
-                SetSelectedNode(lastSelectedNode);
-                currentSelectedNode.UnlockNode();
-                currentSelectedNode.DisableSelectableEffect();
-                currentSelectedNode.MakeUnclickable();
-                currentSelectedNode.UpwardNodeList.ForEach(nextNode => nextNode.UnlockNode());
+                //SetSelectedNode(lastSelectedNode);
+                lastSelectedNode.UnlockNode();
+                lastSelectedNode.DisableSelectableEffect();
+                lastSelectedNode.MakeUnclickable();
+                lastSelectedNode.EnableConnectedLines();
+                lastSelectedNode.UpwardNodeList.ForEach(nextNode => nextNode.UnlockNode());
 
-                selectedNodeEffectTrans.SetParent(currentSelectedNode.transform);
+                selectedNodeEffectTrans.SetParent(lastSelectedNode.transform);
                 selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 selectedNodeEffectTrans.localScale = Vector3.one;
             }
@@ -384,14 +399,13 @@ public class MapBuilderTD : MonoBehaviour
                     if (depth < 0) break;
 
                     var next = curr.UpwardNodeList[0];
-                    curr.UpwardNodeList.RemoveAt(0);
+                    curr.UpwardNodeList.Remove(next);
+                    curr.UpwardNodeList.Add(next);
                     Debug.Log($"{curr} -> {next}");
-                    curr.ConnectNode(next);
                     curr = next;
 
                     depth--;
                 }
-
                 Debug.Log("==========================");
             }
         }
