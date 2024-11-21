@@ -10,6 +10,10 @@ public class MapBuilderTD : MonoBehaviour
 {
     public static MapBuilderTD Instance { get; private set; }
 
+    #region Variables
+
+    #region Tower Creation
+
     // Mapbuilder with top->down approch
     [SerializeField] private MapNode bossNode;
     [SerializeField] private MapNode mapNodePrefab;
@@ -39,14 +43,37 @@ public class MapBuilderTD : MonoBehaviour
     [Header("Scriptable Objects")]
     [SerializeField] private MapNodeListSO mapNodeListSO;
 
+    [Header("Selected Line")]
     [SerializeField] private LineRenderer selectedLine;
     [SerializeField] private MapRow selectedNodeLineList = new();
 
+    [Header("Current Node And Connections")]
     [SerializeField] private MapNode currentSelectedNode;
     [SerializeField] private List<MapRow> connectedNodesList = new();
 
+    [Header("Other script ref")]
+    [SerializeField] private NodeInfoCanvas nodeInfoCanvas;
+
     [Header("Gradients")]
     [SerializeField] private List<Gradient> selectedLineGradientList = new List<Gradient>();
+
+    [Header("Debug Options")]
+    [SerializeField] private bool connectFullGrid;
+
+    #endregion
+
+    #region Tower Configuration
+
+    //[Header("Tower Confifuration")]
+
+    //[Header("Confiruration SO")]
+    //[SerializeField] private TowerConfiguration towerConfigurationSO;
+
+    #endregion
+
+    #endregion
+
+    public float LastRowPos => -(depthLevel * verticalSpacing);
 
     private void Awake()
     {
@@ -56,6 +83,8 @@ public class MapBuilderTD : MonoBehaviour
             return;
         }
         Instance = this;
+
+        //depthLevel = towerConfigurationSO.GetMaxHeight();
     }
 
     private void Start()
@@ -67,14 +96,13 @@ public class MapBuilderTD : MonoBehaviour
         CreateNodes();
 
         if (PlayerPrefs.HasKey("Map"))
-        {
             LoadNodeList();
-        }
-        else
-        {
+        else if(!connectFullGrid)
             ConnectNodes();
-            SaveNodeList();
-        }
+        else
+            ConnectFullGrid();
+
+        SaveNodeList();
     }
 
     private void OnEnable()
@@ -96,6 +124,23 @@ public class MapBuilderTD : MonoBehaviour
         }
     }
 
+    private void ConnectFullGrid()
+    {
+        for (int i = 0; i < nodes2DList.Count; i++)
+        {
+            for (int j = 0; j < nodes2DList[i].nodesList.Count; j++)
+            {
+                var curr = nodes2DList[i].nodesList[j];
+                var nodeTypeData = nodeTypesList.GetRandom();
+                var upperConnectable = curr.GetNodesList();
+
+                curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
+                upperConnectable.ForEach(x => curr.ConnectNode(x));
+                nodes2DList[^1].nodesList[j].UnlockNode();
+            }
+        }
+    }
+
     private void SetSelectedLineParams()
     {
         selectedLine.name = "Selected Line";
@@ -109,31 +154,6 @@ public class MapBuilderTD : MonoBehaviour
         particle.startColor = gradient.colorKeys[^1].color;
     }
 
-    private void SetSelectedNode(MapNode node)
-    {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
-
-        var previousSelectedNode = currentSelectedNode;
-        var modifier = node != bossNode ? 2f : 3f;
-        Vector3 targetScale = Vector3.one * modifier;
-
-        currentSelectedNode = node;
-
-        if (previousSelectedNode != null)
-        {
-            if (previousSelectedNode == bossNode)
-                previousSelectedNode.transform.DOScale(Vector3.one * 3f, .25f);
-            else
-                previousSelectedNode.transform.DOScale(Vector3.one, .25f);
-        }
-
-        if (currentSelectedNode != null)
-        {
-            currentSelectedNode.transform.DOScale(targetScale, .25f);
-            Debug.Log($"{currentSelectedNode.GetHeight()} is the height for {currentSelectedNode.name}!");
-        }
-    }
-
     private void CreateNodes()
     {
         var pos = bossNode.transform.position;
@@ -144,7 +164,7 @@ public class MapBuilderTD : MonoBehaviour
 
         var spacing = 1 + horizontalSpacing;
 
-        // Columns
+        // Rows
         for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++, spacing += horizontalSpacing)
         {
             pos.y -= verticalSpacing + (incrementalVerticalSpacing * currentDepth);
@@ -153,7 +173,7 @@ public class MapBuilderTD : MonoBehaviour
             Debug.Log("For Depth " + (spacing + 1) + " the center is " + center + " and start pos is " + (-center / 2));
             pos.x = bossNode.transform.position.x + -center / 2;
 
-            // Rows
+            // Column
             for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += (spacing))
             {
                 // Creating Node
@@ -199,13 +219,12 @@ public class MapBuilderTD : MonoBehaviour
             // Get a new line to connect all nodes
             var curr = nodes2DList[depth].nodesList[i];
 
-            // Set Node Type
-            var nodeTypeData = nodeTypesList.GetRandom();
-
             for (int j = depth; j >= 0; j--)
             {
                 connectedNodesList[i].nodesList.Add(curr);
 
+                // Set Node Type
+                var nodeTypeData = nodeTypesList.GetRandom();
                 curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
                 var upperConnectableNodes = curr.GetNodesList();
                 var next = upperConnectableNodes.GetRandom();
@@ -286,6 +305,36 @@ public class MapBuilderTD : MonoBehaviour
         if (currentSelectedNode)
         {
             currentSelectedNode.SetSelectedEffectColor(gradient);
+        }
+    }
+
+    private void SetSelectedNode(MapNode node)
+    {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
+
+        var previousSelectedNode = currentSelectedNode;
+        var modifier = node != bossNode ? 2f : 3f;
+        Vector3 targetScale = Vector3.one * modifier;
+
+        currentSelectedNode = node;
+
+        if (previousSelectedNode != null)
+        {
+            if (previousSelectedNode == bossNode)
+                previousSelectedNode.transform.DOScale(Vector3.one * 3f, .25f);
+            else
+                previousSelectedNode.transform.DOScale(Vector3.one, .25f);
+        }
+
+        if (currentSelectedNode != null)
+        {
+            currentSelectedNode.transform.DOScale(targetScale, .25f);
+            Debug.Log($"{currentSelectedNode.GetHeight()} is the height for {currentSelectedNode.name}!");
+            nodeInfoCanvas.OnNodeInfoRequestedAtNode(currentSelectedNode.transform.position);
+        }
+        else
+        {
+            nodeInfoCanvas.OnCancelBtnClicked();
         }
     }
 

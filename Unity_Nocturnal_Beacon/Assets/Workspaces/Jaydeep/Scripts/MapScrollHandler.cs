@@ -15,14 +15,17 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
         // This will hold the function until the grid is created and current node is set;
         yield return new WaitForSeconds(0.1f);
 
-        var currentlySelectedNode = MapBuilderTD.Instance.GetCurrentlySelectedNode();
-        var scrollPos = transform.position;
+        float posY = 0f;
 
-        if (currentlySelectedNode != null)
-        {
-            scrollPos = currentlySelectedNode.transform.position;
-            scrollPos.z = transform.position.z;
-        }
+        var node = MapBuilderTD.Instance.GetCurrentlySelectedNode();
+        if (node == null)
+            posY = MapBuilderTD.Instance.LastRowPos;
+        else
+            posY = node.transform.position.y;
+
+        var currentlySelectedNode = MapBuilderTD.Instance.GetCurrentlySelectedNode();
+        var myPos = transform.position;
+        var scrollPos = new Vector3(myPos.x, posY, myPos.z);
 
         //Occurs first time, then it doesnt anymore -FMM
         if(NoctBeaconRunData.Instance.IsNewGameStarted())
