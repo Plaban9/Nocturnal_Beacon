@@ -120,7 +120,12 @@ public class MapBuilderTD : MonoBehaviour
         currentSelectedNode = node;
 
         if (previousSelectedNode != null)
-            previousSelectedNode.transform.DOScale(Vector3.one, .25f);
+        {
+            if (previousSelectedNode == bossNode)
+                previousSelectedNode.transform.DOScale(Vector3.one * 3f, .25f);
+            else
+                previousSelectedNode.transform.DOScale(Vector3.one, .25f);
+        }
 
         if (currentSelectedNode != null)
         {
