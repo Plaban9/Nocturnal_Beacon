@@ -139,4 +139,28 @@ public class Card : ScriptableObject
         return result;
     }
 
+
+    public bool TargetSingleEnemy()
+    {
+        return effects.Find(it => 
+           (it.GetTarget() == CardAttribute.EffectTarget.OpponentSingle)
+        ) != null;
+    }
+
+    public bool TargetAllEnemy()
+    {
+        return effects.Find(it =>
+           (it.GetTarget() == CardAttribute.EffectTarget.OpponentAll ||
+          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom)
+        ) != null;
+    }
+
+    public bool TargetSelf()
+    {
+        return effects.Find(it =>
+           (it.GetTarget() == CardAttribute.EffectTarget.Self)
+        ) != null;
+    }
+
+
 }

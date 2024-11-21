@@ -65,9 +65,9 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public bool DeployCard(Card card)
+    public bool DeployCard(Card card, BattleUnit target)
     {
-        if (_bm.PlayerTryToUseCard(card))
+        if (_bm.PlayerTryToUseCard(card, target))
         {
             _cardPileManager.AddCardToBottom(CardPileManager.PileType.Discard, card);
             return true;

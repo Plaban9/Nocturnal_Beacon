@@ -20,6 +20,15 @@ MonoBehaviour:
   encounterList:
   - _possibleEnemies:
     - {fileID: 11400000, guid: 867203edaa09e6e489e41d8dbd164958, type: 2}
+    - {fileID: 11400000, guid: 9e78614f0ca43bd4f879e8d1b204f220, type: 2}
+    - {fileID: 11400000, guid: 53b29ea12864b114fb45bc2467dccff2, type: 2}
     minHeight: 0
+    maxHeight: 3
+  - _possibleEnemies:
+    - {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}
+    - {fileID: 11400000, guid: 06c18377aba386e4b815521465f3dc0d, type: 2}
+    - {fileID: 11400000, guid: 09cb8741d00a7eb459cdec846814ce56, type: 2}
+    minHeight: 3
     maxHeight: 5
-  bossList: []
+  bossList:
+  - {fileID: 11400000, guid: 912711c80949ef74ebdedd35b382c29a, type: 2}

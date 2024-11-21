@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HPData : MonoBehaviour
 {
@@ -157,26 +158,41 @@ public class HPData : MonoBehaviour
         if (_shield > 0)
             _hpText.color = Color.cyan;
 
-        _hpText.text = sum.ToString();
+        int curHp = int.Parse(_hpText.text);
+        DOTween.To(() => curHp,
+            x => curHp = x, sum, 0.5f).OnUpdate(() =>
+            {
+                _hpText.text = $"{curHp}"; 
+            }
+        );
 
-        _hpMaterial.SetFloat("_pctHealthNShield", ((float)_currentHp)/((float)_maxHp));
-        _hpMaterial.SetFloat("_pctShield", ((float) _shield) / ((float)_currentHp));
+
+        float curHpPercent = _hpMaterial.GetFloat("_pctHealthNShield");
+        float curShPercent = _hpMaterial.GetFloat("_pctShield");
+        float maxHPPercent = ((float)_currentHp) / ((float)_maxHp);
+        float maxSHPercent = ((float)_shield) / ((float) _currentHp);
+
+        Debug.Log($"{curHpPercent} -> {maxHPPercent}, {curShPercent} -> {maxSHPercent}");
+
+        DOTween.To(() => curHpPercent,
+            x => curHpPercent = x , maxHPPercent, 0.5f).OnUpdate(() =>
+            {
+                _hpMaterial.SetFloat("_pctHealthNShield", curHpPercent);
+            }
+        );
+        DOTween.To(() => curShPercent,
+            x => curShPercent = x, maxSHPercent, 0.5f).OnUpdate(() =>
+            {
+                _hpMaterial.SetFloat("_pctShield",curShPercent);
+            }
+        );
+
     }
 
     public bool IsDead()
     {
         if (_currentHp == 0)
         {
-            if(_unitData is MonsterData)
-            {
-                _unitRenderer.DOColor(new Color(0f, 0.2f, 0f), 0.5f);
-            }
-            else
-            {
-                _unitRenderer.DOColor(new Color(0.2f, 0f, 0f), 0.5f);
-            }
-            _unitRenderer.transform.parent.DOScaleY(0f, 1.2f);
-
             return true;
         }
         return false;

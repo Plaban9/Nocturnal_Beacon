@@ -34,6 +34,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         oriZoomRatio = transform.localScale.x;
 
+
         if (card != null)
         {
             Setup(card);
@@ -152,4 +153,6 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             onClick?.Invoke();
         }).AddTo(this);
     }
+
+
 }

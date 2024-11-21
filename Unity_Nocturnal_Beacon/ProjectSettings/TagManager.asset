@@ -13,11 +13,11 @@ TagManager:
   - 
   - Water
   - UI
-  - DeployCard
+  - DeployCardTarget
   - HandCard
   - MapNode
   - LoadingScreen
-  - 
+  - DeployCardNoTarget
   - 
   - 
   - 

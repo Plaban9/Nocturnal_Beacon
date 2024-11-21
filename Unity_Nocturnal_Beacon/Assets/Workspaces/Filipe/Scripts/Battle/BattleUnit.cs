@@ -9,6 +9,7 @@ using UnityEngine.Android;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class BattleUnit : MonoBehaviour
 
     [Header("Prefab Only")]
     [SerializeField] public SpriteRenderer _sprite;
+    private Material _materialSprite;
     [SerializeField] public TextMeshProUGUI _hpText;
     [SerializeField] public SpriteRenderer _hpSprite;
     [SerializeField] public TextMeshProUGUI _name;
@@ -36,6 +38,7 @@ public class BattleUnit : MonoBehaviour
         _hpData = GetComponent<HPData>();
         _statusEffectData = GetComponent<UnitStatusData>();
         _battleUnit = GetComponent<BattleUnit>();
+        _materialSprite = _sprite.material;
 
     }
 
@@ -109,12 +112,15 @@ public class BattleUnit : MonoBehaviour
         };
     }
 
-    public void SetNextTurnIntent(int intentSlot, Card card)
+    public void SetNextTurnIntent(int intentSlot, Card card, int turnOrder)
     {
         GameObject intentObj = GetIntentSlot(intentSlot);
 
         intentObj.GetComponent<EnemyCardIntentHoverable>().SetCard(card);
+        intentObj.GetComponent<EnemyCardIntentHoverable>().SetTurnOrder(turnOrder);
+
         intentObj.GetComponent<CardDisplay>().Setup(card);
+
     }
 
     public void HighlightIntent(int intentSlot)
@@ -142,4 +148,46 @@ public class BattleUnit : MonoBehaviour
         intentObj.SetActive(false);
     }
 
+    public void Outline()
+    {
+        float outline = _materialSprite.GetFloat("_OutlineThickness");
+        DOTween.To(() => outline,
+        x => outline = x, 2f, 0.2f).OnUpdate(() =>
+        {
+            _materialSprite.SetFloat("_OutlineThickness", outline);
+        }
+            );
+    }
+
+    public void HideOutline()
+    {
+        float outline = _materialSprite.GetFloat("_OutlineThickness");
+        DOTween.To(() => outline,
+        x => outline = x, 0f, 0.2f).OnUpdate(() =>
+        {
+            _materialSprite.SetFloat("_OutlineThickness", outline);
+        }
+        );
+    }
+
+    public bool IsDead() {
+        bool IsDead = _hpData.IsDead();
+        if( IsDead)
+        {
+            _intentHolder.transform.parent.GetComponent<CanvasGroup>().DOFade(0f, 0.2f);
+            if (_unitData is MonsterData)
+            {
+                _sprite.DOColor(new Color(0f, 0.2f, 0f), 0.5f);
+            }
+            else
+            {
+                _sprite.DOColor(new Color(0.2f, 0f, 0f), 0.5f);
+            }
+            _sprite.transform.parent.DOScaleZ(0f, 1.2f).onComplete = ()=>{
+                this.gameObject.SetActive(false);
+            };
+
+        }
+        return IsDead;
+    }
 }
