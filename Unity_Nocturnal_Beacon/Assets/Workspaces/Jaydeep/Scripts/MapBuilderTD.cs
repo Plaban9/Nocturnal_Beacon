@@ -19,6 +19,9 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private int maxSplitsAllowed;
     [SerializeField] private int depthLevel;
 
+    [Header("Node Types")]
+    [SerializeField] private List<NodeTypeData> nodeTypesList;
+
     [Header("Node Spacing")]
     [SerializeField] private float horizontalSpacing = .5f;
     [SerializeField] private float verticalSpacing = 3f;
@@ -98,7 +101,12 @@ public class MapBuilderTD : MonoBehaviour
         selectedLine.name = "Selected Line";
         selectedLine.material = walkedPathMaterial;
         selectedLine.sortingOrder = 1;
-        selectedLine.colorGradient = selectedLineGradientList.GetRandom();
+
+        var gradient = selectedLineGradientList.GetRandom();
+        var particle = selectedNodeEffectTrans.GetComponent<ParticleSystem>().main;
+
+        selectedLine.colorGradient = gradient;
+        particle.startColor = gradient.colorKeys[^1].color;
     }
 
     private void SetSelectedNode(MapNode node)
@@ -106,7 +114,7 @@ public class MapBuilderTD : MonoBehaviour
         AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
 
         var previousSelectedNode = currentSelectedNode;
-        var modifier = node != bossNode ? 1.5f : 3f;
+        var modifier = node != bossNode ? 2f : 3f;
         Vector3 targetScale = Vector3.one * modifier;
 
         currentSelectedNode = node;
@@ -186,10 +194,14 @@ public class MapBuilderTD : MonoBehaviour
             // Get a new line to connect all nodes
             var curr = nodes2DList[depth].nodesList[i];
 
+            // Set Node Type
+            var nodeTypeData = nodeTypesList.GetRandom();
+
             for (int j = depth; j >= 0; j--)
             {
                 connectedNodesList[i].nodesList.Add(curr);
 
+                curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
                 var upperConnectableNodes = curr.GetNodesList();
                 var next = upperConnectableNodes.GetRandom();
                 Debug.Log($"{curr} -> {next}");
@@ -227,6 +239,8 @@ public class MapBuilderTD : MonoBehaviour
             //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
+        DeselectNode();
+
         if (currentSelectedNode == bossNode)
         {
             ResetMap();
@@ -260,6 +274,9 @@ public class MapBuilderTD : MonoBehaviour
 
         var gradient = selectedLineGradientList.GetRandom();
         selectedLine.colorGradient = gradient;
+        var particle = selectedNodeEffectTrans.GetComponent<ParticleSystem>().main;
+        particle.startColor = gradient.colorKeys[^1].color;
+        SetBossNodeOutlineColor();
 
         if (currentSelectedNode)
         {
@@ -308,6 +325,7 @@ public class MapBuilderTD : MonoBehaviour
                 {
                     name = node.name,
                     nodeId = node.Id,
+                    nodeType = node.GetNodeType(),
                     isConnected = node.IsConnected(),
                 };
 
@@ -332,6 +350,10 @@ public class MapBuilderTD : MonoBehaviour
             node.ResetNode();
             node.LockNode();
             node.SetConnected(nodeData.isConnected);
+
+            var typeData = nodeTypesList.Find(x => x.nodeType == nodeData.nodeType);
+            node.SetNodeType(typeData.nodeSprite, typeData.nodeType);
+
             foreach (var connectedNodeId in nodeData.connectedNodes)
             {
                 MapNode nextNode = GetNodeById(connectedNodeId);
@@ -363,7 +385,14 @@ public class MapBuilderTD : MonoBehaviour
                 lastSelectedNode.DisableSelectableEffect();
                 lastSelectedNode.MakeUnclickable();
                 lastSelectedNode.EnableConnectedLines();
-                lastSelectedNode.UpwardNodeList.ForEach(nextNode => nextNode.UnlockNode());
+                lastSelectedNode.UpwardNodeList.ForEach(nextNode =>
+                {
+                    nextNode.UnlockNode();
+                    if (nextNode == bossNode)
+                    {
+                        EnableBossSpriteEffect();
+                    }
+                });
 
                 selectedNodeEffectTrans.SetParent(lastSelectedNode.transform);
                 selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -415,6 +444,41 @@ public class MapBuilderTD : MonoBehaviour
             }
         }
     }
+
+    private void EnableBossSpriteEffect()
+    {
+        var spriteRenderer = bossNode.GetComponent<SpriteRenderer>();
+        var mat = spriteRenderer.material;
+        mat.SetInt("_IsEnabled", 1);
+
+        SetBossNodeOutlineColor();
+    }
+
+    private void SetBossNodeOutlineColor()
+    {
+        var spriteRenderer = bossNode.GetComponent<SpriteRenderer>();
+        var mat = spriteRenderer.material;
+        
+        var color1 = selectedLine.colorGradient.colorKeys[0].color * 25f;
+        var color2 = selectedLine.colorGradient.colorKeys[^1].color * 25f;
+
+        mat.SetColor("_OutlineColor", color1);
+        mat.SetColor("_OutlineColor2", color2);
+    }
+}
+
+public enum NodeType
+{
+    Combat = 0,
+    Shop,
+    Rest,
+}
+
+[Serializable]
+class NodeTypeData
+{
+    public NodeType nodeType;
+    public Sprite nodeSprite;
 }
 
 [Serializable]
@@ -429,6 +493,7 @@ public class NodeData
     public string name; // For visualizing in list
     public int nodeId;
     public bool isConnected;
+    public NodeType nodeType;
     public List<int> connectedNodes = new();
 }
 

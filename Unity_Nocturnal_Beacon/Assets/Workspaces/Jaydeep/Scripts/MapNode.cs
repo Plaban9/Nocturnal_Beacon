@@ -8,7 +8,9 @@ public class MapNode : MonoBehaviour
     public static event Action<MapNode> OnMapNodeSelected;
 
     [Header("Node Settings")]
+    [SerializeField] private NodeType nodeType;
     [SerializeField] private SpriteRenderer lockSprite;
+    [SerializeField] private SpriteRenderer typeSprite;
     [SerializeField] private GameObject selectedEffect;
     [SerializeField] private LineRenderer linePrefab;
     [SerializeField] private float disabledAlphaValue = .25f;
@@ -82,8 +84,8 @@ public class MapNode : MonoBehaviour
 
     public void SetSelectedEffectColor(Gradient gradient)
     {
-        var particleColor = selectedEffect.GetComponent<ParticleSystem>().colorOverLifetime;
-        particleColor.color = gradient;
+        var particleColor = selectedEffect.GetComponent<Renderer>().material;
+        particleColor.SetColor("_EmissionColor", gradient.colorKeys[0].color * 5f);
     }
 
     public void ConnectNode(MapNode node)
@@ -111,18 +113,22 @@ public class MapNode : MonoBehaviour
 
     public void SetAsUnavailableNode()
     {
-        var color = spriteRenderer.color;
-        color.a = disabledAlphaValue;
-        spriteRenderer.color = color;
+        //var color = spriteRenderer.color;
+        //color.a = disabledAlphaValue;
+        //spriteRenderer.color = color;
+
+        spriteRenderer.color = Color.grey;
 
         DisableConnectedLines();
     }
 
     public void SetAsAvailableNode()
     {
-        var color = spriteRenderer.color;
-        color.a = 1f;
-        spriteRenderer.color = color;
+        //var color = spriteRenderer.color;
+        //color.a = 1f;
+        //spriteRenderer.color = color;
+
+        spriteRenderer.color = Color.white;
     }
 
     public void EnableConnectedLines()
@@ -160,7 +166,7 @@ public class MapNode : MonoBehaviour
     public void UnlockNode()
     {
         isLocked = false;
-        lockSprite.gameObject.SetActive(isLocked);
+        //lockSprite.gameObject.SetActive(isLocked);
         MakeClickable();
 
         EnableSelectableEffect();
@@ -171,12 +177,18 @@ public class MapNode : MonoBehaviour
     public void LockNode()
     {
         isLocked = true;
-        lockSprite.gameObject.SetActive(isLocked);
+        //lockSprite.gameObject.SetActive(isLocked);
         MakeUnclickable(); // If it is locked then disable collider so, click won't work on node
 
         DisableSelectableEffect();
 
         SetAsUnavailableNode();
+    }
+
+    public void SetNodeType(Sprite type, NodeType nodeType)
+    {
+        typeSprite.sprite = type;
+        this.nodeType = nodeType;
     }
 
     public void MakeClickable() => nodeCollider.enabled = true;
@@ -186,4 +198,8 @@ public class MapNode : MonoBehaviour
     public void EnableSelectableEffect() => selectedEffect.SetActive(true);
 
     public void DisableSelectableEffect() => selectedEffect.SetActive(false);
+
+    public NodeType GetNodeType() => nodeType;
+
+    public int GetNodeTypeInt() => (int)nodeType;
 }
