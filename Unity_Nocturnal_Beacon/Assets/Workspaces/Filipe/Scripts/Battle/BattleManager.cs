@@ -8,6 +8,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class BattleManager : MonoBehaviour
 {
@@ -320,7 +321,9 @@ public class BattleManager : MonoBehaviour
             if (!enemy.IsDead())
             {
                 enemy.HighlightIntent(0);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.4f);
+                PlayAnimation(enemy, (enemy.GetUnitData() as MonsterData).behavior.GetCardUsed(enemy, _currentTurn));
+                yield return new WaitForSeconds(0.1f);
                 PerformEnemyBehavior(enemy);
                 yield return new WaitForSeconds(0.3f);
                 enemy.HideIntent(0);
@@ -331,6 +334,18 @@ public class BattleManager : MonoBehaviour
          */
         CheckIfBattleIsOver();
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
+    }
+
+    private void PlayAnimation(BattleUnit unit, Card card)
+    {
+        if (card.cardType == CardAttribute.CardType.Skill)
+        {
+            unit.PlaySkillAnimation();
+        }
+        else
+        {
+            unit.PlayAttackAnimation();
+        }
     }
 
     private void PerformEnemyBehavior(BattleUnit enemy)
@@ -418,6 +433,7 @@ public class BattleManager : MonoBehaviour
         }
         SetupEnemiesIntent();
         CheckIfBattleIsOver();
+         PlayAnimation(owner, card);
         return true;
     }
 

@@ -33,13 +33,15 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] public GameObject _intentObject2;
     [SerializeField] public GameObject _intentObject3;
 
+    Animator _animator;
+
     private void Awake()
     {
         _hpData = GetComponent<HPData>();
         _statusEffectData = GetComponent<UnitStatusData>();
         _battleUnit = GetComponent<BattleUnit>();
         _materialSprite = _sprite.material;
-
+        _animator = GetComponent<Animator>();
     }
 
     public void SetupUnit(MonsterData _monsterData)
@@ -189,5 +191,17 @@ public class BattleUnit : MonoBehaviour
 
         }
         return IsDead;
+    }
+
+    public void PlayAttackAnimation()
+    {
+        String anim = (_unitData is MonsterData ? "MonsterAttack" : "PlayerAttack");
+        _animator.Play(anim);
+    }
+
+    public void PlaySkillAnimation()
+    {
+        String anim = (_unitData is MonsterData ? "MonsterUseSkill" : "PlayerUseSkill");
+        _animator.Play(anim);
     }
 }

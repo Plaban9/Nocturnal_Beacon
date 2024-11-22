@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 7660206410757216110}
   - component: {fileID: 2684232225145277255}
   - component: {fileID: 5930181459670283239}
+  - component: {fileID: 263865324147871658}
   m_Layer: 0
   m_Name: BattleUnit
   m_TagString: Untagged
@@ -219,6 +220,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statusEffectHolder: {fileID: 1678534625809114499}
   statusEffectPrefab: {fileID: 4898628361977657331, guid: 582f8930cd94cba48984ec5f9538d75b, type: 3}
+--- !u!95 &263865324147871658
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267364820058420812}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 50b116484a0cec141ab18ea77a32912f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1329933550338323247
 GameObject:
   m_ObjectHideFlags: 0
