@@ -119,6 +119,7 @@ public class Card : ScriptableObject
     public int manaCost = 1;
     public Sprite sprite;
     public Element element;
+    [Tooltip("Price for shop")] public int price;
 
     /*
      * List of Effects to run

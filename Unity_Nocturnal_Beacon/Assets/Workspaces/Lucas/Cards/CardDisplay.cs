@@ -25,8 +25,9 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] Image element;
     [SerializeField] Image background;
     [SerializeField] Image title;
-
     [SerializeField] Image mainImg;
+
+    [SerializeField] PriceTag priceTag;
 
     float oriZoomRatio = 1f;
 
@@ -75,7 +76,11 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         mainImg.sprite = card.sprite;
         SetColors(card);
+        SetPrice(card.price);
     }
+
+    public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
+    public void SetPrice(int price) => priceTag.SetPrice(price);
 
     public virtual void SetColors(Card card)
     {

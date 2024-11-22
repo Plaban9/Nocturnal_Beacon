@@ -7,7 +7,9 @@ public enum GamePage
 {
     DeckPage,
     CardDetailPage,
-    CustomizeCardPage
+    CustomizeCardPage,
+    ShopPage,
+    ShopItemPage
 }
 
 public class UIManager : MonoBehaviour
@@ -19,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject deckPagePrefab;
     [SerializeField] GameObject cardDetailPagePrefab;
     [SerializeField] GameObject customizeCardPagePrefab;
+    [SerializeField] GameObject shopPagePrefab;
     Dictionary<GamePage, GameObject> pageDict = new Dictionary<GamePage, GameObject>();
 
     [Header("Common components")]
@@ -87,6 +90,11 @@ public class UIManager : MonoBehaviour
                 case GamePage.CustomizeCardPage:
                     {
                         pageGO = Instantiate(customizeCardPagePrefab, parent);
+                        break;
+                    }
+                case GamePage.ShopPage:
+                    {
+                        pageGO = Instantiate(shopPagePrefab, parent);
                         break;
                     }
             }
