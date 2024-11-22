@@ -1205,6 +1205,18 @@ PrefabInstance:
       propertyPath: typeText
       value: 
       objectReference: {fileID: 434313169472677081}
+    - target: {fileID: 7957299383318557093, guid: e0ca15e105bdc844880d34019465be31, type: 3}
+      propertyPath: m_Color.b
+      value: 0.504717
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957299383318557093, guid: e0ca15e105bdc844880d34019465be31, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957299383318557093, guid: e0ca15e105bdc844880d34019465be31, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5573046
+      objectReference: {fileID: 0}
     - target: {fileID: 9142114613539974274, guid: e0ca15e105bdc844880d34019465be31, type: 3}
       propertyPath: m_Name
       value: EnemyCardIntent

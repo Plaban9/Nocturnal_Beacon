@@ -78,8 +78,10 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void SetColors(Card card)
     {
         Color goodColor = new(1, 0.7f, 0.3f);
+        Color badColor = new(0.55f, 1f, 0.55f);
 
-        title.color = goodColor;
+
+        title.color = (card.rarity == Rarity.Enemy) ? badColor : goodColor;
         background.color = GetRarityColor(card.rarity);
         element.color = GetElementColor(card.element);
     }
