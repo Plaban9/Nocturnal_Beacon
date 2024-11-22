@@ -95,7 +95,10 @@ public class MapNode : MonoBehaviour
             return;
 
         UpwardNodeList.Add(node);
-        node.DownwardNodeList.Add(this);
+
+        if (!DownwardNodeList.Contains(node))
+            node.DownwardNodeList.Add(this);
+
         SetConnected(true);
 
         var line = Instantiate(linePrefab, transform);

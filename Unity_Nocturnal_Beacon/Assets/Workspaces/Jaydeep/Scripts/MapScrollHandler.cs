@@ -17,7 +17,7 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
 
         float posY = 0f;
 
-        maxScrollLength = -(Mathf.Abs(MapBuilderTD.Instance.LastRowPos) + 50f);
+        maxScrollLength = -(Mathf.Abs(MapBuilderTD.Instance.LastRowPos) + 10f);
 
         var node = MapBuilderTD.Instance.GetCurrentlyLastProceededNode();
         if (node == null)

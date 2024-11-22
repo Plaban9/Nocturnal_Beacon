@@ -161,6 +161,11 @@ public class MapBuilderTD : MonoBehaviour
         bossNode.SetAsAvailableNode();
         bossNode.gameObject.SetActive(true);
 
+        if (towerConfigurationSO.TryGetBossEncounter(out var bossEncounter))
+        {
+            bossNode.SetEnemyEncounter(bossEncounter);
+        }
+
         var spacing = 1 + horizontalSpacing;
 
         // Rows
