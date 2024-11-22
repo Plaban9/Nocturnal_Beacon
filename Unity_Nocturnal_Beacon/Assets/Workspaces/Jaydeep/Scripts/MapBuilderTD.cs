@@ -10,6 +10,10 @@ public class MapBuilderTD : MonoBehaviour
 {
     public static MapBuilderTD Instance { get; private set; }
 
+    #region Variables
+
+    #region Tower Creation
+
     // Mapbuilder with top->down approch
     [SerializeField] private MapNode bossNode;
     [SerializeField] private MapNode mapNodePrefab;
@@ -19,9 +23,13 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private int maxSplitsAllowed;
     [SerializeField] private int depthLevel;
 
+    [Header("Node Types")]
+    [SerializeField] private List<NodeTypeData> nodeTypesList;
+
     [Header("Node Spacing")]
-    [SerializeField] private float horizontalSpacing = 3f;
+    [SerializeField] private float horizontalSpacing = .5f;
     [SerializeField] private float verticalSpacing = 3f;
+    [SerializeField] private float incrementalVerticalSpacing = 0f;
 
     [Header("Textures for Lines")]
     [SerializeField] private Material unavailablePathMaterial;
@@ -35,14 +43,37 @@ public class MapBuilderTD : MonoBehaviour
     [Header("Scriptable Objects")]
     [SerializeField] private MapNodeListSO mapNodeListSO;
 
+    [Header("Selected Line")]
     [SerializeField] private LineRenderer selectedLine;
     [SerializeField] private MapRow selectedNodeLineList = new();
 
+    [Header("Current Node And Connections")]
     [SerializeField] private MapNode currentSelectedNode;
     [SerializeField] private List<MapRow> connectedNodesList = new();
 
+    [Header("Other script ref")]
+    [SerializeField] private NodeInfoCanvas nodeInfoCanvas;
+
     [Header("Gradients")]
     [SerializeField] private List<Gradient> selectedLineGradientList = new List<Gradient>();
+
+    [Header("Debug Options")]
+    [SerializeField] private bool connectFullGrid;
+
+    #endregion
+
+    #region Tower Configuration
+
+    //[Header("Tower Confifuration")]
+
+    //[Header("Confiruration SO")]
+    //[SerializeField] private TowerConfiguration towerConfigurationSO;
+
+    #endregion
+
+    #endregion
+
+    public float LastRowPos => -(depthLevel * verticalSpacing);
 
     private void Awake()
     {
@@ -52,6 +83,8 @@ public class MapBuilderTD : MonoBehaviour
             return;
         }
         Instance = this;
+
+        //depthLevel = towerConfigurationSO.GetMaxHeight();
     }
 
     private void Start()
@@ -63,14 +96,13 @@ public class MapBuilderTD : MonoBehaviour
         CreateNodes();
 
         if (PlayerPrefs.HasKey("Map"))
-        {
             LoadNodeList();
-        }
-        else
-        {
+        else if(!connectFullGrid)
             ConnectNodes();
-            SaveNodeList();
-        }
+        else
+            ConnectFullGrid();
+
+        SaveNodeList();
     }
 
     private void OnEnable()
@@ -92,32 +124,34 @@ public class MapBuilderTD : MonoBehaviour
         }
     }
 
+    private void ConnectFullGrid()
+    {
+        for (int i = 0; i < nodes2DList.Count; i++)
+        {
+            for (int j = 0; j < nodes2DList[i].nodesList.Count; j++)
+            {
+                var curr = nodes2DList[i].nodesList[j];
+                var nodeTypeData = nodeTypesList.GetRandom();
+                var upperConnectable = curr.GetNodesList();
+
+                curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
+                upperConnectable.ForEach(x => curr.ConnectNode(x));
+                nodes2DList[^1].nodesList[j].UnlockNode();
+            }
+        }
+    }
+
     private void SetSelectedLineParams()
     {
         selectedLine.name = "Selected Line";
         selectedLine.material = walkedPathMaterial;
         selectedLine.sortingOrder = 1;
-        selectedLine.colorGradient = selectedLineGradientList.GetRandom();
-    }
 
-    private void SetSelectedNode(MapNode node)
-    {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
+        var gradient = selectedLineGradientList.GetRandom();
+        var particle = selectedNodeEffectTrans.GetComponent<ParticleSystem>().main;
 
-        var previousSelectedNode = currentSelectedNode;
-        var modifier = node != bossNode ? 1.5f : 3f;
-        Vector3 targetScale = Vector3.one * modifier;
-
-        currentSelectedNode = node;
-
-        if (previousSelectedNode != null)
-            previousSelectedNode.transform.DOScale(Vector3.one, .25f);
-
-        if (currentSelectedNode != null)
-        {
-            currentSelectedNode.transform.DOScale(targetScale, .25f);
-            Debug.Log($"{currentSelectedNode.GetHeight()} is the height for {currentSelectedNode.name}!");
-        }
+        selectedLine.colorGradient = gradient;
+        particle.startColor = gradient.colorKeys[^1].color;
     }
 
     private void CreateNodes()
@@ -128,15 +162,19 @@ public class MapBuilderTD : MonoBehaviour
         bossNode.SetAsAvailableNode();
         bossNode.gameObject.SetActive(true);
 
-        // Columns
-        for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++)
-        {
-            pos.y -= verticalSpacing;
-            pos.x = bossNode.transform.position.x + (maxSplitsAllowed / 2 * -horizontalSpacing);
-            nodes2DList.Add(new MapRow());
+        var spacing = 1 + horizontalSpacing;
 
-            // Rows
-            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += horizontalSpacing)
+        // Rows
+        for (int currentDepth = 0; currentDepth < depthLevel; currentDepth++, spacing += horizontalSpacing)
+        {
+            pos.y -= verticalSpacing + (incrementalVerticalSpacing * currentDepth);
+            nodes2DList.Add(new MapRow());
+            var center = (maxSplitsAllowed - 1) * (spacing);
+            Debug.Log("For Depth " + (spacing + 1) + " the center is " + center + " and start pos is " + (-center / 2));
+            pos.x = bossNode.transform.position.x + -center / 2;
+
+            // Column
+            for (int currentSplit = 0; currentSplit < maxSplitsAllowed; currentSplit++, pos.x += (spacing))
             {
                 // Creating Node
                 var node = Instantiate(mapNodePrefab, transform);
@@ -185,6 +223,9 @@ public class MapBuilderTD : MonoBehaviour
             {
                 connectedNodesList[i].nodesList.Add(curr);
 
+                // Set Node Type
+                var nodeTypeData = nodeTypesList.GetRandom();
+                curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
                 var upperConnectableNodes = curr.GetNodesList();
                 var next = upperConnectableNodes.GetRandom();
                 Debug.Log($"{curr} -> {next}");
@@ -222,6 +263,8 @@ public class MapBuilderTD : MonoBehaviour
             //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
+        DeselectNode();
+
         if (currentSelectedNode == bossNode)
         {
             ResetMap();
@@ -255,10 +298,43 @@ public class MapBuilderTD : MonoBehaviour
 
         var gradient = selectedLineGradientList.GetRandom();
         selectedLine.colorGradient = gradient;
+        var particle = selectedNodeEffectTrans.GetComponent<ParticleSystem>().main;
+        particle.startColor = gradient.colorKeys[^1].color;
+        SetBossNodeOutlineColor();
 
         if (currentSelectedNode)
         {
             currentSelectedNode.SetSelectedEffectColor(gradient);
+        }
+    }
+
+    private void SetSelectedNode(MapNode node)
+    {
+        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
+
+        var previousSelectedNode = currentSelectedNode;
+        var modifier = node != bossNode ? 2f : 3f;
+        Vector3 targetScale = Vector3.one * modifier;
+
+        currentSelectedNode = node;
+
+        if (previousSelectedNode != null)
+        {
+            if (previousSelectedNode == bossNode)
+                previousSelectedNode.transform.DOScale(Vector3.one * 3f, .25f);
+            else
+                previousSelectedNode.transform.DOScale(Vector3.one, .25f);
+        }
+
+        if (currentSelectedNode != null)
+        {
+            currentSelectedNode.transform.DOScale(targetScale, .25f);
+            Debug.Log($"{currentSelectedNode.GetHeight()} is the height for {currentSelectedNode.name}!");
+            nodeInfoCanvas.OnNodeInfoRequestedAtNode(currentSelectedNode.transform.position);
+        }
+        else
+        {
+            nodeInfoCanvas.OnCancelBtnClicked();
         }
     }
 
@@ -303,6 +379,7 @@ public class MapBuilderTD : MonoBehaviour
                 {
                     name = node.name,
                     nodeId = node.Id,
+                    nodeType = node.GetNodeType(),
                     isConnected = node.IsConnected(),
                 };
 
@@ -327,6 +404,10 @@ public class MapBuilderTD : MonoBehaviour
             node.ResetNode();
             node.LockNode();
             node.SetConnected(nodeData.isConnected);
+
+            var typeData = nodeTypesList.Find(x => x.nodeType == nodeData.nodeType);
+            node.SetNodeType(typeData.nodeSprite, typeData.nodeType);
+
             foreach (var connectedNodeId in nodeData.connectedNodes)
             {
                 MapNode nextNode = GetNodeById(connectedNodeId);
@@ -358,7 +439,14 @@ public class MapBuilderTD : MonoBehaviour
                 lastSelectedNode.DisableSelectableEffect();
                 lastSelectedNode.MakeUnclickable();
                 lastSelectedNode.EnableConnectedLines();
-                lastSelectedNode.UpwardNodeList.ForEach(nextNode => nextNode.UnlockNode());
+                lastSelectedNode.UpwardNodeList.ForEach(nextNode =>
+                {
+                    nextNode.UnlockNode();
+                    if (nextNode == bossNode)
+                    {
+                        EnableBossSpriteEffect();
+                    }
+                });
 
                 selectedNodeEffectTrans.SetParent(lastSelectedNode.transform);
                 selectedNodeEffectTrans.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -410,6 +498,41 @@ public class MapBuilderTD : MonoBehaviour
             }
         }
     }
+
+    private void EnableBossSpriteEffect()
+    {
+        var spriteRenderer = bossNode.GetComponent<SpriteRenderer>();
+        var mat = spriteRenderer.material;
+        mat.SetInt("_IsEnabled", 1);
+
+        SetBossNodeOutlineColor();
+    }
+
+    private void SetBossNodeOutlineColor()
+    {
+        var spriteRenderer = bossNode.GetComponent<SpriteRenderer>();
+        var mat = spriteRenderer.material;
+        
+        var color1 = selectedLine.colorGradient.colorKeys[0].color * 25f;
+        var color2 = selectedLine.colorGradient.colorKeys[^1].color * 25f;
+
+        mat.SetColor("_OutlineColor", color1);
+        mat.SetColor("_OutlineColor2", color2);
+    }
+}
+
+public enum NodeType
+{
+    Combat = 0,
+    Shop,
+    Rest,
+}
+
+[Serializable]
+class NodeTypeData
+{
+    public NodeType nodeType;
+    public Sprite nodeSprite;
 }
 
 [Serializable]
@@ -424,6 +547,7 @@ public class NodeData
     public string name; // For visualizing in list
     public int nodeId;
     public bool isConnected;
+    public NodeType nodeType;
     public List<int> connectedNodes = new();
 }
 
