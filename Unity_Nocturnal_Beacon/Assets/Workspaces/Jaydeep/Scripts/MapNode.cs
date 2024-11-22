@@ -28,6 +28,7 @@ public class MapNode : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D nodeCollider;
     private Gradient defaultColorGradient;
+    public EnemyEncounter EnemyEncounter { get; private set; }
 
     public int Id { get; private set; }
 
@@ -189,6 +190,11 @@ public class MapNode : MonoBehaviour
     {
         typeSprite.sprite = type;
         this.nodeType = nodeType;
+    }
+
+    public void SetEnemyEncounter(EnemyEncounter encounter)
+    {
+        EnemyEncounter = encounter;
     }
 
     public void MakeClickable() => nodeCollider.enabled = true;
