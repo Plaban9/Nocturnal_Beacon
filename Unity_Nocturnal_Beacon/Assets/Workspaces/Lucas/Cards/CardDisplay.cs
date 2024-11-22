@@ -7,6 +7,7 @@ using CardAttribute;
 using UnityEngine.EventSystems;
 using UniRx;
 using System;
+using DG.Tweening;
 
 public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -24,17 +25,17 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] Image element;
     [SerializeField] Image background;
     [SerializeField] Image title;
-
     [SerializeField] Image mainImg;
+
+    [SerializeField] PriceTag priceTag;
 
     float oriZoomRatio = 1f;
 
+    Action<Card> onClick;
 
-    Action onClick;
     protected virtual void Start()
     {
         oriZoomRatio = transform.localScale.x;
-
 
         if (card != null)
         {
@@ -61,7 +62,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         oriZoomRatio = transform.localScale.x;
     }
 
-    public virtual void SetupForClickable(Card card, Action onClick, Texture2D onPointCursor = null)
+    public virtual void SetupForClickable(Card card, Action<Card> onClick, Texture2D onPointCursor = null)
     {
         enablePointToZoom = true;
         this.card = card;
@@ -75,15 +76,17 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         mainImg.sprite = card.sprite;
         SetColors(card);
+        SetPrice(card.price);
     }
+
+    public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
+    public void SetPrice(int price) => priceTag.SetPrice(price);
 
     public virtual void SetColors(Card card)
     {
         Color goodColor = new(1, 0.7f, 0.3f);
-        Color badColor = new(0.55f, 1f, 0.55f);
 
-
-        title.color = (card.rarity == Rarity.Enemy) ? badColor : goodColor;
+        title.color = goodColor;
         background.color = GetRarityColor(card.rarity);
         element.color = GetElementColor(card.element);
     }
@@ -148,15 +151,33 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
-        
-        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
-        cdp.Setup(card);
-        cdp.OnClose.Subscribe(x =>
-        {
-            onClick?.Invoke();
-        }).AddTo(this);
+        onClick?.Invoke(card);
     }
 
+    public Subject<bool> FadeOut(float duration)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(1, 0f))
+            .Append(cg.DOFade(0, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
+
+    public Subject<bool> FadeIn(float duration)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(0, 0f))
+            .Append(cg.DOFade(1, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
 
 }

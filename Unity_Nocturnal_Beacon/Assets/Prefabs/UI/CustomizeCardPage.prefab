@@ -4955,7 +4955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enablePointToZoom: 0
   zoomRatio: 0.6
-  onZoomCursor: {fileID: 0}
+  onPointCursor: {fileID: 0}
   card: {fileID: 0}
   manaText: {fileID: 3941923164119340710}
   titleText: {fileID: 2623344173637447598}
