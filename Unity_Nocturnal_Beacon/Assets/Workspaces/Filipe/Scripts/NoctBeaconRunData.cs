@@ -45,6 +45,8 @@ public class NoctBeaconRunData : MonoBehaviour
         return _playerInformation;
     }
 
+    public bool IsNewGameStarted() => _currentHeight == -1;
+
     public int GetHeight()
     {
         return _currentHeight;
@@ -76,8 +78,4 @@ public class NoctBeaconRunData : MonoBehaviour
         _userGold += modification;
         return true;
     }
-    
-
-    
-
 }

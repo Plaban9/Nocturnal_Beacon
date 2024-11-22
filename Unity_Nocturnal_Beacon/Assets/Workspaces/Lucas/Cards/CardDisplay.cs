@@ -12,7 +12,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     [SerializeField] bool enablePointToZoom = false;
     [SerializeField] float zoomRatio = 0.6f;
-    [SerializeField] Texture2D onZoomCursor;
+    [SerializeField] Texture2D onPointCursor;
 
     [SerializeField] protected Card card;
 
@@ -28,6 +28,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] Image mainImg;
 
     float oriZoomRatio = 1f;
+
 
     Action onClick;
     protected virtual void Start()
@@ -60,11 +61,12 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         oriZoomRatio = transform.localScale.x;
     }
 
-    public virtual void SetupForDeck(Card card, Action onClick)
+    public virtual void SetupForClickable(Card card, Action onClick, Texture2D onPointCursor = null)
     {
         enablePointToZoom = true;
         this.card = card;
         this.onClick = onClick;
+        this.onPointCursor = onPointCursor;
 
         manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
         titleText.text = card.name.ToString();
@@ -133,7 +135,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (!enablePointToZoom) return;
 
         transform.localScale = Vector3.one * zoomRatio;
-        Cursor.SetCursor(onZoomCursor, Vector3.zero, CursorMode.Auto);
+        Cursor.SetCursor(onPointCursor, Vector3.zero, CursorMode.Auto);
     }
 
     public void OnPointerExit(PointerEventData eventData)

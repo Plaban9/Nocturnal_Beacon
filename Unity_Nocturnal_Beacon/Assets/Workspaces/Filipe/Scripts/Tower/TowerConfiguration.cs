@@ -31,13 +31,13 @@ public class TowerConfiguration : ScriptableObject
         return height;
     }
 
-    public FLOOR_TYPE GetFloorType(int i)
+    public FLOOR_TYPE GetFloorType(int height)
     {
-        if (restHeights.Contains(i))
+        if (restHeights.Contains(height))
         {
             return FLOOR_TYPE.REST_EVENT;
         }
-        else if (shopHeights.Contains(i))
+        else if (shopHeights.Contains(height))
         {
             return FLOOR_TYPE.SHOP_EVENT;
         }
@@ -47,24 +47,28 @@ public class TowerConfiguration : ScriptableObject
         }
     }
 
-    public bool TryGetEncounter(int i, out EnemyEncounter encounter)
+    public bool TryGetEncounter(int height, out EnemyEncounter encounter)
     {
         List<EnemyEncounter> fullList = new List<EnemyEncounter>();
         foreach(TowerEncounterData ted in encounterList)
         {
-            List<EnemyEncounter> possibleList = ted.GetValidEncounterList(i);
+            List<EnemyEncounter> possibleList = ted.GetValidEncounterList(height);
             if(possibleList.Count > 0)
             {
                 fullList.AddRange(possibleList);
             }
         }
-        encounter = fullList.ElementAt<EnemyEncounter>(UnityEngine.Random.Range(0, fullList.Count - 1));
+        if (fullList.Count > 0)
+            encounter = fullList.ElementAt<EnemyEncounter>(UnityEngine.Random.Range(0, fullList.Count));
+        else
+            encounter = default;
+
         return fullList.Count > 0;
     }
 
     public bool TryGetBossEncounter(out EnemyEncounter bossEncounter)
     {
-        EnemyEncounter obtainedEncounter = bossList.ElementAt<EnemyEncounter>(UnityEngine.Random.Range(0, bossList.Count - 1));
+        EnemyEncounter obtainedEncounter = bossList.ElementAt<EnemyEncounter>(UnityEngine.Random.Range(0, bossList.Count));
         bossEncounter = obtainedEncounter;
         return obtainedEncounter != null;
     }

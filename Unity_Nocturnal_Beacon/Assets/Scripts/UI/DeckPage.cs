@@ -12,6 +12,7 @@ public class DeckPage : CommonPage
 
     CanvasGroup canvasGroup;
     bool isClosing;
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -40,13 +41,13 @@ public class DeckPage : CommonPage
             if (i >= cardDisplayList.Count)
             {
                 var cd = Instantiate(cardDisplayPrefab, content).GetComponent<CardDisplay>();
-                cd.SetupForDeck(cards[i], Refresh);
+                cd.SetupForClickable(cards[i], Refresh);
                 cd.SetScale(0.45f);
                 cardDisplayList.Add(cd);
             }
             else
             {
-                cardDisplayList[i].SetupForDeck(cards[i], Refresh);
+                cardDisplayList[i].SetupForClickable(cards[i], Refresh);
             }
         }
     }
@@ -65,7 +66,7 @@ public class DeckPage : CommonPage
 
         isClosing = true;
 
-        transform.DOLocalMoveY(-Screen.height, 0.5f);
+        transform.DOLocalMoveY(-Screen.height-100, 0.5f);
         canvasGroup.DOFade(0, 0.5f).onComplete += () =>
         {
             gameObject.SetActive(false);
