@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class DeckPage : CommonPage
 {
@@ -41,13 +42,13 @@ public class DeckPage : CommonPage
             if (i >= cardDisplayList.Count)
             {
                 var cd = Instantiate(cardDisplayPrefab, content).GetComponent<CardDisplay>();
-                cd.SetupForClickable(cards[i], Refresh);
+                cd.SetupForClickable(cards[i], OnDeckCardClick);
                 cd.SetScale(0.45f);
                 cardDisplayList.Add(cd);
             }
             else
             {
-                cardDisplayList[i].SetupForClickable(cards[i], Refresh);
+                cardDisplayList[i].SetupForClickable(cards[i], OnDeckCardClick);
             }
         }
     }
@@ -77,5 +78,15 @@ public class DeckPage : CommonPage
     public void Refresh()
     {
         Setup();
+    }
+
+    public void OnDeckCardClick(Card card)
+    {
+        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
+        cdp.Setup(card);
+        cdp.OnClose.Subscribe(x =>
+        {
+            Refresh();
+        }).AddTo(this);
     }
 }

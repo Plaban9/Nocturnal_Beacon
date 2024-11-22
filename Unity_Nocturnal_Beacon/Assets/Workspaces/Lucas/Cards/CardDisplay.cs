@@ -7,6 +7,7 @@ using CardAttribute;
 using UnityEngine.EventSystems;
 using UniRx;
 using System;
+using DG.Tweening;
 
 public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -29,8 +30,8 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     float oriZoomRatio = 1f;
 
+    Action<Card> onClick;
 
-    Action onClick;
     protected virtual void Start()
     {
         oriZoomRatio = transform.localScale.x;
@@ -60,7 +61,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         oriZoomRatio = transform.localScale.x;
     }
 
-    public virtual void SetupForClickable(Card card, Action onClick, Texture2D onPointCursor = null)
+    public virtual void SetupForClickable(Card card, Action<Card> onClick, Texture2D onPointCursor = null)
     {
         enablePointToZoom = true;
         this.card = card;
@@ -145,13 +146,33 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
-        
-        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
-        cdp.Setup(card);
-        cdp.OnClose.Subscribe(x =>
-        {
-            onClick?.Invoke();
-        }).AddTo(this);
+        onClick?.Invoke(card);
     }
+
+    public Subject<bool> FadeOut(float duration)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(1, 0f))
+            .Append(cg.DOFade(0, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
+
+    public Subject<bool> FadeIn(float duration)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(0, 0f))
+            .Append(cg.DOFade(1, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
+
 }
