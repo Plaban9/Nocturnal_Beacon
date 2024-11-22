@@ -8,6 +8,7 @@ public class DeckPage : CommonPage
 {
     [SerializeField] GameObject cardDisplayPrefab;
     [SerializeField] Transform content;
+    [SerializeField] Texture2D onPointCursor;
 
     List<CardDisplay> cardDisplayList = new List<CardDisplay>();
 
@@ -18,7 +19,7 @@ public class DeckPage : CommonPage
     {
         canvasGroup = GetComponent<CanvasGroup>();
         var pos = transform.localPosition;
-        pos.y = -Screen.height;
+        pos.y = -Screen.height - 100;
         transform.localPosition = pos;
     }
 
@@ -42,13 +43,13 @@ public class DeckPage : CommonPage
             if (i >= cardDisplayList.Count)
             {
                 var cd = Instantiate(cardDisplayPrefab, content).GetComponent<CardDisplay>();
-                cd.SetupForClickable(cards[i], OnDeckCardClick);
+                cd.SetupForClickable(cards[i], OnDeckCardClick, onPointCursor);
                 cd.SetScale(0.45f);
                 cardDisplayList.Add(cd);
             }
             else
             {
-                cardDisplayList[i].SetupForClickable(cards[i], OnDeckCardClick);
+                cardDisplayList[i].SetupForClickable(cards[i], OnDeckCardClick, onPointCursor);
             }
         }
     }
