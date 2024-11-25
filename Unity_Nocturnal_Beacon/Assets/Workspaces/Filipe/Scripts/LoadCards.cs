@@ -14,7 +14,7 @@ public class LoadCards : MonoBehaviour
             string jsonString = File.ReadAllText(path);
             Card cardData = JsonUtility.FromJson<Card>(jsonString);
             Debug.Log("Player Name: " + cardData.name);
-            Debug.Log("Player Score: " + cardData.manaCost);
+            Debug.Log("Player Score: " + cardData.GetManaCost());
         }
         else
         {

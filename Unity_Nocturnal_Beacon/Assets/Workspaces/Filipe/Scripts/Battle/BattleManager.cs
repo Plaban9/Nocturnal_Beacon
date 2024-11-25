@@ -74,6 +74,9 @@ public class BattleManager : MonoBehaviour
         AudioManager.SetMusicVolume(1f);
 
         _cardManager = GetComponent<CardManager>();
+        var encounter = NoctBeaconRunData.Instance.GetCurrentEncounter();
+        if(encounter != null) 
+            _encounter = encounter;
         SetupBattle();
 
     }
@@ -192,7 +195,7 @@ public class BattleManager : MonoBehaviour
             int defaultDrawAmount = 5;
             int a = _player.GetUnitStatusData().OnDraw(defaultDrawAmount);
 
-            _cardManager.DrawCard(a/*TODO: Change it to variable. */);
+            _cardManager.DrawCard(a,_player.GetUnitStatusData());
         }
     }
 
@@ -381,7 +384,7 @@ public class BattleManager : MonoBehaviour
     {
         if (owner.GetUnitData() is PlayableData)
         {
-            if(card.manaCost > _mana)
+            if(card.GetManaCost() > _mana)
             {
                 _manaText.GetComponent<Animator>().Play("ManaBad");
                 return false;
@@ -400,7 +403,7 @@ public class BattleManager : MonoBehaviour
             if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
             if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
             {
-                effect.OnUse(owner, new List<BattleUnit> { owner });
+                effect.OnUse(card, owner, new List<BattleUnit> { owner });
             }
             else
             {
@@ -409,19 +412,19 @@ public class BattleManager : MonoBehaviour
                 {
                     case CardAttribute.EffectTarget.OpponentSingle:
                         if (target == null) return false;
-                        effect.OnUse(owner, new List<BattleUnit> { target });
+                        effect.OnUse(card, owner, new List<BattleUnit> { target });
                         break;
                     case CardAttribute.EffectTarget.OpponentAll:
-                        effect.OnUse(owner, _enemies);
+                        effect.OnUse(card, owner, _enemies);
                         break;
                     case CardAttribute.EffectTarget.OpponentRandom:
                         List<BattleUnit> viableUnits = _enemies.FindAll(it => !it.IsDead());
-                        effect.OnUse(owner, new List<BattleUnit> {viableUnits[
+                        effect.OnUse(card, owner, new List<BattleUnit> {viableUnits[
                             UnityEngine.Random.Range(0, viableUnits.Count)] });
                         break;
                     case CardAttribute.EffectTarget.Both:
-                        effect.OnUse(owner, new List<BattleUnit> { target });
-                        effect.OnUse(owner, new List<BattleUnit> { owner });
+                        effect.OnUse(card, owner, new List<BattleUnit> { target });
+                        effect.OnUse(card, owner, new List<BattleUnit> { owner });
                         break;
                 }
             }
@@ -429,8 +432,9 @@ public class BattleManager : MonoBehaviour
         
         if(owner.GetUnitData() is PlayableData)
         {
-            ModifyMana(-card.manaCost);
+            ModifyMana(-card.GetManaCost());
         }
+
         SetupEnemiesIntent();
         CheckIfBattleIsOver();
          PlayAnimation(owner, card);
@@ -451,6 +455,16 @@ public class BattleManager : MonoBehaviour
         _player.Outline();
     }
 
+    public void ShowEffectivenessPlayer(Card card)
+    {
+        _player.ShowEffectivity(card);
+    }
+
+    public void HideEffectivenessPlayer()
+    {
+        _player.HideEffectivity();
+    }
+
     public void HideOutlinePlayer()
     {
         _player.HideOutline();
@@ -465,6 +479,15 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void ShowEffectivityEnemies(Card card)
+    {
+        foreach (BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.ShowEffectivity(card);
+        }
+    }
+
     public void HideOutlineEnemies()
     {
         foreach (BattleUnit enemy in _enemies)
@@ -474,5 +497,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void HideEffectivityEnemies()
+    {
+        foreach (BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.HideEffectivity();
+        }
+    }
     #endregion
 }

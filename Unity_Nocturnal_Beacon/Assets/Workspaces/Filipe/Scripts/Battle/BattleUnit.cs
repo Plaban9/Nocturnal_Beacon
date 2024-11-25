@@ -8,8 +8,6 @@ using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -26,6 +24,13 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] public TextMeshProUGUI _hpText;
     [SerializeField] public SpriteRenderer _hpSprite;
     [SerializeField] public TextMeshProUGUI _name;
+
+    [Header("Elemental Affinity")]
+    [SerializeField] public CanvasGroup _effectivityWindow;
+    [SerializeField] public TextMeshProUGUI _sign;
+    [SerializeField] public TextMeshProUGUI _effectivity;
+    [SerializeField] public Image _color;
+
 
     [Header("Only for Enemies")]
     [SerializeField] public GameObject _intentHolder;
@@ -47,14 +52,14 @@ public class BattleUnit : MonoBehaviour
     public void SetupUnit(MonsterData _monsterData)
     {
         _unitData = _monsterData; 
-        _hpData.InitializeMaxHP(_monsterData);
+        _hpData.InitializeMaxHP(_monsterData, this);
         SetUnitVisuals();
         SetupHealth();
     }
 
     public void SetupPlayerUnit(PlayerUnitData _playerUnitData)
     {
-        _hpData.InitializeMaxHp(_playerUnitData);
+        _hpData.InitializeMaxHp(_playerUnitData, this);
         _unitData = _playerUnitData.GetUnitData();
         SetUnitVisuals();
         SetupHealth();
@@ -158,7 +163,8 @@ public class BattleUnit : MonoBehaviour
         {
             _materialSprite.SetFloat("_OutlineThickness", outline);
         }
-            );
+        );
+       
     }
 
     public void HideOutline()
@@ -167,9 +173,63 @@ public class BattleUnit : MonoBehaviour
         DOTween.To(() => outline,
         x => outline = x, 0f, 0.2f).OnUpdate(() =>
         {
+            _effectivityWindow.alpha = outline / 2f;
             _materialSprite.SetFloat("_OutlineThickness", outline);
         }
         );
+    }
+
+    public void ShowEffectivity(Card card)
+    {
+        _effectivityWindow.DOFade(1f, 0.2f);
+        float getEffectiveness = card.GetAffinity(GetUnitData().unitElement);
+        switch (getEffectiveness)
+        {
+            case 0.5f:
+                _sign.text = "-";
+                _sign.fontSize = 36;
+                _effectivity.text = "RESISTS";
+                _color.color = new Color(0.5f, 0.5f, 0.9f);
+                break;
+            case 0.75f:
+                _sign.text = "-";
+                _sign.fontSize = 24;
+                _effectivity.text = "INEFFECTIVE";
+                _color.color = new Color(0.5f, 0.3f, 0.7f);
+                break;
+            case 1.0f:
+                _sign.text = "~";
+                _sign.fontSize = 24;
+                _effectivity.text = "NEUTRAL";
+                _color.color = new Color(0.5f, 0.5f, 0.5f);
+                break;
+            case 1.25f:
+                _sign.text = "+";
+                _sign.fontSize = 24;
+                _effectivity.text = "EFFECTIVE";
+                _color.color = new Color(0.7f, 0.65f, 0.64f);
+
+                break;
+            case 1.5f:
+                _sign.text = "+";
+                _sign.fontSize = 36;
+                _effectivity.text = "VRY EFFECTIVE";
+                _color.color = new Color(0.8f, 0.35f, 0.38f);
+                break;
+            case 2.0f:
+                _sign.text = "+";
+                _sign.fontSize = 48;
+                _effectivity.text = "MAX EFFECTIVE";
+                _color.color = new Color(0.86f, 0.3f, 0.3f);
+                break;
+        }
+
+    }
+
+    public void HideEffectivity()
+    {
+        _effectivityWindow.DOFade(0f, 0.2f);
+
     }
 
     public bool IsDead() {

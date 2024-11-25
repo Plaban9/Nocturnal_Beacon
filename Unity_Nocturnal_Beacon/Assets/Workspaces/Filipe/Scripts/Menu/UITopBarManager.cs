@@ -1,10 +1,11 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITopBarManager : MonoBehaviour
+public class UITopBarManager : MonoBehaviour, NoctBeaconRunData.NoctBeaconListener
 {
     
     public static UITopBarManager Instance;
@@ -28,29 +29,22 @@ public class UITopBarManager : MonoBehaviour
     [Header("Text Objects")]
     [SerializeField] TextMeshProUGUI floorTxt;
     [SerializeField] TextMeshProUGUI goldTxt;
-    [SerializeField] TextMeshProUGUI hpTxt;
+    [SerializeField] private TextMeshProUGUI hpTxt;
 
     private NoctBeaconRunData   _beaconRunData;
     private Animator            _animator;
 
     void Start()
     {
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
+        NoctBeaconRunData.Instance.AddListener(this);
         _beaconRunData = NoctBeaconRunData.Instance;
-        floorTxt.text = $"Floor to Summit: {_beaconRunData.GetHeight()}";
         hpTxt.text = $"{_beaconRunData.GetPlayerInformation().GetCurrentHP()}";
         goldTxt.text = $"{_beaconRunData.GetGold()}";
-        if (level == 2) // if not map level
-        {
-            PushUp();
-        }
-        else
-        {
-            PullDown();
-        }
+    }
+
+    public void SetFloor(int floor)
+    {
+        floorTxt.text = $"Floor {floor}";
     }
 
     public void PullDown()
@@ -70,12 +64,24 @@ public class UITopBarManager : MonoBehaviour
 
     public void SetHP(int hp)
     {
-        hpTxt.text = hp.ToString();
+        int currentHp = int.Parse(hpTxt.text);
+        DOTween.To(() => currentHp,
+            x => currentHp = x, hp, 1.5f).OnUpdate(() =>
+            {
+                hpTxt.text = $"{currentHp}";
+            }
+        );
     }
 
     public void SetGold(int gold)
     {
-        goldTxt.text = gold.ToString();
+        int currentGold = int.Parse(goldTxt.text);
+        DOTween.To(() => currentGold,
+            x => currentGold = x, gold, 1.5f).OnUpdate(() =>
+            {
+                goldTxt.text = $"{currentGold}";
+            }
+        );
     }
 
     public void OnClickDeckBtn()
@@ -84,5 +90,24 @@ public class UITopBarManager : MonoBehaviour
 
         dp.Setup();
         dp.Show();
+    }
+
+    
+
+    public void OnHealthChanged()
+    {
+        SetHP(NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentHP());
+    }
+
+    public void OnGoldChanged()
+    {
+        SetGold(NoctBeaconRunData.Instance.GetGold());
+
+    }
+
+    public void OnFloorChanged()
+    {
+        SetFloor(NoctBeaconRunData.Instance.GetHeight());
+
     }
 }

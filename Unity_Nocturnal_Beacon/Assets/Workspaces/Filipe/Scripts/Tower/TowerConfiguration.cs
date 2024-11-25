@@ -9,7 +9,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New TowerConfiguration", menuName = "Tower Configuration")]
 public class TowerConfiguration : ScriptableObject
 {
-    [SerializeField] int height = 1;
+    public int height { get {
+            return GetMaxHeight();
+        } }
     [SerializeField] List<int> restHeights = new List<int>();
     [SerializeField] List<int> shopHeights = new List<int>();
     [SerializeField] int extraRest = 1;
@@ -28,7 +30,27 @@ public class TowerConfiguration : ScriptableObject
 
     public int GetMaxHeight()
     {
-        return height;
+        return GetHighestElement();
+    }
+
+    private int GetHighestElement()
+    {
+        int maxHeight = -1;
+        foreach (int element in restHeights)
+        {
+            if (element +1 > maxHeight) { maxHeight = element+1; }
+        }
+        foreach (int element in shopHeights)
+        {
+            if (element +1  > maxHeight) { maxHeight = element+1; }
+        }
+        foreach(TowerEncounterData encData in encounterList)
+        {
+            if(encData.GetMaxHeight()+1 > maxHeight) { maxHeight = encData.GetMaxHeight()+1; }
+        }
+
+        return maxHeight;
+
     }
 
     public FLOOR_TYPE GetFloorType(int height)

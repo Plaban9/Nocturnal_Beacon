@@ -48,6 +48,8 @@ public class PlayerUnitData : ScriptableObject
     public void SetCurrentHp(int currentHp)
     {
         _currentHp = currentHp;
+        if (_currentHp > _maxHP)
+            _currentHp = _maxHP;
     }
 
     public Deck GetCurrentDeck()

@@ -3651,6 +3651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1872931582514354505, guid: 25fb783032a946c4e88f6c73c01e9cd2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2057165536422093073, guid: 25fb783032a946c4e88f6c73c01e9cd2, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
@@ -4599,7 +4603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9142114613539974274, guid: c7444c53bfb34c44fbbfe4756b7518cd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4681,7 +4685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyHolder: {fileID: 713908620}
   _enemyPrefab: {fileID: 2207191460694668032, guid: 0075faa76795a3b4bb646d06d2c97c87, type: 3}
-  _encounter: {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}
+  _encounter: {fileID: 11400000, guid: 4da8fc7a39c1c814a9146880905e2305, type: 2}
   _battleStateText: {fileID: 255157174}
   _manaText: {fileID: 1775109369}
   _endScreenCanvas: {fileID: 1493329788}

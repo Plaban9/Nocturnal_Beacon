@@ -11,32 +11,51 @@ public class HPData : MonoBehaviour
 {
 
     [SerializeField] private SpriteRenderer _unitRenderer;
+    private BattleUnit _battleUnit;
     private UnitData _unitData;
     private int _maxHp;
     private int _currentHp;
     private int _shield;
     private TextMeshProUGUI _hpText;
     private Material _hpMaterial;
+    private bool isPlayer = false;
 
-    public void InitializeMaxHP(MonsterData _monsterData)
+    public void InitializeMaxHP(MonsterData _monsterData, BattleUnit unit)
     {
         _unitData = _monsterData;
         _maxHp = _monsterData.startingHp;
         _currentHp = _monsterData.startingHp;
+        _battleUnit = unit;
         _shield = 0;
     }
 
-    public void InitializeMaxHp(PlayerUnitData _playerData)
+    public void InitializeMaxHp(PlayerUnitData _playerData, BattleUnit unit)
     {
+        isPlayer = true;
         _unitData = _playerData.GetUnitData();
         _maxHp = _playerData.GetMaxHP();
         _currentHp = _playerData.GetCurrentHP();
+        _battleUnit = unit;
         _shield = 0;
     }
-    public void DealDamage(int amount)
+    public void DealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false)
     {
         AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
+        int finalAmount = amount;
+        foreach(BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
+        {
+            if (status is StatusEffect_Thorns && noReflect)
+            {
+                // Avoid infinite damage rebound from thorns.
+            }
+            else
+            {
+                finalAmount = status.OnTakeDamage(damageOrigin, finalAmount);
+            }
+        }
+
+        if (finalAmount == 0) return;
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
         _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
         _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
@@ -49,7 +68,7 @@ public class HPData : MonoBehaviour
             _unitRenderer.DOColor(Color.white, 0.3f);
         }
 
-        amount = Mathf.Abs(amount);
+        amount = Mathf.Abs(finalAmount);
         if (_currentHp == 0) return;
         EffectManager.Instance.CreateNumber(
             EffectManager.EFFECTS_NUMBER.DAMAGE,
@@ -186,6 +205,11 @@ public class HPData : MonoBehaviour
                 _hpMaterial.SetFloat("_pctShield",curShPercent);
             }
         );
+
+        if (isPlayer)
+        {
+            NoctBeaconRunData.Instance.SetHp(curHp);
+        }
 
     }
 

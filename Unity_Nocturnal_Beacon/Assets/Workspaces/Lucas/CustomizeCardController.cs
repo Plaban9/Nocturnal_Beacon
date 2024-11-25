@@ -43,7 +43,7 @@ public class CustomizeCardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        //Init();
     }
 
     public void Setup(Card c, Action<Card> onCustomized)
@@ -60,7 +60,7 @@ public class CustomizeCardController : MonoBehaviour
 
         cardDisplay.Setup(cardSO);
         cardNameInput.text = cardSO.name;
-        manaScrollingNumber.Setup(cardSO.manaCost, 0, 99);
+        manaScrollingNumber.Setup(cardSO.GetManaCost(), 0, 99);
 
         remainPointText.SetInitValue(initPoint);
         remainPoint.Subscribe(x =>
@@ -95,7 +95,7 @@ public class CustomizeCardController : MonoBehaviour
 
             UpdateRemainPoint();
         }).AddTo(this);
-        cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.manaCost));
+        cardManaList.SetSelecting(cardManaSetting.CardManaCosts.First(x => x.mana == cardSO.GetManaCost()));
 
         cardEffects = CardEffectManager.Instance.CardEffectList;
 
@@ -241,7 +241,7 @@ public class CustomizeCardController : MonoBehaviour
     {
         var newCard = Instantiate(cardSO);
 
-        newCard.manaCost = cardManaList.Selecting.Value.data.mana;
+        newCard.SetBaseManaCost(cardManaList.Selecting.Value.data.mana);
         newCard.name = cardNameInput.text;
         newCard.effects = effectSlots.Select(x => x.cardEffect).Where(x => x != null).ToList();
 

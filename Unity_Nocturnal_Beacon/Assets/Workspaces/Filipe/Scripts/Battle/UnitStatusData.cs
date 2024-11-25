@@ -112,4 +112,26 @@ public class UnitStatusData : MonoBehaviour
         UpdateStatusEffects();
         return final;
     }
+
+    public int OnGainBlock (int i)
+    {
+        int final = i;
+        foreach (var effect in activeEffects)
+        {
+            final = effect.bstf.OnGainBlock(final);
+        }
+        UpdateStatusEffects();
+        return final;
+    }
+
+    public int OnLoseBlock(int i)
+    {
+        int final = i;
+        foreach (var effect in activeEffects)
+        {
+            final = effect.bstf.OnLoseBlock(final);
+        }
+        UpdateStatusEffects();
+        return final;
+    }
 }

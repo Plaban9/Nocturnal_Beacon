@@ -65,7 +65,16 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         if (!highlight1Enemy && (highlightAllEnemy || highlightSelf))
         {
             BattleManager.Instance.SetNoTargetReticule(true);
+        }
 
+        if (highlightSelf)
+        {
+            BattleManager.Instance.ShowEffectivenessPlayer(card); 
+        }
+
+        if (highlightAllEnemy || highlight1Enemy)
+        {
+            BattleManager.Instance.ShowEffectivityEnemies(card);
         }
 
     }
@@ -117,6 +126,16 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
             BattleManager.Instance.SetNoTargetReticule(false);
         }
 
+        if (highlightSelf)
+        {
+            BattleManager.Instance.HideEffectivenessPlayer(); 
+        }
+
+        if (highlightAllEnemy || highlight1Enemy)
+        {
+            BattleManager.Instance.HideEffectivityEnemies();
+        }
+
     }
 
     bool IsPointingDeployArea()
@@ -129,7 +148,6 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
 
         if (highlight1Enemy)
         {
-            Debug.Log("single!");
             foreach (var r in results)
             {
                 if (r.gameObject.layer == LayerMask.NameToLayer("DeployCardTarget"))
@@ -150,7 +168,6 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else if (highlightAllEnemy)
         {
-            Debug.Log("multi!");
 
             foreach (var r in results)
             {
@@ -167,7 +184,6 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
-            Debug.Log("SKILL!");
             foreach (var r in results)
             {
                 if (r.gameObject.layer == LayerMask.NameToLayer("DeployCardNoTarget"))

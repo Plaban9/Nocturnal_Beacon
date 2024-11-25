@@ -15,4 +15,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 11400000, guid: bc7d525904f1ee741a4e9f63291c32ce, type: 2}
   - {fileID: 11400000, guid: 6a39174f664f77a4abd75a8a9c767bb7, type: 2}
-  positions: 
+  positionsPercentage:
+  - {x: 0.25, y: 0.25}
+  - {x: 0.5, y: 0.75}
