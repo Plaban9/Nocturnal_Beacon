@@ -71,4 +71,15 @@ public class PlayerUnitData : ScriptableObject
     {
         _currentDeck.InitDeck();
     }
+
+    public void ModifyCurrency(int val) => _currency += val;
+
+    public bool TryPurchase(int price)
+    {
+        if (_currency - price < 0) return false;
+
+        _currency -= price;
+
+        return true;
+    }
 }

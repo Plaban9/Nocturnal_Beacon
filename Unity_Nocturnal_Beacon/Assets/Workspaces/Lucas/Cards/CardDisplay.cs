@@ -31,7 +31,10 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     float oriZoomRatio = 1f;
 
-    Action<Card> onClick;
+    Action<CardDisplay> onClick;
+    ReactiveProperty<CardDisplay> onPoint = new();
+
+    public ReactiveProperty<CardDisplay> OnPoint() => onPoint;
 
     protected virtual void Start()
     {
@@ -74,7 +77,9 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         oriZoomRatio = transform.localScale.x;
     }
 
-    public virtual void SetupForClickable(Card card, Action<Card> onClick, Texture2D onPointCursor = null)
+    public void SetZoomRatio(float ratio) => zoomRatio = ratio;
+
+    public virtual void SetupForClickable(Card card, Action<CardDisplay> onClick, Texture2D onPointCursor = null)
     {
         enablePointToZoom = true;
         this.card = card;
@@ -93,6 +98,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
     public void SetPrice(int price) => priceTag.SetPrice(price);
+    public void RefreshPrice() => priceTag.Refresh();
 
     public virtual void SetColors(Card card)
     {
@@ -149,26 +155,30 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
+        if (!enablePointToZoom || IsHided()) return;
 
+        onPoint.Value = this;
         transform.localScale = Vector3.one * zoomRatio;
         Cursor.SetCursor(onPointCursor, Vector3.zero, CursorMode.Auto);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
+        if (!enablePointToZoom || IsHided()) return;
 
+        onPoint.Value = null;
         transform.localScale = Vector3.one * oriZoomRatio;
         Cursor.SetCursor(null, Vector3.zero, CursorMode.Auto);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onClick?.Invoke(card);
+        if (IsHided()) return;
+
+        onClick?.Invoke(this);
     }
 
-    public Subject<bool> FadeOut(float duration)
+    public Subject<bool> FadeOut(float duration = 0.25f)
     {
         var finish = new Subject<bool>();
         var cg = GetComponent<CanvasGroup>();
@@ -181,7 +191,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         return finish;
     }
 
-    public Subject<bool> FadeIn(float duration)
+    public Subject<bool> FadeIn(float duration = 0.25f)
     {
         var finish = new Subject<bool>();
         var cg = GetComponent<CanvasGroup>();
@@ -194,4 +204,5 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         return finish;
     }
 
+    public bool IsHided() => GetComponent<CanvasGroup>().alpha == 0 || !gameObject.activeSelf;
 }

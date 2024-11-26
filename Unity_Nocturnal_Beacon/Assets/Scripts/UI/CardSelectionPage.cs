@@ -67,9 +67,9 @@ public class CardSelectionPage : CommonPage
 
     public void EnableCancelButton(bool set) => cancelBtn.SetActive(set);
 
-    public void OnSelectCard(Card card)
+    public void OnSelectCard(CardDisplay card)
     {
-        onSelect?.Invoke(card);
+        onSelect?.Invoke(card.GetCard());
     }
 
     void FadeInCard(int index)

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: CustomizeCardNormal
+  m_EditorClassIdentifier: 
+  id: 80001
+  uId: 0
+  name: CustomizeCardNormal
+  rarity: 0
+  cardType: 4
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: 1ca01dfdc64103544ae958fc190e9a5c, type: 3}
+  element: 0
+  price: 75
+  effects:
+  - rid: 1688478810737475586
+  references:
+    version: 2
+    RefIds:
+    - rid: 1688478810737475586
+      type: {class: ModifyCards, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 30
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0

@@ -10,7 +10,7 @@ public class NoctBeaconRunData : MonoBehaviour
     //[SerializeField] private Node _currentNode;
     private List<string> _selectedNodeList;
     [SerializeField] private int _currentHeight = -1;
-    private int _userGold = 100;
+    [SerializeField] private int _userGold = 100;
     private EnemyEncounter _currentEncounter = null;
 
     // Start is called before the first frame update

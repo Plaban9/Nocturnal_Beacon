@@ -16,11 +16,19 @@ public class PriceTag : MonoBehaviour
     {
         price.Subscribe(x =>
         {
-            priceText.text = x.ToString();
+            Refresh();
         }).AddTo(this);
     }
 
     public void SetPrice(int price) => this.price.Value = price;
 
     public int GetPrice() => price.Value;
+
+    public void Refresh()
+    {
+        if (NoctBeaconRunData.Instance.GetGold() >= price.Value)
+            priceText.text = price.Value.ToString();
+        else
+            priceText.text = $"<color=#FF5F00>{price.Value.ToString()}</color>";
+    }
 }

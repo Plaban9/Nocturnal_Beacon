@@ -3,17 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System;
+using TMPro;
 
 public class DeckPage : CommonPage
 {
     [SerializeField] GameObject cardDisplayPrefab;
     [SerializeField] Transform content;
     [SerializeField] Texture2D onPointCursor;
+    [SerializeField] TextMeshProUGUI promptText;
+    [SerializeField] GameObject closeBtn;
 
     List<CardDisplay> cardDisplayList = new List<CardDisplay>();
 
     CanvasGroup canvasGroup;
     bool isClosing;
+
+    Action<CardDisplay> onDeckCardClick;
 
     private void Awake()
     {
@@ -29,12 +35,15 @@ public class DeckPage : CommonPage
 
     }
 
-    public void Setup(Deck deck = null)
+    public void Setup(Deck deck = null, Action<CardDisplay> onDeckCardClick = null)
     {
         if(deck == null)
         {
             deck = NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck();
         }
+
+        if(onDeckCardClick != null)
+            this.onDeckCardClick = onDeckCardClick;
 
         var cards = deck.Export();
 
@@ -76,18 +85,28 @@ public class DeckPage : CommonPage
         };
     }
 
+    public void Kill()
+    {
+        base.Close();
+    }
+    
     public void Refresh()
     {
         Setup();
     }
 
-    public void OnDeckCardClick(Card card)
+    public void OnDeckCardClick(CardDisplay card)
     {
-        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
-        cdp.Setup(card);
-        cdp.OnClose.Subscribe(x =>
-        {
-            Refresh();
-        }).AddTo(this);
+        onDeckCardClick?.Invoke(card);
     }
+
+    public void SetPromptText(string t)
+    {
+        promptText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(t));
+        promptText.text = t;
+    }
+
+    public void SetPointCursor(Texture2D t) => onPointCursor = t;
+
+    public void SetCloseBtn(bool set) => closeBtn.SetActive(set);
 }

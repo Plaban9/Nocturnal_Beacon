@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject cardDetailPagePrefab;
     [SerializeField] GameObject customizeCardPagePrefab;
     [SerializeField] GameObject shopPagePrefab;
+    [SerializeField] GameObject shopItemPagePrefab;
+
     Dictionary<GamePage, GameObject> pageDict = new Dictionary<GamePage, GameObject>();
 
     [Header("Common components")]
@@ -95,6 +97,11 @@ public class UIManager : MonoBehaviour
                 case GamePage.ShopPage:
                     {
                         pageGO = Instantiate(shopPagePrefab, parent);
+                        break;
+                    }
+                case GamePage.ShopItemPage:
+                    {
+                        pageGO = Instantiate(shopItemPagePrefab, parent);
                         break;
                     }
             }
