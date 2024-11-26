@@ -12,7 +12,8 @@ namespace CardAttribute
         Attack,
         Skill,
         Curse,
-        Status
+        Status,
+        Shop
     }
 
     [Serializable]

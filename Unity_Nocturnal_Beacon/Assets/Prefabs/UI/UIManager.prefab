@@ -47,5 +47,7 @@ MonoBehaviour:
   deckPagePrefab: {fileID: 8840355874373255451, guid: 36414be4afde1b945be430a47ef13caf, type: 3}
   cardDetailPagePrefab: {fileID: 5947292961997569691, guid: afd822ff5be7ee940bc74bb633490e6f, type: 3}
   customizeCardPagePrefab: {fileID: 8255427734156723227, guid: 323cc16c37ebb43c58a8d53bc4c4aa31, type: 3}
+  shopPagePrefab: {fileID: 3635759914644939466, guid: 4dc3bcc76ded89444b6ede877723886a, type: 3}
+  shopItemPagePrefab: {fileID: 1403088751758805366, guid: 04992a8e854c89a40bcff687815ae0d7, type: 3}
   noticeBarPrefab: {fileID: 5346188558767316843, guid: d2abd0e40f4ec414895fdc5d71c90280, type: 3}
   confirmDialogPrefab: {fileID: 6732743743430746913, guid: 156a454dd8f754610929e60f988023a7, type: 3}

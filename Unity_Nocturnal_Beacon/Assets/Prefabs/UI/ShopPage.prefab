@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: -150}
+  m_AnchoredPosition: {x: 400, y: -150}
   m_SizeDelta: {x: 3200, y: 1600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7445730325739911160
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 50, y: 0, z: 100, w: 0}
   m_Maskable: 1
@@ -308,12 +308,12 @@ MonoBehaviour:
         - m_Target: {fileID: 4120714080967417990}
           m_TargetAssemblyTypeName: RandomDialog, Assembly-CSharp
           m_MethodName: Show
-          m_Mode: 3
+          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: -1
-            m_FloatArgument: 0
+            m_FloatArgument: -1
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
@@ -406,6 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dac2d962640f37468f59d6993673f26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopItems: {fileID: 11400000, guid: eb67a2f744f12144dac7800e744a68f6, type: 2}
+  SkipAnimation: 0
   shopAnimator: {fileID: 3873513531677575884}
 --- !u!1 &3789820163945330619
 GameObject:
@@ -627,7 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 227d3b0105d86fa4ea388107f2d977eb, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

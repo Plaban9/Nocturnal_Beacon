@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 public class UITopBarManager : MonoBehaviour
 {
@@ -82,7 +83,26 @@ public class UITopBarManager : MonoBehaviour
     {
         var dp = UIManager.Instance.ShowPage(GamePage.DeckPage).GetComponent<DeckPage>();
 
-        dp.Setup();
+        dp.Setup(null, (cd) =>
+        {
+            var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
+            cdp.Setup(cd.GetCard());
+            cdp.OnClose.Subscribe(x =>
+            {
+                dp.Refresh();
+            }).AddTo(this);
+        });
+
         dp.Show();
+    }
+    public void OnClickMenuBtn()
+    {
+        /*================DEBUG USAGE============*/
+
+        var sp = UIManager.Instance.ShowPage(GamePage.ShopPage).GetComponent<ShopPage>();
+
+        sp.Setup();
+
+        /*================DEBUG USAGE============*/
     }
 }

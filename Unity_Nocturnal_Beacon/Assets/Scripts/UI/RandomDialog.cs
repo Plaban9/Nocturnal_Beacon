@@ -13,14 +13,24 @@ public class RandomDialog : MonoBehaviour
     CanvasGroup canvasGroup;
     bool isShowing = false;
 
+    Sequence tween;
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void Show(int duration = -1)
+    public void Show(float duration = -1)
     {
-        dialogText.text = lines[Random.Range(0, lines.Count)];
+        var t = "";
+
+        do
+        {
+            t = lines[Random.Range(0, lines.Count)];
+        }
+        while (dialogText.text.Equals(t));
+
+        dialogText.text = t;
 
         if (isShowing) return;
 
@@ -28,7 +38,7 @@ public class RandomDialog : MonoBehaviour
 
         if (duration != -1)
         {
-            var tween = DOTween.Sequence();
+            tween = DOTween.Sequence();
             tween.Append(canvasGroup.DOFade(1, fadeTime)).AppendInterval(duration).AppendCallback(Hide);
         }
         else
@@ -39,6 +49,7 @@ public class RandomDialog : MonoBehaviour
 
     public void Hide()
     {
+        tween?.Kill();
         isShowing = false;
         canvasGroup.DOFade(0, fadeTime);
     }

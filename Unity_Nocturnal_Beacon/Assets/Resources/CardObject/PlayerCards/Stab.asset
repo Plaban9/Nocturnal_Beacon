@@ -20,6 +20,7 @@ MonoBehaviour:
   manaCost: 1
   sprite: {fileID: 21300000, guid: 33397c7c3af931b43b11b9ef89afef43, type: 3}
   element: 0
+  price: 50
   effects:
   - rid: 1688478563013754883
   references:

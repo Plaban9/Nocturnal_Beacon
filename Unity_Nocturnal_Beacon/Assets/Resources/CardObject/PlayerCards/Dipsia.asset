@@ -20,6 +20,7 @@ MonoBehaviour:
   manaCost: 3
   sprite: {fileID: 21300000, guid: cc0d8064acec0ba46aa5c49a5f4b0502, type: 3}
   element: 5
+  price: 30
   effects:
   - rid: 9114498975941525511
   - rid: 9114498975941525512
@@ -34,7 +35,9 @@ MonoBehaviour:
         val2: 0
         val3: 0
         val4: 0
+        effectType: 0
         target: 1
+        targetAmount: 0
     - rid: 9114498975941525512
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
@@ -43,4 +46,6 @@ MonoBehaviour:
         val2: 0
         val3: 0
         val4: 0
+        effectType: 0
         target: 0
+        targetAmount: 0

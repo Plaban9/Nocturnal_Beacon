@@ -33,8 +33,12 @@ public class ShopAnimator : MonoBehaviour
         background.DOLocalMoveX(backgroundInitPosX, Mathf.Abs(backgroundInitPosX - curPos.x) / playerWalkSpeed).SetEase(Ease.Linear).onComplete += () =>
         {
             playerWalk.Kill();
-
-            merchant.DOShakeAnchorPos(0.5f, randomnessMode: ShakeRandomnessMode.Harmonic);
         };
+    }
+
+    public void SkipAnimate()
+    {
+        player.DOLocalMoveX(playerInitPosX, 0).From().SetEase(Ease.Linear);
+        background.DOLocalMoveX(backgroundInitPosX, 0).SetEase(Ease.Linear);
     }
 }

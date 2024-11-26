@@ -150,5 +150,13 @@ public class Deck : ScriptableObject
         }
     }
 
+    public void RemoveCard(Card card)
+    {
+        if(cards.Contains(card))
+        {
+            cards.Remove(card);
+        }
+    }
+
 }
 
