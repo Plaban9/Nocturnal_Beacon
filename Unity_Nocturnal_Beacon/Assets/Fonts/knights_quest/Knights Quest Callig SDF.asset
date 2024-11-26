@@ -739,6 +739,21 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
+  - m_Index: 86
+    m_Metrics:
+      m_Width: 28.609375
+      m_Height: 43.546875
+      m_HorizontalBearingX: -0.359375
+      m_HorizontalBearingY: 40.84375
+      m_HorizontalAdvance: 28.734375
+    m_GlyphRect:
+      m_X: 10
+      m_Y: 296
+      m_Width: 30
+      m_Height: 44
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
   - m_Index: 87
     m_Metrics:
       m_Width: 46.546875
@@ -990,6 +1005,10 @@ MonoBehaviour:
     m_GlyphIndex: 85
     m_Scale: 1
   - m_ElementType: 1
+    m_Unicode: 115
+    m_GlyphIndex: 86
+    m_Scale: 1
+  - m_ElementType: 1
     m_Unicode: 116
     m_GlyphIndex: 87
     m_Scale: 1
@@ -1187,6 +1206,10 @@ MonoBehaviour:
     m_Y: 0
     m_Width: 70
     m_Height: 61
+  - m_X: 0
+    m_Y: 286
+    m_Width: 49
+    m_Height: 63
   m_FreeGlyphRects:
   - m_X: 35
     m_Y: 24
@@ -1244,18 +1267,10 @@ MonoBehaviour:
     m_Y: 224
     m_Width: 7
     m_Height: 46
-  - m_X: 0
-    m_Y: 346
-    m_Width: 1023
-    m_Height: 677
   - m_X: 109
     m_Y: 325
     m_Width: 914
     m_Height: 698
-  - m_X: 0
-    m_Y: 286
-    m_Width: 52
-    m_Height: 737
   - m_X: 109
     m_Y: 270
     m_Width: 22
@@ -1320,6 +1335,18 @@ MonoBehaviour:
     m_Y: 0
     m_Width: 196
     m_Height: 1023
+  - m_X: 0
+    m_Y: 349
+    m_Width: 1023
+    m_Height: 674
+  - m_X: 49
+    m_Y: 346
+    m_Width: 974
+    m_Height: 677
+  - m_X: 49
+    m_Y: 286
+    m_Width: 3
+    m_Height: 737
   m_fontInfo:
     Name: 
     PointSize: 0
@@ -1601,6 +1628,21 @@ MonoBehaviour:
           m_YAdvance: 0
       m_SecondAdjustmentRecord:
         m_GlyphIndex: 85
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: 0
+          m_YAdvance: 0
+      m_FeatureLookupFlags: 0
+    - m_FirstAdjustmentRecord:
+        m_GlyphIndex: 55
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: -11.03125
+          m_YAdvance: 0
+      m_SecondAdjustmentRecord:
+        m_GlyphIndex: 86
         m_GlyphValueRecord:
           m_XPlacement: 0
           m_YPlacement: 0

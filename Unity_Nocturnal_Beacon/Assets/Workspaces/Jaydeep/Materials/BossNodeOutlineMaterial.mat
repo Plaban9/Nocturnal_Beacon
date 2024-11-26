@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4c58f9a40168f4046a1f71219d56d850, type: 3}
+        m_Texture: {fileID: 2800000, guid: b48acac609a010f449613db123930e77, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
@@ -47,7 +47,7 @@ Material:
     m_Floats:
     - _AlphaClipping: 0
     - _IsEnabled: 0
-    - _OutlineThickness: 0.1
+    - _OutlineThickness: 2.68
     m_Colors:
     - _OutlineColor: {r: 39.39662, g: 0, b: 31.839819, a: 1}
     - _OutlineColor2: {r: 0, g: 23.046766, b: 31.999996, a: 1}

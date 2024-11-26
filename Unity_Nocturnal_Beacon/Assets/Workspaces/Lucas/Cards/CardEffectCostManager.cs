@@ -40,9 +40,9 @@ public class CardEffectCostManager : MonoBehaviour
         if (cardSO == null) return cardManaSetting.GetCardManaCost(mana);
 
         var cost = 0;
-        var curCost = cardManaSetting.GetCardManaCost(cardSO.manaCost);
+        var curCost = cardManaSetting.GetCardManaCost(cardSO.GetManaCost());
 
-        if(mana == cardSO.manaCost)
+        if(mana == cardSO.GetManaCost())
         {
             cost = 0;
         }

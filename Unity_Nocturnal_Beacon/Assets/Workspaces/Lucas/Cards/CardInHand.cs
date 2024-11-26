@@ -15,17 +15,27 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     ReactiveProperty<bool> onDrag = new ReactiveProperty<bool>(false);
     Subject<CardInHand> onDeploy = new Subject<CardInHand>();
 
+    bool highlight1Enemy = false;
+    bool highlightAllEnemy = false;
+    bool highlightSelf = false;
+
+    public BattleUnit hoveredEnemy = null;
+
     private void Awake()
     {
         rt = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+
+
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
         //base.Start();
-
+        highlight1Enemy = card.TargetSingleEnemy();
+        highlightAllEnemy = card.TargetAllEnemy();
+        highlightSelf = card.TargetSelf();
     }
 
     // Update is called once per frame
@@ -50,7 +60,23 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = false;
+        canvasGroup.DOFade(0.2f, 0.3f);
         oriPos = rt.anchoredPosition;
+        if (!highlight1Enemy && (highlightAllEnemy || highlightSelf))
+        {
+            BattleManager.Instance.SetNoTargetReticule(true);
+        }
+
+        if (highlightSelf)
+        {
+            BattleManager.Instance.ShowEffectivenessPlayer(card); 
+        }
+
+        if (highlightAllEnemy || highlight1Enemy)
+        {
+            BattleManager.Instance.ShowEffectivityEnemies(card);
+        }
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -78,16 +104,38 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         onDrag.Value = false;
+        canvasGroup.DOFade(1f, 0.3f);
 
-        if(IsPointingDeployArea())
+
+        if (IsPointingDeployArea())
         {
             onDeploy.OnNext(this);
+            BattleManager.Instance.HideOutlinePlayer();
+            BattleManager.Instance.HideOutlineEnemies();
+            hoveredEnemy?.HideOutline();
+            hoveredEnemy = null;
         }
         else
         {
             canvasGroup.blocksRaycasts = true;
             rt.anchoredPosition = oriPos;
         }
+
+        if (!highlight1Enemy && (highlightAllEnemy || highlightSelf))
+        {
+            BattleManager.Instance.SetNoTargetReticule(false);
+        }
+
+        if (highlightSelf)
+        {
+            BattleManager.Instance.HideEffectivenessPlayer(); 
+        }
+
+        if (highlightAllEnemy || highlight1Enemy)
+        {
+            BattleManager.Instance.HideEffectivityEnemies();
+        }
+
     }
 
     bool IsPointingDeployArea()
@@ -98,14 +146,67 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(ped, results);
 
-        foreach (var r in results)
+        if (highlight1Enemy)
         {
-            if (r.gameObject.layer == LayerMask.NameToLayer("DeployCard"))
+            foreach (var r in results)
             {
-                return true;
+                if (r.gameObject.layer == LayerMask.NameToLayer("DeployCardTarget"))
+                {
+                    var newTarget = r.gameObject.transform.parent.parent.gameObject.GetComponent<BattleUnit>();
+                    if (highlightSelf)
+                    {
+                        BattleManager.Instance.OutlinePlayer();
+                    }
+                    if (newTarget != hoveredEnemy)
+                    {
+                        hoveredEnemy = newTarget;
+                        hoveredEnemy.Outline();
+                    }
+                    return true;
+                }
+            }
+        }
+        else if (highlightAllEnemy)
+        {
+
+            foreach (var r in results)
+            {
+                if (r.gameObject.layer == LayerMask.NameToLayer("DeployCardNoTarget"))
+                {
+                    if (highlightSelf)
+                    {
+                        BattleManager.Instance.OutlinePlayer();
+                    }
+                    BattleManager.Instance.OutlineEnemies();
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            foreach (var r in results)
+            {
+                if (r.gameObject.layer == LayerMask.NameToLayer("DeployCardNoTarget"))
+                {
+                    if (highlightSelf)
+                    {
+                        BattleManager.Instance.OutlinePlayer();
+                    }
+                    return true;
+                }
             }
         }
 
+        
+
+        
+        if(hoveredEnemy != null)
+        {
+            BattleManager.Instance.HideOutlinePlayer();
+            BattleManager.Instance.HideOutlineEnemies();
+            hoveredEnemy.HideOutline();
+            hoveredEnemy = null;
+        }
         return false;
     }
 

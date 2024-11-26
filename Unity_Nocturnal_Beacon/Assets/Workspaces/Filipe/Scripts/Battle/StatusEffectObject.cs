@@ -12,9 +12,9 @@ public class StatusEffectObject : ScriptableObject
     [SerializeField] public Sprite icon;
     [SerializeField] public string description;
     [SerializeField] public string name;
-    [SerializeReference, SubclassSelector] public BattleStatusEffect effect;
+    [SerializeField] public bool isPositive;
     
-    public StatusEffectObject(StatusEffect statusEffect)
+    public StatusEffectObject(StatusEffect statusEffect)    
     {
         this.statusEffect = statusEffect;
     }

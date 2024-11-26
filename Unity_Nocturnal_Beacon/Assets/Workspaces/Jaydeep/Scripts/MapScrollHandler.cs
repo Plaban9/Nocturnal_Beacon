@@ -13,17 +13,18 @@ public class MapScrollHandler : MonoBehaviour, IDragHandler
     private IEnumerator Start()
     {
         // This will hold the function until the grid is created and current node is set;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         float posY = 0f;
 
-        var node = MapBuilderTD.Instance.GetCurrentlySelectedNode();
+        maxScrollLength = -(Mathf.Abs(MapBuilderTD.Instance.LastRowPos) + 10f);
+
+        var node = MapBuilderTD.Instance.GetCurrentlyLastProceededNode();
         if (node == null)
             posY = MapBuilderTD.Instance.LastRowPos;
         else
             posY = node.transform.position.y;
 
-        var currentlySelectedNode = MapBuilderTD.Instance.GetCurrentlySelectedNode();
         var myPos = transform.position;
         var scrollPos = new Vector3(myPos.x, posY, myPos.z);
 

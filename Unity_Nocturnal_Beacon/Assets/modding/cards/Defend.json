@@ -1,0 +1,1 @@
+{"id":10002,"uId":1000009,"name":"Defend","rarity":0,"cardType":1,"manaCost":1,"sprite":{"instanceID":29826},"element":0,"effects":[{"rid":1000}],"references":{"version":2,"RefIds":[{"rid":1000,"type":{"class":"ModifyShield","ns":"","asm":"Assembly-CSharp"},"data":{"appMechanic":0,"val1":5,"val2":0,"val3":0,"val4":0,"target":0}}]}}

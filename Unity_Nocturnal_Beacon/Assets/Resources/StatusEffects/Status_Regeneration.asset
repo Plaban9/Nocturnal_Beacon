@@ -16,15 +16,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: a89cf1ca1c02f1743a5a3e26292167c4, type: 3}
   description: Recoveer HP by intensity every turn start.
   name: Regenerate
-  effect:
-    rid: 298649548333514753
-  references:
-    version: 2
-    RefIds:
-    - rid: 298649548333514753
-      type: {class: StatusEffect_Regeneration, ns: , asm: Assembly-CSharp}
-      data:
-        _status: {fileID: 0}
-        _intensity: 0
-        _duration: 0
-        owner: {fileID: 0}
+  isPositive: 1

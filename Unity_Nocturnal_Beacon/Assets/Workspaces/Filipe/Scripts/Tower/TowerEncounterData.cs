@@ -14,7 +14,7 @@ public class TowerEncounterData
 
     public List<EnemyEncounter> GetValidEncounterList(int height)
     {
-        if(height > minHeight && maxHeight > height)
+        if(height >= minHeight && maxHeight > height)
         {
             return _possibleEnemies;
         }
@@ -23,5 +23,7 @@ public class TowerEncounterData
             return new List<EnemyEncounter>();
         }
     }
+
+    public int GetMaxHeight() { return maxHeight; }
 
 }

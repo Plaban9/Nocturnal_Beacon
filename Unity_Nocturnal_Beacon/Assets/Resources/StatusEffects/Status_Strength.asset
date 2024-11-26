@@ -16,15 +16,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: b43d6ffc9c459c14f8e5246c8b76cf8c, type: 3}
   description: Increases damage dealt by the intesity.
   name: Strength
-  effect:
-    rid: 298649548333514752
-  references:
-    version: 2
-    RefIds:
-    - rid: 298649548333514752
-      type: {class: StatusEffect_Strength, ns: , asm: Assembly-CSharp}
-      data:
-        _status: {fileID: 0}
-        _intensity: 0
-        _duration: 0
-        owner: {fileID: 0}
+  isPositive: 1

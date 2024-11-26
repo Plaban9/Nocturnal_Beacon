@@ -70,3 +70,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Unity_Nocturnal_Beacon/.vscode/extensions.json
+Unity_Nocturnal_Beacon/.vscode/launch.json
+Unity_Nocturnal_Beacon/.vscode/settings.json

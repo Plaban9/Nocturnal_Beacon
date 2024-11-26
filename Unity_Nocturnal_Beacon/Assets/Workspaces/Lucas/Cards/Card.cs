@@ -117,10 +117,11 @@ public class Card : ScriptableObject
     public new string name;
     public Rarity rarity;
     public CardType cardType;
-    public int manaCost = 1;
+    [SerializeField] private int manaCost = 1;
     public Sprite sprite;
     public Element element;
     [Tooltip("Price for shop")] public int price;
+    private List<CardStatuses> _statuses = new List<CardStatuses>();
 
     /*
      * List of Effects to run
@@ -140,5 +141,64 @@ public class Card : ScriptableObject
 
         return result;
     }
+
+
+    public bool TargetSingleEnemy()
+    {
+        return effects.Find(it => 
+           (it.GetTarget() == CardAttribute.EffectTarget.OpponentSingle)
+        ) != null;
+    }
+
+    public bool TargetAllEnemy()
+    {
+        return effects.Find(it =>
+           (it.GetTarget() == CardAttribute.EffectTarget.OpponentAll ||
+          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom)
+        ) != null;
+    }
+
+    public bool TargetSelf()
+    {
+        return effects.Find(it =>
+           (it.GetTarget() == CardAttribute.EffectTarget.Self)
+        ) != null;
+    }
+
+    public float GetAffinity(Element targetElement)
+    {
+        return ElementalTable.GetElementalAffinity(this.element, targetElement);
+    }
+
+    public void FlushStatuses()
+    {
+        _statuses.Clear();
+    }
+
+    public void AddStatus(CardStatuses status)
+    {
+        _statuses.Add(status);
+    }
+
+    public int GetManaCost()
+    {
+        int i = manaCost;
+        foreach(CardStatuses status in _statuses)
+        {
+            i = status.GetManaCost(i);
+        }
+        return i;
+    }
+
+    public int GetBaseManaCost()
+    {
+        return manaCost;
+    }
+
+    public void SetBaseManaCost(int i)
+    {
+        manaCost = i;
+    }
+
 
 }

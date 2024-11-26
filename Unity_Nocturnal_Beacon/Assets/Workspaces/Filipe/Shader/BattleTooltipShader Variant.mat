@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BattleTooltipShader Variant
+  m_Shader: {fileID: 4800000, guid: bfb81191181b1c544a94d1761880696d, type: 3}
+  m_Parent: {fileID: 2100000, guid: e048185f48f34b045a22d12b5c0e447e, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _edgeBlurriness: 0.67
+    - _flameAngle: -14.43
+    - _flameLength: 3.7
+    - _flameSize: 12
+    - _flameVolatility: 1.54
+    - _flameWavering: -1.93
+    m_Colors:
+    - _backgroundColor: {r: 0, g: 0.00410638, b: 0.0011053253, a: 1}
+    - _flameColor: {r: 2.6390157, g: 0.6203433, b: 0, a: 1}
+  m_BuildTextureStacks: []

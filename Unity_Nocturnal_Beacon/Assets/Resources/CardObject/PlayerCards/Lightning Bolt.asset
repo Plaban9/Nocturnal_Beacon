@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Lightning Bolt
+  m_EditorClassIdentifier: 
+  id: 10009
+  uId: 1000015
+  name: Lightning Bolt
+  rarity: 0
+  cardType: 0
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: 6b815014dfae0b948aaee74834f7f126, type: 3}
+  element: 2
+  price: 0
+  effects:
+  - rid: 4405684268019744776
+  - rid: 4405684268019744775
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405684268019744775
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 1
+        val2: 1
+        val3: 0
+        val4: 0
+        effectType: 5
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 43a6ffcedb9341c4b8a339cad50c1a4b, type: 2}
+        statusEffect: 12
+        statusStacks: 0
+    - rid: 4405684268019744776
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: -6
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 1
+        targetAmount: 0

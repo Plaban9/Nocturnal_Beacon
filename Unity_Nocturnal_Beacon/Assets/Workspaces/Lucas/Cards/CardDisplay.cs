@@ -49,8 +49,20 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void Setup(Card card)
     {
         this.card = card;
-
-        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
+        if (card == null) return; 
+        manaText.text = card.GetManaCost() >= 0 ? card.GetManaCost().ToString() : "X";
+        if (card.GetManaCost() > card.GetBaseManaCost())
+        {
+            manaText.color = new Color(1f, 0.2f, 0.2f);
+        }
+        else if (card.GetManaCost() < card.GetBaseManaCost())
+        {
+            manaText.color = new Color(0.2f, 1f, 0.2f);
+        }
+        else
+        {
+            manaText.color = new Color(0.2f, 0.2f, 1f);
+        }
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
         descText.text = card.GetEffectDescStr();
@@ -74,7 +86,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         this.onClick = onClick;
         this.onPointCursor = onPointCursor;
 
-        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
+        manaText.text = card.GetManaCost() >= 0 ? card.GetManaCost().ToString() : "X";
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
         descText.text = card.GetEffectDescStr();

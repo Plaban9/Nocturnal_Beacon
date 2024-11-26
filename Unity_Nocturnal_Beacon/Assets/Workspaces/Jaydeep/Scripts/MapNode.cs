@@ -28,6 +28,7 @@ public class MapNode : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D nodeCollider;
     private Gradient defaultColorGradient;
+    public EnemyEncounter EnemyEncounter { get; private set; }
 
     public int Id { get; private set; }
 
@@ -94,7 +95,10 @@ public class MapNode : MonoBehaviour
             return;
 
         UpwardNodeList.Add(node);
-        node.DownwardNodeList.Add(this);
+
+        if (!DownwardNodeList.Contains(node))
+            node.DownwardNodeList.Add(this);
+
         SetConnected(true);
 
         var line = Instantiate(linePrefab, transform);
@@ -189,6 +193,11 @@ public class MapNode : MonoBehaviour
     {
         typeSprite.sprite = type;
         this.nodeType = nodeType;
+    }
+
+    public void SetEnemyEncounter(EnemyEncounter encounter)
+    {
+        EnemyEncounter = encounter;
     }
 
     public void MakeClickable() => nodeCollider.enabled = true;

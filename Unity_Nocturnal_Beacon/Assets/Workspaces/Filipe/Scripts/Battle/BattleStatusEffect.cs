@@ -9,6 +9,7 @@ public abstract class BattleStatusEffect
     public int _duration;
     public BattleUnit owner;
 
+
     public virtual void OnTurnEnd() { }
 
     public virtual void OnTurnStart()
@@ -26,7 +27,7 @@ public abstract class BattleStatusEffect
         return damage;
     }
 
-    public virtual int OnTakeDamage(int damage)
+    public virtual int OnTakeDamage(BattleUnit attacker, int damage)
     {
         return damage;
     }
@@ -36,6 +37,12 @@ public abstract class BattleStatusEffect
         return block;
     }
 
+    public virtual int OnLoseBlock(int block)
+    {
+        return block;
+    }
+
+
     public virtual void AfterDealDamage()
     {
 
@@ -44,5 +51,10 @@ public abstract class BattleStatusEffect
     public virtual BattleStatusEffect OnGainStatus(BattleStatusEffect battleStatusEffect)
     {
         return battleStatusEffect;
+    }
+
+    public virtual int OnGetCardCost(int cardManaCost)
+    {
+        return cardManaCost;
     }
 }

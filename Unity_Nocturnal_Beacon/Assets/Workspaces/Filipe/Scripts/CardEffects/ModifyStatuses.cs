@@ -142,9 +142,9 @@ public class ModifyStatuses : CardEffect
         }
     }
 
-    public override void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    public override void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        base.OnUse(owner, targets);
+        base.OnUse(card, owner, targets);
         _bstf = null;
         switch (statusEffect)
         {
@@ -157,7 +157,38 @@ public class ModifyStatuses : CardEffect
             case StatusEffect.Regenerate:
                 _bstf = new StatusEffect_Regeneration();
                 break;
+            case StatusEffect.Throns:
+                _bstf = new StatusEffect_Thorns();
+                break;
+            case StatusEffect.Frail:
+                _bstf = new StatusEffect_Frail();
+                break;
+            case StatusEffect.Weak:
+                _bstf = new StatusEffect_Weak();
+                break;
+            case StatusEffect.Confused:
+                _bstf = new StatusEffect_Confused();
+                break;
+            case StatusEffect.Buffer:
+                _bstf = new StatusEffect_Buffer();
+                break;
+            case StatusEffect.Artifact:
+                _bstf = new StatusEffect_Artifact();
+                break;
+            case StatusEffect.NoDraw:
+                _bstf = new StatusEffect_NoDraw();
+                break;
+            case StatusEffect.Vulerable:
+                _bstf = new StatusEffect_Vulnerable();
+                break;
+            case StatusEffect.DrawCard:
+                _bstf = new StatusEffect_DrawBonus();
+                break;
+            case StatusEffect.Poision:
+                _bstf = new StatusEffect_Poison();
+                break;
             default:
+
                 break;
         }
 

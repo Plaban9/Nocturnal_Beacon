@@ -14,19 +14,21 @@ public interface ICardEffect
      */
     string EffectDescription { get; }
 
-    public void OnUse(BattleUnit owner, List<BattleUnit> targets);
 
-    public void BeforeCast(BattleUnit owner, List<BattleUnit> targets);
 
-    public void OnCast(BattleUnit owner, List<BattleUnit> targets);
+    public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets);
 
-    public void AfterCast(BattleUnit owner, List<BattleUnit> targets);
+    public void BeforeCast(Card card, BattleUnit owner, List<BattleUnit> targets);
 
-    public void BeforeDealDamage(BattleUnit ownerg, List<BattleUnit> targets);
+    public void OnCast(Card card, BattleUnit owner, List<BattleUnit> targets);
 
-    public int OnDealDamage(BattleUnit owner, List<BattleUnit> targets, int amount);
+    public void AfterCast(Card card, BattleUnit owner, List<BattleUnit> targets);
 
-    public void AfterDealDamage(BattleUnit owner, List<BattleUnit> targets);
+    public void BeforeDealDamage(Card card, BattleUnit ownerg, List<BattleUnit> targets);
+
+    public int OnDealDamage(Card card, BattleUnit owner, List<BattleUnit> targets, int amount);
+
+    public void AfterDealDamage(Card card, BattleUnit owner, List<BattleUnit> targets);
 
 
 }
@@ -47,6 +49,7 @@ public class CardEffect : ICardEffect
     [SerializeField] protected EffectTarget target;
     [SerializeField] protected EffectTargetAmount targetAmount;
 
+
     public virtual string LocalizationKey => "";
     public virtual string EffectDescription => "";
     public virtual string EffectDetailDescription => "";
@@ -65,38 +68,38 @@ public class CardEffect : ICardEffect
 
     public EffectType GetEffectType() => effectType;
 
-    public virtual void OnCast(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void OnCast(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual int OnDealDamage(BattleUnit owner, List<BattleUnit> targets, int amount)
+    public virtual int OnDealDamage(Card card, BattleUnit owner, List<BattleUnit> targets, int amount)
     {
         return amount;
         //throw new NotImplementedException();
     }
 
-    public virtual void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void AfterCast(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void AfterCast(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void AfterDealDamage(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void AfterDealDamage(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void BeforeCast(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void BeforeCast(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }
 
-    public virtual void BeforeDealDamage(BattleUnit owner, List<BattleUnit> targets)
+    public virtual void BeforeDealDamage(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         //throw new NotImplementedException();
     }

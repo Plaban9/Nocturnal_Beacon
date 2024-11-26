@@ -24,14 +24,25 @@ public class ModifyShield : CardEffect
         effectType = EffectType.GainShield;
     }
 
-    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    override public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         foreach (BattleUnit target in targets)
         {
+            float eleAffinity = ElementalTable.GetElementalAffinity(card.element, target.GetUnitData().unitElement);
+            int shield = val1;
+
             if (val1 > 0)
-                target.GetHPData().AddShield(val1);
+            {
+                int finalDamage = owner.GetUnitStatusData().OnGainBlock(shield);
+                int afterElemental = (int)Mathf.Floor(finalDamage * eleAffinity);
+                target.GetHPData().AddShield(afterElemental);
+            }
             else if (val1 < 0)
-                target.GetHPData().RemoveShield(val1);
+            {
+                int finalDamage = owner.GetUnitStatusData().OnLoseBlock(shield);
+                int afterElemental = (int)Mathf.Floor(finalDamage * eleAffinity);
+                target.GetHPData().RemoveShield(afterElemental);
+            }
         }
     }
 }
