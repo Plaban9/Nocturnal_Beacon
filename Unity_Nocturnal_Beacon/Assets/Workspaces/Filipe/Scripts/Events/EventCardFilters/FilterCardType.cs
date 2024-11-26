@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public class FilterCardType : MapEventCardFilter
+public class FilterCardType : CardFilter
 {
     [SerializeField] CardAttribute.CardType type;
     [SerializeField] CardTypeComparison comparison;
-    public override int GetOutcomeSuccess(Card card)
+    public override int Filter(Card card)
     {
         switch (comparison)
         {

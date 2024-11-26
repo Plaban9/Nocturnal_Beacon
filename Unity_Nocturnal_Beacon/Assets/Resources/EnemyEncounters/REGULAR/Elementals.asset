@@ -17,8 +17,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bc013363938fddd459e29d15d710f34d, type: 2}
   - {fileID: 11400000, guid: 30bb8ca299c18234485b40ede8875046, type: 2}
   - {fileID: 11400000, guid: 5d2f1555e6838044aa05d0596e2b00a4, type: 2}
+  - {fileID: 11400000, guid: d8bf9119b40427342883d72a7a3a36e5, type: 2}
   positionsPercentage:
   - {x: 0, y: 1}
   - {x: 0.2, y: 0.75}
   - {x: 0.4, y: 0.5}
   - {x: 0.6, y: 0.25}
+  - {x: 0.8, y: 0}

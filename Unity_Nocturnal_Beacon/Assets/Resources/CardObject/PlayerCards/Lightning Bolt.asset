@@ -23,24 +23,9 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 4405684268019744776
-  - rid: 4405684268019744775
   references:
     version: 2
     RefIds:
-    - rid: 4405684268019744775
-      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
-      data:
-        appMechanic: 0
-        val1: 1
-        val2: 1
-        val3: 0
-        val4: 0
-        effectType: 5
-        target: 0
-        targetAmount: 0
-        statusEffectObject: {fileID: 11400000, guid: 43a6ffcedb9341c4b8a339cad50c1a4b, type: 2}
-        statusEffect: 12
-        statusStacks: 0
     - rid: 4405684268019744776
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:

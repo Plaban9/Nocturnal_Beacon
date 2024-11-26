@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_Vulnerable
   m_EditorClassIdentifier: 
-  statusEffect: 8
-  icon: {fileID: 21300000, guid: a0c22cc2d3f2c6442b76ac6c3011721c, type: 3}
-  description: Increases damage taken by 25%
+  statusEffect: 24
   name: Vulnerable
+  description: Increases damage taken by 25%
+  icon: {fileID: 21300000, guid: a0c22cc2d3f2c6442b76ac6c3011721c, type: 3}
+  isPositive: 0

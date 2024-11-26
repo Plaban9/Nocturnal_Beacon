@@ -298,8 +298,12 @@ public class BattleManager : MonoBehaviour
             {
                 enemy.ShowIntent(0);
                 EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
-                Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
-                enemy.SetNextTurnIntent(0, enemyCard, index);
+                List<Card> enemyCard = behavior.GetCardsUsed(enemy, _currentTurn);
+                for(int i = 0; i < enemyCard.Count; i++)
+                {
+                    enemy.SetNextTurnIntent(i, enemyCard[i], index);
+
+                }
                 index += 1;
             }
         }
@@ -323,13 +327,16 @@ public class BattleManager : MonoBehaviour
         {
             if (!enemy.IsDead())
             {
-                enemy.HighlightIntent(0);
-                yield return new WaitForSeconds(0.4f);
-                PlayAnimation(enemy, (enemy.GetUnitData() as MonsterData).behavior.GetCardUsed(enemy, _currentTurn));
-                yield return new WaitForSeconds(0.1f);
-                PerformEnemyBehavior(enemy);
-                yield return new WaitForSeconds(0.3f);
-                enemy.HideIntent(0);
+                List<Card> cards = (enemy.GetUnitData() as MonsterData).behavior.GetCardsUsed(enemy, _currentTurn);
+                for(int i = 0; i < cards.Count; i++) {
+                    enemy.HighlightIntent(i);
+                    yield return new WaitForSeconds(0.4f);
+                    PlayAnimation(enemy, cards[i]);
+                    yield return new WaitForSeconds(0.1f);
+                    PerformEnemyBehavior(enemy, cards[i]);
+                    yield return new WaitForSeconds(0.3f);
+                    enemy.HideIntent(0);
+                }
             }
         }
         /*
@@ -351,11 +358,9 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void PerformEnemyBehavior(BattleUnit enemy)
+    private void PerformEnemyBehavior(BattleUnit enemy, Card card)
     {
-        EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
-        Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
-        UseCard(enemy, _player, enemyCard);
+        UseCard(enemy, _player, card);
     }
 
     
@@ -442,6 +447,11 @@ public class BattleManager : MonoBehaviour
     }
 
     #endregion
+
+    public BattleUnit GetPlayerbattleUnit()
+    {
+        return _player;
+    }
 
     #region Targetting
 

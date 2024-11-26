@@ -23,8 +23,9 @@ public class ModifyStatuses : CardEffect
         get
         {
             string result = string.Empty;
+            Debug.LogError(this.GetType().Name);
 
-            result = $"Gain {val1} <color=#FB8B48>{statusEffect.ToString()}</color>";
+            result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
 
             return result;
         }
@@ -186,6 +187,12 @@ public class ModifyStatuses : CardEffect
                 break;
             case StatusEffect.Poision:
                 _bstf = new StatusEffect_Poison();
+                break;
+            case StatusEffect.WaterEleChange:
+                _bstf = new StatusEffect_ElementalChangeWater();
+                break;
+            case StatusEffect.NoAct:
+                _bstf = new StatusEffect_NoAct();
                 break;
             default:
 

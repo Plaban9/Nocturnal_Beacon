@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
-  m_Name: Status_Poison
+  m_Name: Status_NoAct
   m_EditorClassIdentifier: 
-  statusEffect: 23
-  name: Poison
-  description: Takes damage at the end of the turn
-  icon: {fileID: 21300000, guid: 94c966cf8e1f319448c7b33106d1b460, type: 3}
+  statusEffect: 37
+  icon: {fileID: 620650393, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  description: Cannot act for this turn. Enemies may resist this effect.
+  name: Cant Act
   isPositive: 0

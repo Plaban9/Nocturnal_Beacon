@@ -5,103 +5,133 @@ using UnityEngine;
 
 public static class ElementalTable
 {
-    public static float GetElementalAffinity(Element origin, Element target)
+    public static ElementalEffectivity GetElementalAffinity(Element origin, Element target)
     {
         switch (target)
         {
             case Element.NONE:
-                return 1f;
+                return ElementalEffectivity.NEUTRAL;
                 
             case Element.EARTH:
                 if(origin == Element.EARTH)
                 {
-                    return 0.75f; 
+                    return ElementalEffectivity.INEFFECTIVE; 
                 }else if(origin == Element.FIRE)
                 {
-                    return 1.5f;
+                    return ElementalEffectivity.VERY_EFFECTIVE;
                 }else if(origin == Element.WIND)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 break;
             case Element.WIND:
                 if (origin == Element.WIND)
                 {
-                    return 0.75f;
+                    return ElementalEffectivity.INEFFECTIVE;
                 }
                 else if (origin == Element.EARTH)
                 {
-                    return 1.5f;
+                    return ElementalEffectivity.VERY_EFFECTIVE;
                 }
                 else if (origin == Element.WATER)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 break;
             case Element.WATER:
                 if (origin == Element.WATER)
                 {
-                    return 0.75f;
+                    return ElementalEffectivity.INEFFECTIVE;
                 }
                 else if (origin == Element.WIND)
                 {
-                    return 1.5f;
+                    return ElementalEffectivity.VERY_EFFECTIVE;
                 }
                 else if (origin == Element.FIRE)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 break;
             case Element.FIRE:
                 if (origin == Element.FIRE)
                 {
-                    return 0.75f;
+                    return ElementalEffectivity.INEFFECTIVE;
                 }
                 else if (origin == Element.WATER)
                 {
-                    return 1.5f;
+                    return ElementalEffectivity.VERY_EFFECTIVE;
                 }
                 else if (origin == Element.EARTH)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 break;
             case Element.DARK:
                 if (origin == Element.NONE)
                 {
-                    return 1f;
+                    return ElementalEffectivity.NEUTRAL;
                 }
                 else if (origin == Element.LIGHT)
                 {
-                    return 2f;
+                    return ElementalEffectivity.MAX_EFFECTIVE;
                 }
                 else if (origin == Element.DARK)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 else
                 {
-                    return 0.75f;
+                    return ElementalEffectivity.INEFFECTIVE;
                 }
             case Element.LIGHT:
                 if (origin == Element.NONE)
                 {
-                    return 1f;
+                    return ElementalEffectivity.NEUTRAL;
                 }
                 else if (origin == Element.DARK)
                 {
-                    return 2f;
+                    return ElementalEffectivity.MAX_EFFECTIVE;
                 }
                 else if (origin == Element.LIGHT)
                 {
-                    return 0.5f;
+                    return ElementalEffectivity.RESIST;
                 }
                 else
                 {
-                    return 0.75f;
+                    return ElementalEffectivity.INEFFECTIVE;
+                }
+            case Element.GHOST:
+                if(origin == Element.NONE)
+                {
+                    return ElementalEffectivity.UNAFFECTED;
+                }
+                else
+                {
+                    return ElementalEffectivity.MAX_EFFECTIVE;
                 }
         }
-        return 1f;
+        return ElementalEffectivity.NEUTRAL;
     }
 
+    public static float GetEffectivityMultiplier(ElementalEffectivity effectivity)
+    {
+        switch (effectivity)
+        {
+            case ElementalEffectivity.UNAFFECTED:
+                return 0.1f;
+            case ElementalEffectivity.RESIST:
+                return 0.5f;
+            case ElementalEffectivity.INEFFECTIVE:
+                return 0.75f;
+            case ElementalEffectivity.NEUTRAL:
+                return 1.0f;
+            case ElementalEffectivity.EFFECTIVE:
+                return 1.25f;
+            case ElementalEffectivity.VERY_EFFECTIVE:
+                return 1.5f;
+            case ElementalEffectivity.MAX_EFFECTIVE:
+                return 2.0f;
+        }
+        return -1f;
+    }
 }

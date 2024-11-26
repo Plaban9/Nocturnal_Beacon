@@ -13,15 +13,9 @@ MonoBehaviour:
   m_Name: ElementalTest
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 11400000, guid: 31e681dd4f901af4d90be51b906600e1, type: 2}
-  - {fileID: 11400000, guid: 31e681dd4f901af4d90be51b906600e1, type: 2}
-  - {fileID: 11400000, guid: 31e681dd4f901af4d90be51b906600e1, type: 2}
-  - {fileID: 11400000, guid: f0793503457a6b9488b789fcfb0953bb, type: 2}
-  - {fileID: 11400000, guid: f0793503457a6b9488b789fcfb0953bb, type: 2}
-  - {fileID: 11400000, guid: f0793503457a6b9488b789fcfb0953bb, type: 2}
-  - {fileID: 11400000, guid: 51e78b9990c10584a93952b13c80b688, type: 2}
-  - {fileID: 11400000, guid: 51e78b9990c10584a93952b13c80b688, type: 2}
-  - {fileID: 11400000, guid: 51e78b9990c10584a93952b13c80b688, type: 2}
+  - {fileID: 11400000, guid: d107856b2eb938346a388ebca7bd7106, type: 2}
+  - {fileID: 11400000, guid: d107856b2eb938346a388ebca7bd7106, type: 2}
+  - {fileID: 11400000, guid: d107856b2eb938346a388ebca7bd7106, type: 2}
   - {fileID: 11400000, guid: c56148f6458a60948ac973bb1facc043, type: 2}
   - {fileID: 11400000, guid: c56148f6458a60948ac973bb1facc043, type: 2}
   - {fileID: 11400000, guid: c56148f6458a60948ac973bb1facc043, type: 2}

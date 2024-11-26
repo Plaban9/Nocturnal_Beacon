@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 [Serializable]
-public class FilterManaCost : MapEventCardFilter
+public class FilterManaCost : CardFilter
 {
     [SerializeField] int manaCost = 0;
     [SerializeField] CardValueComparator comparison = CardValueComparator.EqualTo;
 
-    public override int GetOutcomeSuccess(Card card)
+    public override int Filter(Card card)
     {
         switch (comparison)
         {

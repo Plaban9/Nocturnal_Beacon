@@ -28,7 +28,7 @@ public class ModifyShield : CardEffect
     {
         foreach (BattleUnit target in targets)
         {
-            float eleAffinity = ElementalTable.GetElementalAffinity(card.element, target.GetUnitData().unitElement);
+            float eleAffinity = ElementalTable.GetEffectivityMultiplier(target.GetElementalAffinity(card.element));
             int shield = val1;
 
             if (val1 > 0)

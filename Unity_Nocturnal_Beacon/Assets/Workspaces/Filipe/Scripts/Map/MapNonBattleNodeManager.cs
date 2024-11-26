@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Device;
 using UnityEngine.UI;
 
 public class MapNonBattleNodeManager : MonoBehaviour
@@ -128,21 +129,23 @@ public class MapNonBattleNodeManager : MonoBehaviour
         }
     }
 
-    private void ActivateScreen(GameObject canvas)
+    private void ActivateScreen(GameObject screen)
     {
-        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
-        Animator animator = canvasGroup.transform.GetChild(0).GetComponent<Animator>();
+        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
+        MapNonBattleNodeScreen mapNonBattleNodeScreen = screen.GetComponent<MapNonBattleNodeScreen>();
 
+        mapNonBattleNodeScreen.ActivateNonBattleNodeScreen();
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.DOFade(1f, _fadeAnimDuration);
     }
 
-    private void DeactivateScreen(GameObject canvas)
+    private void DeactivateScreen(GameObject screen)
     {
-        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
-        Animator animator = canvasGroup.transform.GetChild(0).GetComponent<Animator>();
+        CanvasGroup canvasGroup = screen.GetComponent<CanvasGroup>();
+        MapNonBattleNodeScreen mapNonBattleNodeScreen = screen.GetComponent<MapNonBattleNodeScreen>();
 
+        mapNonBattleNodeScreen.DeactivateNonBattleNodeScreen();
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.DOFade(0f, _fadeAnimDuration);

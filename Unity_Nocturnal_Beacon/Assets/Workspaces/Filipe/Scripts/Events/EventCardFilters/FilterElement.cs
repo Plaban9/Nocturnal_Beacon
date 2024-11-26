@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public class FilterElement : MapEventCardFilter
+public class FilterElement : CardFilter
 {
     [SerializeField] Element element = Element.NONE;
-    public override int GetOutcomeSuccess(Card card)
+    public override int Filter(Card card)
     {
         if (element == card.element) return 1;
         return 0;

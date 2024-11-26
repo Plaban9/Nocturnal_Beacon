@@ -1,3 +1,4 @@
+using CardAttribute;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -39,6 +40,7 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] public GameObject _intentObject3;
 
     Animator _animator;
+    bool _isPlayer = false;
 
     private void Awake()
     {
@@ -59,6 +61,7 @@ public class BattleUnit : MonoBehaviour
 
     public void SetupPlayerUnit(PlayerUnitData _playerUnitData)
     {
+        _isPlayer = true;
         _hpData.InitializeMaxHp(_playerUnitData, this);
         _unitData = _playerUnitData.GetUnitData();
         SetUnitVisuals();
@@ -182,41 +185,47 @@ public class BattleUnit : MonoBehaviour
     public void ShowEffectivity(Card card)
     {
         _effectivityWindow.DOFade(1f, 0.2f);
-        float getEffectiveness = card.GetAffinity(GetUnitData().unitElement);
+        ElementalEffectivity getEffectiveness = GetElementalAffinity(card.element);
         switch (getEffectiveness)
         {
-            case 0.5f:
+            case ElementalEffectivity.UNAFFECTED:
+                _sign.text = "-";
+                _sign.fontSize = 48;
+                _effectivity.text = "IMPERVIOUS";
+                _color.color = new Color(0.8f, 0.2f, 0.8f);
+                break;
+            case ElementalEffectivity.RESIST:
                 _sign.text = "-";
                 _sign.fontSize = 36;
                 _effectivity.text = "RESISTS";
                 _color.color = new Color(0.5f, 0.5f, 0.9f);
                 break;
-            case 0.75f:
+            case ElementalEffectivity.INEFFECTIVE:
                 _sign.text = "-";
                 _sign.fontSize = 24;
                 _effectivity.text = "INEFFECTIVE";
                 _color.color = new Color(0.5f, 0.3f, 0.7f);
                 break;
-            case 1.0f:
+            case ElementalEffectivity.NEUTRAL:
                 _sign.text = "~";
                 _sign.fontSize = 24;
                 _effectivity.text = "NEUTRAL";
                 _color.color = new Color(0.5f, 0.5f, 0.5f);
                 break;
-            case 1.25f:
+            case ElementalEffectivity.EFFECTIVE:
                 _sign.text = "+";
                 _sign.fontSize = 24;
                 _effectivity.text = "EFFECTIVE";
                 _color.color = new Color(0.7f, 0.65f, 0.64f);
 
                 break;
-            case 1.5f:
+            case ElementalEffectivity.VERY_EFFECTIVE:
                 _sign.text = "+";
                 _sign.fontSize = 36;
                 _effectivity.text = "VRY EFFECTIVE";
                 _color.color = new Color(0.8f, 0.35f, 0.38f);
                 break;
-            case 2.0f:
+            case ElementalEffectivity.MAX_EFFECTIVE:
                 _sign.text = "+";
                 _sign.fontSize = 48;
                 _effectivity.text = "MAX EFFECTIVE";
@@ -224,6 +233,20 @@ public class BattleUnit : MonoBehaviour
                 break;
         }
 
+    }
+
+    public ElementalEffectivity GetElementalAffinity(Element element)
+    {
+        ElementalEffectivity baseAffinity = ElementalTable.GetElementalAffinity(element, GetElement());
+        ElementalEffectivity finalAffinity = _statusEffectData.OnGetElementalAffinity(element, baseAffinity);
+        return finalAffinity;
+    }
+
+    public Element GetElement()
+    {
+        Element element = _statusEffectData.GetElement(_unitData.unitElement);
+        Debug.Log($"{_unitData.name} - {element.ToString()}");
+        return element;
     }
 
     public void HideEffectivity()

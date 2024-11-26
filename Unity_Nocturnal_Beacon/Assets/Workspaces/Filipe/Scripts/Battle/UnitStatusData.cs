@@ -2,6 +2,7 @@ using CardAttribute;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class UnitStatusData : MonoBehaviour
 {
@@ -133,5 +134,40 @@ public class UnitStatusData : MonoBehaviour
         }
         UpdateStatusEffects();
         return final;
+    }
+
+    public ElementalEffectivity OnGetElementalAffinity(CardAttribute.Element element, ElementalEffectivity baseEffectivity)
+    {
+        ElementalEffectivity final = baseEffectivity;
+        foreach (var effect in activeEffects)
+        {
+            final = effect.bstf.OnGetElementalAffinity(element, final);
+        }
+        UpdateStatusEffects();
+        if (final > ElementalEffectivity.MAX_EFFECTIVE) final = ElementalEffectivity.MAX_EFFECTIVE;
+        if (final < ElementalEffectivity.UNAFFECTED) final = ElementalEffectivity.UNAFFECTED;
+        return final;
+    }
+
+    public CardAttribute.Element GetElement(CardAttribute.Element element)
+    {
+        CardAttribute.Element finalElement = element;
+
+        foreach (var effect in activeEffects)
+        {
+            finalElement = effect.bstf.OnGetElement(finalElement, false);
+        }
+
+        return finalElement;
+    }
+
+    public int OnGetNoAct()
+    {
+        int i = 0;
+        foreach (var effect in activeEffects)
+        {
+            i = effect.bstf.OnGetNoAct(i);
+        }
+        return i;
     }
 }

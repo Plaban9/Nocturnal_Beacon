@@ -75,6 +75,23 @@ namespace CardAttribute
         Buffer,         // Prevent the next X times you would lose HP.
         Artifact,       // Negates X debuffs.
         DrawCard,       // 	Draw X additional cards next turn.
+        NoneResist,     // Reduces Affinity to Neutral by n
+        FireResist,       // Reduces Affinity to Fire by n
+        WaterResist,      // Reduces Affinity to Water by n
+        WindResist,       // Reduces Affinity to Wind by n
+        EarthResist,      // Reduces Affinity to Earth by n
+        LightResist,      // Reduces Affinity to Light by n
+        DarkResist,       // Reduces Affinity to Dark by n
+        GhostResist,      // Reduces Affinity to Ghost by n
+        NoneEleChange,    // Change Element to Neutral
+        FireEleChange,       // Change Element to Fire
+        WaterEleChange,      // Change Element to Water
+        WindEleChange,       // Change Element to Wind
+        EarthEleChange,      // Change Element to Earth
+        LightEleChange,      // Change Element to Light
+        DarkEleChange,       // Change Element to Dark
+        GhostEleChange,      // Change Element to Ghost
+
 
         /* ============== DeBuffs ============== */
         Poision,        // At the beginning of its turn, the target loses X HP and 1 stack of Poison.
@@ -82,7 +99,16 @@ namespace CardAttribute
         Weak,           // Target deals 25% less attack damage.
         NoDraw,         // You may not draw any more cards this turn.
         Frail,          // Block gained from cards is reduced by 25%.
-        Confused        // The costs of your cards are randomized on draw, from 0 to 3.
+        Confused,       // The costs of your cards are randomized on draw, from 0 to 3.
+        NoneWeak,       // Increases Affinity to Neutral by n
+        FireWeak,       // Increases Affinity to Fire by n
+        WaterWeak,      // Increases Affinity to Water by n
+        WindWeak,       // Increases Affinity to Wind by n
+        EarthWeak,      // Increases Affinity to Earth by n
+        LightWeak,      // Increases Affinity to Light by n
+        DarkWeak,       // Increases Affinity to Dark by n
+        GhostWeak,      // Increases Affinity to Ghost by n
+        NoAct           // Prevents action for a turn (enemy only, player cannot be affected)
     }
 
     [Serializable]
@@ -102,7 +128,8 @@ namespace CardAttribute
         WATER,
         FIRE,
         DARK,
-        LIGHT
+        LIGHT,
+        GHOST
     }
 
 }
@@ -164,10 +191,6 @@ public class Card : ScriptableObject
         ) != null;
     }
 
-    public float GetAffinity(Element targetElement)
-    {
-        return ElementalTable.GetElementalAffinity(this.element, targetElement);
-    }
 
     public void FlushStatuses()
     {
@@ -200,4 +223,15 @@ public class Card : ScriptableObject
     }
 
 
+}
+
+public enum ElementalEffectivity
+{
+    UNAFFECTED = 0,
+    RESIST,
+    INEFFECTIVE,
+    NEUTRAL,
+    EFFECTIVE,
+    VERY_EFFECTIVE,
+    MAX_EFFECTIVE
 }

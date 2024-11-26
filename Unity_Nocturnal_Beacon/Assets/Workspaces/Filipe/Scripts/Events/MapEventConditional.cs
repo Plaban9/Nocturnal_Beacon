@@ -10,11 +10,11 @@ public class MapEventConditional
     [SerializeField] private string _requirementString = "This event requirements are unknown";
     [SerializeField] private string _successString = "For no reason in particular, you succeeded";
     [SerializeField] private string _failString = "For no reason in particular, you failed";
-    [SerializeReference,SubclassSelector] private MapEventCardFilter _filter;
+    [SerializeReference,SubclassSelector] private CardFilter _filter;
 
     public int GetResult(Card card)
     {
-        return _filter.GetOutcomeSuccess(card);
+        return _filter.Filter(card);
     }
 
     public string GetReqString()

@@ -100,19 +100,20 @@ public class ModifyHealth : CardEffect
     {
         foreach(BattleUnit target in targets)
         {
-            float eleAffinity = ElementalTable.GetElementalAffinity(card.element, target.GetUnitData().unitElement);
+            ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
+            float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
             if (val1 < 0)
             {
                 int damage = val1;
                 int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
-                int afterElemental = (int)Mathf.Floor(finalDamage * eleAffinity);
+                int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
                 target.GetHPData().DealDamage(owner, afterElemental);
             }
             else if (val1 > 0)
             {
                 int damage = val1;
                 int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
-                int afterElemental = (int) Mathf.Floor (finalDamage * eleAffinity);
+                int afterElemental = (int) Mathf.Floor (finalDamage * multiplier);
                 target.GetHPData().RecoverHealth(afterElemental);
             }
         }

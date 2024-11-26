@@ -6,12 +6,12 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 [Serializable]
-public class FilterEffect : MapEventCardFilter
+public class FilterEffect : CardFilter
 {
     [SerializeReference, SubclassSelector] CardEffect filteredEffect;
     [SerializeField] Containment comparison;
 
-    public override int GetOutcomeSuccess(Card card)
+    public override int Filter(Card card)
     {
         var type = filteredEffect.GetType();
         foreach(CardEffect ce in card.effects)

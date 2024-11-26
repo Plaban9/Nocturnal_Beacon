@@ -17,3 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 635c6048907ed184794cdd89a3a3c66a, type: 2}
   - {fileID: 11400000, guid: 635c6048907ed184794cdd89a3a3c66a, type: 2}
   - {fileID: 11400000, guid: c0fee7399f8540e4a950ff51b4911009, type: 2}
+  _cantActCard: {fileID: 11400000, guid: 9cfbe4f933964b842a9fb94e4f643705, type: 2}

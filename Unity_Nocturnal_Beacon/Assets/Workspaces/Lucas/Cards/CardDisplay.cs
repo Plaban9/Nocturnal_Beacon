@@ -121,6 +121,8 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 return new Color(0.5f, 0f, 0.5f);
             case Element.LIGHT:
                 return new Color(1f, 1f, 0f);
+            case Element.GHOST:
+                return new Color(0.8f, 0.2f, 0.8f);
             default:
                 return new Color(1f, 0, 0);
         }
