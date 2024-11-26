@@ -4900,6 +4900,7 @@ GameObject:
   - component: {fileID: 4814075404549036546}
   - component: {fileID: 2727421261834038764}
   - component: {fileID: 5927352156993087521}
+  - component: {fileID: 8313448321746237542}
   m_Layer: 5
   m_Name: CardCustomizing
   m_TagString: Untagged
@@ -4966,6 +4967,18 @@ MonoBehaviour:
   title: {fileID: 672619814387634190}
   mainImg: {fileID: 228032294843556309}
   priceTag: {fileID: 0}
+--- !u!225 &8313448321746237542
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8018682409644957069}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8255427734156723227
 GameObject:
   m_ObjectHideFlags: 0

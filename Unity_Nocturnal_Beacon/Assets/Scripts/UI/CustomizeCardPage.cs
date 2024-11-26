@@ -15,9 +15,9 @@ public class CustomizeCardPage : CommonPage
         
     }
 
-    public Subject<Card> Setup(Card c)
+    public Subject<Card> Setup(Card c, int point)
     {
-        cardController.Setup(c, (card) =>
+        cardController.Setup(c, point, (card) =>
         {
             NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().ReplaceCard(c.uId, card);
             onCustomized.OnNext(card);

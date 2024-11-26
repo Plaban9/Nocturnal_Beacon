@@ -127,9 +127,9 @@ public class ShopItemPage : CommonPage
                     cdp.OnConFirm().Subscribe(x =>
                     {
                         cdp.Close();
-                        dp.Close();
+                        dp.Kill();
                         var ccp = UIManager.Instance.ShowPage(GamePage.CustomizeCardPage).GetComponent<CustomizeCardPage>();
-                        ccp.Setup(cd.GetCard()).Subscribe(x =>
+                        ccp.Setup(x, card.effects.First().GetMainValue()).Subscribe(x =>
                         {
                             Show();
 

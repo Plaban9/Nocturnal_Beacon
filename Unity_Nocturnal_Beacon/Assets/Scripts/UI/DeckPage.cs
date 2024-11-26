@@ -85,6 +85,11 @@ public class DeckPage : CommonPage
         };
     }
 
+    public void Kill()
+    {
+        base.Close();
+    }
+    
     public void Refresh()
     {
         Setup();

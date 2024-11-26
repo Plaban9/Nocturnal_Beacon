@@ -46,11 +46,12 @@ public class CustomizeCardController : MonoBehaviour
         Init();
     }
 
-    public void Setup(Card c, Action<Card> onCustomized)
+    public void Setup(Card c, int point, Action<Card> onCustomized)
     {
         this.cardSO = c;
         this.onCustomized = onCustomized;
-
+        initPoint = point;
+        
         Init();
     }
 

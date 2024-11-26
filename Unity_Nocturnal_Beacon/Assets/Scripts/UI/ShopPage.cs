@@ -1,9 +1,11 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
+using Unity.Collections;
 using UnityEngine;
 
-public class ShopPage : MonoBehaviour
+public class ShopPage : CommonPage
 {
     [SerializeField] Deck shopItems = null;
 
@@ -42,5 +44,16 @@ public class ShopPage : MonoBehaviour
             sip.Setup(shopItems);
             sip.Show();
         }
+    }
+
+    public void OnClickLeaveButton()
+    {
+        shopAnimator.LeaveAnimate().Subscribe(x =>
+        {
+            if(x)
+            {
+                Close();
+            }
+        }).AddTo(this);
     }
 }

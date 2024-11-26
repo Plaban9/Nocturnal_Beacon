@@ -27,7 +27,7 @@ public class CardDetailPage : CommonPage
     public void OnClickGoToCustomizeCard()
     {
         var ccp = UIManager.Instance.ShowPage(GamePage.CustomizeCardPage).GetComponent<CustomizeCardPage>();
-        ccp.Setup(cardSO).Subscribe(x =>
+        ccp.Setup(cardSO, 30).Subscribe(x =>
         {
             Setup(x);
         }).AddTo(ccp);
