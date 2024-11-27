@@ -96,18 +96,26 @@ public class ModifyHealth : CardEffect
     }
 
 
-    override public void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    override public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         foreach(BattleUnit target in targets)
         {
+            ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
+            float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
             if (val1 < 0)
             {
                 int damage = val1;
-                damage = owner.GetUnitStatusData().OnDealDamage(damage);
-                target.GetHPData().DealDamage(damage);
+                int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
+                target.GetHPData().DealDamage(owner, afterElemental);
             }
             else if (val1 > 0)
-                target.GetHPData().RecoverHealth(val1);
+            {
+                int damage = val1;
+                int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                int afterElemental = (int) Mathf.Floor (finalDamage * multiplier);
+                target.GetHPData().RecoverHealth(afterElemental);
+            }
         }
     }
 

@@ -17,6 +17,7 @@ MonoBehaviour:
   startingHp: 60
   flipSprite: 0
   scale: 6
-  startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
-  startingMana: 5
+  unitElement: 0
+  startingDeck: {fileID: 11400000, guid: 92efae099aece074ca0b7f872b766d62, type: 2}
+  startingMana: 3
   description: GLASS CANNON

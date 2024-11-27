@@ -9,13 +9,26 @@ using UnityEngine;
 public class StatusEffectObject : ScriptableObject
 {
     [SerializeField] public StatusEffect statusEffect;
-    [SerializeField] public Sprite icon;
-    [SerializeField] public string description;
     [SerializeField] public string name;
-    [SerializeReference, SubclassSelector] public BattleStatusEffect effect;
-    
+    [SerializeField] public string description;
+    [SerializeField] public Sprite icon;
+    [SerializeField] public bool isPositive;
+
     public StatusEffectObject(StatusEffect statusEffect)
     {
         this.statusEffect = statusEffect;
+    }
+
+    public string GetName()
+    {
+        if(name != null)
+        {
+            return name;
+        }
+        else
+        {
+            Debug.LogError($"Missing name on {this.name}");
+            return "Missing name";
+        }
     }
 }

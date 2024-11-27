@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0ae7a57b9fd023b4782703065b088b54, type: 2}
   - {fileID: 11400000, guid: bff853c14083d6640b1beaff7337d843, type: 2}
   - {fileID: 11400000, guid: bff853c14083d6640b1beaff7337d843, type: 2}
+  _cantActCard: {fileID: 11400000, guid: 9cfbe4f933964b842a9fb94e4f643705, type: 2}

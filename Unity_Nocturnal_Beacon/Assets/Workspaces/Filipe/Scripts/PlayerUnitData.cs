@@ -21,7 +21,8 @@ public class PlayerUnitData : ScriptableObject
     public void Setup(PlayableData unitData, int currency)
     {
         _unitData = unitData;
-        _currentDeck = unitData.startingDeck;
+        _currentDeck = new Deck(true);
+        _currentDeck.CloneFromDeck(unitData.startingDeck);
         _currency = currency;
         _maxMana = unitData.startingMana;          
     }
@@ -48,6 +49,8 @@ public class PlayerUnitData : ScriptableObject
     public void SetCurrentHp(int currentHp)
     {
         _currentHp = currentHp;
+        if (_currentHp > _maxHP)
+            _currentHp = _maxHP;
     }
 
     public Deck GetCurrentDeck()
@@ -68,5 +71,16 @@ public class PlayerUnitData : ScriptableObject
     public void InitDeck()
     {
         _currentDeck.InitDeck();
+    }
+
+    public void ModifyCurrency(int val) => _currency += val;
+
+    public bool TryPurchase(int price)
+    {
+        if (_currency - price < 0) return false;
+
+        _currency -= price;
+
+        return true;
     }
 }

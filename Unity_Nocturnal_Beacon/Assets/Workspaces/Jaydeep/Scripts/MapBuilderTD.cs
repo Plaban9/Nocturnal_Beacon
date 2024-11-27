@@ -58,6 +58,9 @@ public class MapBuilderTD : MonoBehaviour
     [SerializeField] private List<Gradient> selectedLineGradientList = new List<Gradient>();
     [field: SerializeField] public Gradient CurrentGradient => selectedLine.colorGradient;
 
+    [Header("NonEventNode Management")]
+    [SerializeField] private MapNonBattleNodeManager _nonBattleNodeManager;
+
     [Header("Debug Options")]
     [SerializeField] private bool connectFullGrid;
 
@@ -271,6 +274,7 @@ public class MapBuilderTD : MonoBehaviour
 
     public void Proceed()
     {
+        NoctBeaconRunData.Instance.SetNextEncounter(null);
         if (currentSelectedNode == null)
             return;
 
@@ -285,10 +289,43 @@ public class MapBuilderTD : MonoBehaviour
         };
         mapNodeListSO.AddToSelectedLineAndSaveList(nodeData);
 
+        Debug.Log("This is being reached");
+
         if (NoctBeaconRunData.Instance)
         {
             var height = currentSelectedNode.GetHeight();
             NoctBeaconRunData.Instance.SetHeight(height);
+
+            switch (currentSelectedNode.GetNodeType())
+            {
+                case NodeType.Combat:
+                    NoctBeaconRunData.Instance.SetNextEncounter(
+                        currentSelectedNode.EnemyEncounter
+                    );
+                    break;
+                case NodeType.Shop:
+                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.SHOP);
+                    break;
+                case NodeType.Rest:
+                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.REST);
+                    break;
+                case NodeType.Upgd:
+                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.UPGD);
+                    break;
+                case NodeType.Evnt:
+                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.EVNT);
+                    break;
+            }
+
+            if(currentSelectedNode == bossNode)
+            {
+                NoctBeaconRunData.Instance.SetNextEncounter(
+                    currentSelectedNode.EnemyEncounter
+                );
+            }
+
+
+
             //NoctBeaconRunData.Instance.IsBoss(currentSelectedNode.GetHeight);
         }
 
@@ -302,7 +339,14 @@ public class MapBuilderTD : MonoBehaviour
 
         if (SceneController.Instance)
         {
-            SceneController.Instance.ToBattle();
+            if (NoctBeaconRunData.Instance.GetCurrentEncounter() != null)
+            {
+                SceneController.Instance.ToBattle();
+            }
+            else
+            {
+                LoadNodeList();
+            }
         }
         else
         {
@@ -556,6 +600,8 @@ public enum NodeType
     Combat = 0,
     Shop,
     Rest,
+    Upgd,
+    Evnt
 }
 
 [Serializable]

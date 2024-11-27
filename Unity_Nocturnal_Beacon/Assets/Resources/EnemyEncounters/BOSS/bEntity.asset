@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 11400000, guid: 03c84e0a2f6aee0448addff51fe32a1a, type: 2}
-  positions: 
+  positionsPercentage:
+  - {x: 0.5, y: -0.02}

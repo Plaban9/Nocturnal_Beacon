@@ -5,37 +5,57 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HPData : MonoBehaviour
 {
 
     [SerializeField] private SpriteRenderer _unitRenderer;
+    private BattleUnit _battleUnit;
     private UnitData _unitData;
     private int _maxHp;
     private int _currentHp;
     private int _shield;
     private TextMeshProUGUI _hpText;
     private Material _hpMaterial;
+    private bool isPlayer = false;
 
-    public void InitializeMaxHP(MonsterData _monsterData)
+    public void InitializeMaxHP(MonsterData _monsterData, BattleUnit unit)
     {
         _unitData = _monsterData;
         _maxHp = _monsterData.startingHp;
         _currentHp = _monsterData.startingHp;
+        _battleUnit = unit;
         _shield = 0;
     }
 
-    public void InitializeMaxHp(PlayerUnitData _playerData)
+    public void InitializeMaxHp(PlayerUnitData _playerData, BattleUnit unit)
     {
+        isPlayer = true;
         _unitData = _playerData.GetUnitData();
         _maxHp = _playerData.GetMaxHP();
         _currentHp = _playerData.GetCurrentHP();
+        _battleUnit = unit;
         _shield = 0;
     }
-    public void DealDamage(int amount)
+    public void DealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false)
     {
         AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
+        int finalAmount = amount;
+        foreach(BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
+        {
+            if (status is StatusEffect_Thorns && noReflect)
+            {
+                // Avoid infinite damage rebound from thorns.
+            }
+            else
+            {
+                finalAmount = status.OnTakeDamage(damageOrigin, finalAmount);
+            }
+        }
+
+        if (finalAmount == 0) return;
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
         _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
         _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
@@ -48,7 +68,7 @@ public class HPData : MonoBehaviour
             _unitRenderer.DOColor(Color.white, 0.3f);
         }
 
-        amount = Mathf.Abs(amount);
+        amount = Mathf.Abs(finalAmount);
         if (_currentHp == 0) return;
         EffectManager.Instance.CreateNumber(
             EffectManager.EFFECTS_NUMBER.DAMAGE,
@@ -157,26 +177,46 @@ public class HPData : MonoBehaviour
         if (_shield > 0)
             _hpText.color = Color.cyan;
 
-        _hpText.text = sum.ToString();
+        int curHp = int.Parse(_hpText.text);
+        DOTween.To(() => curHp,
+            x => curHp = x, sum, 0.5f).OnUpdate(() =>
+            {
+                _hpText.text = $"{curHp}"; 
+            }
+        );
 
-        _hpMaterial.SetFloat("_pctHealthNShield", ((float)_currentHp)/((float)_maxHp));
-        _hpMaterial.SetFloat("_pctShield", ((float) _shield) / ((float)_currentHp));
+
+        float curHpPercent = _hpMaterial.GetFloat("_pctHealthNShield");
+        float curShPercent = _hpMaterial.GetFloat("_pctShield");
+        float maxHPPercent = ((float)_currentHp) / ((float)_maxHp);
+        float maxSHPercent = ((float)_shield) / ((float) _currentHp);
+
+        Debug.Log($"{curHpPercent} -> {maxHPPercent}, {curShPercent} -> {maxSHPercent}");
+
+        DOTween.To(() => curHpPercent,
+            x => curHpPercent = x , maxHPPercent, 0.5f).OnUpdate(() =>
+            {
+                _hpMaterial.SetFloat("_pctHealthNShield", curHpPercent);
+            }
+        );
+        DOTween.To(() => curShPercent,
+            x => curShPercent = x, maxSHPercent, 0.5f).OnUpdate(() =>
+            {
+                _hpMaterial.SetFloat("_pctShield",curShPercent);
+            }
+        );
+
+        if (isPlayer)
+        {
+            NoctBeaconRunData.Instance.SetHp(curHp);
+        }
+
     }
 
     public bool IsDead()
     {
         if (_currentHp == 0)
         {
-            if(_unitData is MonsterData)
-            {
-                _unitRenderer.DOColor(new Color(0f, 0.2f, 0f), 0.5f);
-            }
-            else
-            {
-                _unitRenderer.DOColor(new Color(0.2f, 0f, 0f), 0.5f);
-            }
-            _unitRenderer.transform.parent.DOScaleY(0f, 1.2f);
-
             return true;
         }
         return false;

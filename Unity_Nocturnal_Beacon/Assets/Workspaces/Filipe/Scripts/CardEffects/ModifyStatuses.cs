@@ -23,9 +23,16 @@ public class ModifyStatuses : CardEffect
         get
         {
             string result = string.Empty;
+            Debug.LogError(this.GetType().Name);
 
-            result = $"Gain {val1} <color=#FB8B48>{statusEffect.ToString()}</color>";
-
+            if (statusEffectObject != null)
+            {
+                result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            }
+            else
+            {
+                result = "Error attempting to fetch description";
+            }
             return result;
         }
     }
@@ -142,9 +149,9 @@ public class ModifyStatuses : CardEffect
         }
     }
 
-    public override void OnUse(BattleUnit owner, List<BattleUnit> targets)
+    public override void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        base.OnUse(owner, targets);
+        base.OnUse(card, owner, targets);
         _bstf = null;
         switch (statusEffect)
         {
@@ -157,18 +164,59 @@ public class ModifyStatuses : CardEffect
             case StatusEffect.Regenerate:
                 _bstf = new StatusEffect_Regeneration();
                 break;
+            case StatusEffect.Throns:
+                _bstf = new StatusEffect_Thorns();
+                break;
+            case StatusEffect.Frail:
+                _bstf = new StatusEffect_Frail();
+                break;
+            case StatusEffect.Weak:
+                _bstf = new StatusEffect_Weak();
+                break;
+            case StatusEffect.Confused:
+                _bstf = new StatusEffect_Confused();
+                break;
+            case StatusEffect.Buffer:
+                _bstf = new StatusEffect_Buffer();
+                break;
+            case StatusEffect.Artifact:
+                _bstf = new StatusEffect_Artifact();
+                break;
+            case StatusEffect.NoDraw:
+                _bstf = new StatusEffect_NoDraw();
+                break;
+            case StatusEffect.Vulerable:
+                _bstf = new StatusEffect_Vulnerable();
+                break;
+            case StatusEffect.DrawCard:
+                _bstf = new StatusEffect_DrawBonus();
+                break;
+            case StatusEffect.Poision:
+                _bstf = new StatusEffect_Poison();
+                break;
+            case StatusEffect.WaterEleChange:
+                _bstf = new StatusEffect_ElementalChangeWater();
+                break;
+            case StatusEffect.GhostEleChange:
+                _bstf = new StatusEffect_ElementalChangeGhost();
+                break;
+            case StatusEffect.NoAct:
+                _bstf = new StatusEffect_NoAct();
+                break;
             default:
+
                 break;
         }
 
         if (_bstf == null)
             return;
         _bstf._status = statusEffectObject;
-        _bstf._intensity = val1;
+        _bstf._intensity = val1 ;
         _bstf._duration = val2;
         foreach (var unit in targets)
         {
             BattleStatusEffect newEffect = _bstf;
+            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
             newEffect.owner = unit;
             unit.GetUnitStatusData().AddStatusEffect(_bstf);
         }

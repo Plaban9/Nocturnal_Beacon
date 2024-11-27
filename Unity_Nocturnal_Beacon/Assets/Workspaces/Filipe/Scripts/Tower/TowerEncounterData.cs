@@ -24,4 +24,6 @@ public class TowerEncounterData
         }
     }
 
+    public int GetMaxHeight() { return maxHeight; }
+
 }

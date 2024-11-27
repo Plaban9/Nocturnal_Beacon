@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class EnemyBehavior : ScriptableObject
 {
-    public virtual Card? GetCardUsed(BattleUnit owner, int turn)
+    public virtual List<Card?> GetCardsUsed(BattleUnit owner, int turn)
     {
         return null;
     }

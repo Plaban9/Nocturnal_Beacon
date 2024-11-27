@@ -1,19 +1,23 @@
+using DG.Tweening;
 using Minimalist.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField] List<BattleUnit> _enemies;
-    // Start is called before the first frame update
 
-    [SerializeField] public List<MonsterData> _possibleEnemies;
-    [SerializeField] public MonsterData _finalBoss;
+    [Header("Enemies")]
+    [SerializeField] Transform _enemyHolder;
+    [SerializeField] GameObject _enemyPrefab;
+    [SerializeField] public EnemyEncounter _encounter;
+    List<BattleUnit> _enemies = new List<BattleUnit>();
 
     [Header("UI")]
     [SerializeField] public TextMeshProUGUI _battleStateText;
@@ -21,6 +25,8 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] public GameObject _endScreenCanvas;
     [SerializeField] public TextMeshProUGUI _scoreText;
+
+    [SerializeField] public GameObject _noTargetReticule;
 
     /*
      * Player Info
@@ -68,6 +74,9 @@ public class BattleManager : MonoBehaviour
         AudioManager.SetMusicVolume(1f);
 
         _cardManager = GetComponent<CardManager>();
+        var encounter = NoctBeaconRunData.Instance.GetCurrentEncounter();
+        if(encounter != null) 
+            _encounter = encounter;
         SetupBattle();
 
     }
@@ -101,13 +110,23 @@ public class BattleManager : MonoBehaviour
 
     public void SetupEnemies()
     {
-        int height = NoctBeaconRunData.Instance.GetHeight();
-        // Used when we start making multiple floors stuff
+        //int height = NoctBeaconRunData.Instance.GetHeight();
+        //// Used when we start making multiple floors stuff
 
-        MonsterData unit = _possibleEnemies[ (int) Mathf.Floor(UnityEngine.Random.Range(0, _possibleEnemies.Count))];
+        List<MonsterData> enemiesData = _encounter.enemies;
 
-        if (height == 0) unit = _finalBoss;
-        _enemies[0].SetupUnit(unit);
+        for(int i = 0; i < enemiesData.Count; i++)
+        {
+            GameObject enemyFrame = Instantiate(_enemyPrefab,
+                _enemyHolder);
+            enemyFrame.transform.position = new Vector3(
+                    _encounter.GetX(i),
+                    2.5f,
+                    _encounter.GetZ(i));
+            BattleUnit newUnit = enemyFrame.GetComponent<BattleUnit>();
+            _enemies.Add(newUnit);
+            newUnit.SetupUnit(enemiesData[i]);
+        }
     }
 
     private void ChangeBattleState(BATTLE_STATE state)
@@ -176,7 +195,7 @@ public class BattleManager : MonoBehaviour
             int defaultDrawAmount = 5;
             int a = _player.GetUnitStatusData().OnDraw(defaultDrawAmount);
 
-            _cardManager.DrawCard(a/*TODO: Change it to variable. */);
+            _cardManager.DrawCard(a,_player.GetUnitStatusData());
         }
     }
 
@@ -200,13 +219,20 @@ public class BattleManager : MonoBehaviour
 
     private void ModifyMana(int value)
     {
+        var newMana = _mana + value;
         _mana += value;
-        _manaText.text = $"{_mana}";
+        _manaText.GetComponent<Animator>().Play("ManaJump");
+        DOTween.To(() => _mana,
+            x => _mana = x, newMana, 0.5f).OnUpdate(() =>
+            {
+                _manaText.text = $"{_mana}";
+            }
+        );
     }
 
     private void CheckIfBattleIsOver()
     {
-        if (_player.GetHPData().IsDead() || EnemiesAlive() == 0)
+        if (_player.IsDead() || EnemiesAlive() == 0)
         {
             ChangeBattleState(BATTLE_STATE.BATTLE_OVER);
             BattleEnd();
@@ -220,14 +246,14 @@ public class BattleManager : MonoBehaviour
         NoctBeaconRunData.Instance.ModifyGold(15);
         _endScreenCanvas.SetActive(true);
         Animator anim = _endScreenCanvas.GetComponent<Animator>();
-        if (_player.GetHPData().IsDead())
+        if (_player.IsDead())
             anim.Play("BattleEndScreenLose");
         else
         {
             if (NoctBeaconRunData.Instance.GetHeight() == 0)
             {
                 AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Gameplay, 0.5f, true);
-                float healthPct = 1.0f + _player.GetHPData().GetCurrentHP() / _player.GetUnitData().startingHp;
+                float healthPct = 1.0f + ((float)_player.GetHPData().GetCurrentHP()) / ((float)_player.GetUnitData().startingHp);
                 float goldAmassed = NoctBeaconRunData.Instance.GetGold();
                 float bonusRare = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Rare).Count * 0.1f;
                 float bonusLeg = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Legendary).Count * 0.2f;
@@ -265,12 +291,21 @@ public class BattleManager : MonoBehaviour
 
     private void SetupEnemiesIntent()
     {
+        int index = 1;
         foreach(BattleUnit enemy in _enemies)
         {
-            enemy.ShowIntent(0);
-            EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
-            Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
-            enemy.SetNextTurnIntent(0, enemyCard);
+            if (!enemy.IsDead())
+            {
+                enemy.ShowIntent(0);
+                EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
+                List<Card> enemyCard = behavior.GetCardsUsed(enemy, _currentTurn);
+                for(int i = 0; i < enemyCard.Count; i++)
+                {
+                    enemy.SetNextTurnIntent(i, enemyCard[i], index);
+
+                }
+                index += 1;
+            }
         }
     }
 
@@ -279,7 +314,7 @@ public class BattleManager : MonoBehaviour
         int enemiesAlive = 0;
         foreach(BattleUnit enemy in _enemies)
         {
-            if (!enemy.GetHPData().IsDead())
+            if (!enemy.IsDead())
                 enemiesAlive++;
         }
         return enemiesAlive;
@@ -290,11 +325,19 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         foreach(BattleUnit enemy in _enemies)
         {
-            enemy.HighlightIntent(0);
-            yield return new WaitForSeconds(0.5f);
-            PerformEnemyBehavior(enemy);
-            yield return new WaitForSeconds(0.3f);
-            enemy.HideIntent(0);
+            if (!enemy.IsDead())
+            {
+                List<Card> cards = (enemy.GetUnitData() as MonsterData).behavior.GetCardsUsed(enemy, _currentTurn);
+                for(int i = 0; i < cards.Count; i++) {
+                    enemy.HighlightIntent(i);
+                    yield return new WaitForSeconds(0.4f);
+                    PlayAnimation(enemy, cards[i]);
+                    yield return new WaitForSeconds(0.1f);
+                    PerformEnemyBehavior(enemy, cards[i]);
+                    yield return new WaitForSeconds(0.3f);
+                    enemy.HideIntent(0);
+                }
+            }
         }
         /*
          * All enemies acted, can return to a player turn if the player is still alive
@@ -303,11 +346,21 @@ public class BattleManager : MonoBehaviour
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
     }
 
-    private void PerformEnemyBehavior(BattleUnit enemy)
+    private void PlayAnimation(BattleUnit unit, Card card)
     {
-        EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
-        Card enemyCard = behavior.GetCardUsed(enemy, _currentTurn);
-        UseCard(enemy, _player, enemyCard);
+        if (card.cardType == CardAttribute.CardType.Skill)
+        {
+            unit.PlaySkillAnimation();
+        }
+        else
+        {
+            unit.PlayAttackAnimation();
+        }
+    }
+
+    private void PerformEnemyBehavior(BattleUnit enemy, Card card)
+    {
+        UseCard(enemy, _player, card);
     }
 
     
@@ -316,29 +369,29 @@ public class BattleManager : MonoBehaviour
 
     #region CARD USE
 
-    public bool PlayerTryToUseCard( Card card)
+    public bool PlayerTryToUseCard( Card card, BattleUnit target)
     {
-        return TryToUseCard(_player, _enemies, card);
+        return TryToUseCard(_player, target, card);
     }
 
-    private bool TryToUseCard(BattleUnit owner, List<BattleUnit> targets, Card card)
+    private bool TryToUseCard(BattleUnit owner, BattleUnit target, Card card)
     {
         if (!CheckIfCanCast(owner, card)) return false;
-        if (targets.Count == 0) return false;
 
         /**
          * If silenced, etc, add here to prevent use.
          */
 
-        return UseCard(owner, targets[0], card);
+        return UseCard(owner, target, card);
     }
 
     private bool CheckIfCanCast(BattleUnit owner, Card card)
     {
         if (owner.GetUnitData() is PlayableData)
         {
-            if(card.manaCost > _mana)
+            if(card.GetManaCost() > _mana)
             {
+                _manaText.GetComponent<Animator>().Play("ManaBad");
                 return false;
             }
         }
@@ -355,21 +408,112 @@ public class BattleManager : MonoBehaviour
             if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
             if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
             {
-                effect.OnUse(owner, new List<BattleUnit> { owner });
+                effect.OnUse(card, owner, new List<BattleUnit> { owner });
             }
             else
             {
-                effect.OnUse(owner, new List<BattleUnit> { target });
+                Debug.Log("Reach this");
+                switch (effect.GetTarget())
+                {
+                    case CardAttribute.EffectTarget.OpponentSingle:
+                        if (target == null) return false;
+                        effect.OnUse(card, owner, new List<BattleUnit> { target });
+                        break;
+                    case CardAttribute.EffectTarget.OpponentAll:
+                        effect.OnUse(card, owner, _enemies);
+                        break;
+                    case CardAttribute.EffectTarget.OpponentRandom:
+                        List<BattleUnit> viableUnits = _enemies.FindAll(it => !it.IsDead());
+                        effect.OnUse(card, owner, new List<BattleUnit> {viableUnits[
+                            UnityEngine.Random.Range(0, viableUnits.Count)] });
+                        break;
+                    case CardAttribute.EffectTarget.Both:
+                        effect.OnUse(card, owner, new List<BattleUnit> { target });
+                        effect.OnUse(card, owner, new List<BattleUnit> { owner });
+                        break;
+                }
             }
         }
         
         if(owner.GetUnitData() is PlayableData)
         {
-            ModifyMana(-card.manaCost);
+            ModifyMana(-card.GetManaCost());
         }
+
+        SetupEnemiesIntent();
         CheckIfBattleIsOver();
+         PlayAnimation(owner, card);
         return true;
     }
 
+    #endregion
+
+    public BattleUnit GetPlayerbattleUnit()
+    {
+        return _player;
+    }
+
+    #region Targetting
+
+    public void SetNoTargetReticule(bool enabled)
+    {
+        _noTargetReticule.SetActive(enabled);
+    }
+
+    public void OutlinePlayer()
+    {
+        _player.Outline();
+    }
+
+    public void ShowEffectivenessPlayer(Card card)
+    {
+        _player.ShowEffectivity(card);
+    }
+
+    public void HideEffectivenessPlayer()
+    {
+        _player.HideEffectivity();
+    }
+
+    public void HideOutlinePlayer()
+    {
+        _player.HideOutline();
+    }
+
+    public void OutlineEnemies()
+    {
+        foreach(BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.Outline();
+        }
+    }
+
+    public void ShowEffectivityEnemies(Card card)
+    {
+        foreach (BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.ShowEffectivity(card);
+        }
+    }
+
+    public void HideOutlineEnemies()
+    {
+        foreach (BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.HideOutline();
+        }
+    }
+
+    public void HideEffectivityEnemies()
+    {
+        foreach (BattleUnit enemy in _enemies)
+        {
+            if (!enemy.IsDead())
+                enemy.HideEffectivity();
+        }
+    }
     #endregion
 }

@@ -7,6 +7,7 @@ using CardAttribute;
 using UnityEngine.EventSystems;
 using UniRx;
 using System;
+using DG.Tweening;
 
 public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -24,13 +25,17 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] Image element;
     [SerializeField] Image background;
     [SerializeField] Image title;
-
     [SerializeField] Image mainImg;
+
+    [SerializeField] PriceTag priceTag;
 
     float oriZoomRatio = 1f;
 
+    Action<CardDisplay> onClick;
+    ReactiveProperty<CardDisplay> onPoint = new();
 
-    Action onClick;
+    public ReactiveProperty<CardDisplay> OnPoint() => onPoint;
+
     protected virtual void Start()
     {
         oriZoomRatio = transform.localScale.x;
@@ -44,8 +49,20 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void Setup(Card card)
     {
         this.card = card;
-
-        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
+        if (card == null) return; 
+        manaText.text = card.GetManaCost() >= 0 ? card.GetManaCost().ToString() : "X";
+        if (card.GetManaCost() > card.GetBaseManaCost())
+        {
+            manaText.color = new Color(1f, 0.2f, 0.2f);
+        }
+        else if (card.GetManaCost() < card.GetBaseManaCost())
+        {
+            manaText.color = new Color(0.2f, 1f, 0.2f);
+        }
+        else
+        {
+            manaText.color = new Color(0.2f, 0.2f, 1f);
+        }
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
         descText.text = card.GetEffectDescStr();
@@ -60,21 +77,29 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         oriZoomRatio = transform.localScale.x;
     }
 
-    public virtual void SetupForClickable(Card card, Action onClick, Texture2D onPointCursor = null)
+    public void SetZoomRatio(float ratio) => zoomRatio = ratio;
+
+    public virtual void SetupForClickable(Card card, Action<CardDisplay> onClick, Texture2D onPointCursor = null)
     {
+        if (card == null) return;
         enablePointToZoom = true;
         this.card = card;
         this.onClick = onClick;
         this.onPointCursor = onPointCursor;
 
-        manaText.text = card.manaCost >= 0 ? card.manaCost.ToString() : "X";
+        manaText.text = card.GetManaCost() >= 0 ? card.GetManaCost().ToString() : "X";
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
         descText.text = card.GetEffectDescStr();
 
         mainImg.sprite = card.sprite;
         SetColors(card);
+        SetPrice(card.price);
     }
+
+    public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
+    public void SetPrice(int price) => priceTag.SetPrice(price);
+    public void RefreshPrice() => priceTag.Refresh();
 
     public virtual void SetColors(Card card)
     {
@@ -103,6 +128,8 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 return new Color(0.5f, 0f, 0.5f);
             case Element.LIGHT:
                 return new Color(1f, 1f, 0f);
+            case Element.GHOST:
+                return new Color(0.8f, 0.2f, 0.8f);
             default:
                 return new Color(1f, 0, 0);
         }
@@ -129,29 +156,54 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
+        if (!enablePointToZoom || IsHided()) return;
 
+        onPoint.Value = this;
         transform.localScale = Vector3.one * zoomRatio;
         Cursor.SetCursor(onPointCursor, Vector3.zero, CursorMode.Auto);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
+        if (!enablePointToZoom || IsHided()) return;
 
+        onPoint.Value = null;
         transform.localScale = Vector3.one * oriZoomRatio;
         Cursor.SetCursor(null, Vector3.zero, CursorMode.Auto);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!enablePointToZoom) return;
-        
-        var cdp = UIManager.Instance.ShowPage(GamePage.CardDetailPage).GetComponent<CardDetailPage>();
-        cdp.Setup(card);
-        cdp.OnClose.Subscribe(x =>
-        {
-            onClick?.Invoke();
-        }).AddTo(this);
+        if (IsHided()) return;
+
+        onClick?.Invoke(this);
     }
+
+    public Subject<bool> FadeOut(float duration = 0.25f)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(1, 0f))
+            .Append(cg.DOFade(0, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
+
+    public Subject<bool> FadeIn(float duration = 0.25f)
+    {
+        var finish = new Subject<bool>();
+        var cg = GetComponent<CanvasGroup>();
+        var sq = DOTween.Sequence();
+
+        sq.Append(cg.DOFade(0, 0f))
+            .Append(cg.DOFade(1, duration))
+            .AppendCallback(() => { finish.OnNext(true); });
+
+        return finish;
+    }
+
+    public bool IsHided() => GetComponent<CanvasGroup>().alpha == 0 || !gameObject.activeSelf;
 }

@@ -11,6 +11,16 @@ public class EnemyCardIntentHoverable : MonoBehaviour, IPointerEnterHandler, IPo
 
     private Card card;
 
+    private void Start()
+    {
+        Animator animator = _turnOrder.GetComponent<Animator>();
+
+        animator.speed = UnityEngine.Random.Range(0.1f, 1f);
+        animator.playbackTime = UnityEngine.Random.Range(0f, 1f);
+
+
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         StopAllCoroutines();
@@ -39,6 +49,14 @@ public class EnemyCardIntentHoverable : MonoBehaviour, IPointerEnterHandler, IPo
     public void SetCard(Card card)
     {
         this.card = card;
+    }
+
+
+    [SerializeField] TextMeshProUGUI _turnOrder;
+
+    public void SetTurnOrder(int i)
+    {
+        _turnOrder.SetText($"{i}");
     }
 
 }

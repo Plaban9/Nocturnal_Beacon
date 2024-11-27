@@ -78,7 +78,7 @@ public class Deck : ScriptableObject
         Counter = InitCounter;
     }
 
-    void CloneFromDeck(Deck deck)
+    public void CloneFromDeck(Deck deck)
     {
         ResetDeck();
 
@@ -147,6 +147,14 @@ public class Deck : ScriptableObject
         {
             CardByUID[uId] = card;
             cards = CardByUID.Values.ToList();
+        }
+    }
+
+    public void RemoveCard(Card card)
+    {
+        if(cards.Contains(card))
+        {
+            cards.Remove(card);
         }
     }
 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fa4efc7c66c984e9532283489d005d, type: 3}
+  m_Name: DebugShopItems
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: 2d27b0d9bd1f9e34eba2b8ddfe429ccf, type: 2}
+  - {fileID: 11400000, guid: 8f4835f7ca01ebf4e9213806946e4c1f, type: 2}
+  - {fileID: 11400000, guid: 5703b5201a2bcc44fbf44b9341ea0a0c, type: 2}
+  - {fileID: 11400000, guid: 883b699b723089742893241b8ba0093b, type: 2}
+  - {fileID: 11400000, guid: d9f456ddad4be4b41ab72bc6b510e12f, type: 2}
+  - {fileID: 11400000, guid: b91620c212bb98842a6f35cd2d813e99, type: 2}
+  - {fileID: 11400000, guid: 6c35711b4c3143c44a8112eba389409a, type: 2}
+  - {fileID: 11400000, guid: 34ad658d0764f1247830ad74fdb8882a, type: 2}
+  - {fileID: 11400000, guid: 7e80b5421ebd1b44cbf88189d23e057e, type: 2}

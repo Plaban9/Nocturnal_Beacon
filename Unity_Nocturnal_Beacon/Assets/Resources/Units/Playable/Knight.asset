@@ -17,6 +17,7 @@ MonoBehaviour:
   startingHp: 120
   flipSprite: 0
   scale: 6
-  startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
+  unitElement: 0
+  startingDeck: {fileID: 11400000, guid: b8d474278a90b1f4dad7b4ec16ee2deb, type: 2}
   startingMana: 3
   description: DURABLE

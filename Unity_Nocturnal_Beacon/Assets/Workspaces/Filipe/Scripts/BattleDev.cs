@@ -21,7 +21,6 @@ public class BattleDev : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
-            _testHpData.DealDamage(30);
         }
         if (Input.GetKeyUp(KeyCode.D))
         {
