@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Hellhound
   sprite: {fileID: 21300000, guid: b3bf938267b85ab45914eb12229e83bb, type: 3}
   startingHp: 26
-  flipSprite: 1
-  scale: 0.01
+  flipSprite: 0
+  scale: 0.025
   unitElement: 4
   behavior: {fileID: 11400000, guid: 4dfbfd8775304c144bc2672e23040930, type: 2}
   isBoss: 0

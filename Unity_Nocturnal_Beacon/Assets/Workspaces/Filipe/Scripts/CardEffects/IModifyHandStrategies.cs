@@ -35,13 +35,13 @@ public class GetFromPile : IModifyHandStrategies
     [SerializeField]
     [Description("Use -1 if there is no limit")] int availableToDraw = -1;
     [SerializeField]
-    CardFilter? filter = null;
+    List<CardFilter> filters = new List<CardFilter>();
     [SerializeField]
     CardPileManager.PileType pile = CardPileManager.PileType.Draw;
 
     public Action<List<Card>> GetCardList(BattleManager bm)
     {
-        bm._cardManager.DrawCard(amount, bm.GetPlayerbattleUnit().GetUnitStatusData());
+        bm._cardManager.DrawRandomFromPile(pile, amount, new List<CardFilter>(), bm.GetPlayerbattleUnit().GetUnitStatusData());
         return null;
     }
 
@@ -67,12 +67,13 @@ public class GetFromPile : IModifyHandStrategies
 [Serializable]
 public class DiscardFromHand : IModifyHandStrategies
 {
-    [SerializeField][Description("Use -1 if you want to discard the whole hand")] int amount = 1;
+    [SerializeField][Tooltip("Use -1 if you want to discard the whole hand")] int amount = 1;
     [SerializeField]
-    CardFilter? filter = null;
+    List<CardFilter> filters = new List<CardFilter>();
+
     public Action<List<Card>> GetCardList(BattleManager bm)
     {
-        bm._cardManager.DrawCard(amount, bm.GetPlayerbattleUnit().GetUnitStatusData());
+        bm._cardManager.DiscardRandomCard(amount);
         return null;
     }
 
@@ -87,7 +88,8 @@ public class DiscardSelectedFromHand : IModifyHandStrategies
 {
     [SerializeField] int amount = 1;
     [SerializeField]
-    CardFilter? filter = null;
+    List<CardFilter> filters = new List<CardFilter>();
+
     public Action<List<Card>> GetCardList(BattleManager bm)
     {
         bm._cardManager.DrawCard(amount, bm.GetPlayerbattleUnit().GetUnitStatusData());

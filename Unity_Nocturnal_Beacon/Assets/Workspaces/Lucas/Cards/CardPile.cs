@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.ComponentModel;
 
 ///// <summary>
 ///// A space for the cards to be drawn/discard during combat.
@@ -91,9 +92,9 @@ public class CardPile : MonoBehaviour
             throw new System.Exception("Draw from empty pile.");
     }
 
-    public Card Remove(Card card)
+    public void Remove(Card card)
     {
-        throw new MissingReferenceException();
+        cards.Remove(card);
     }
 
     public List<Card> Extract()
@@ -118,6 +119,35 @@ public class CardPile : MonoBehaviour
         return clone;
     }
 
+
+    /*
+     * For CardEffects! - Filipe
+     */
+    public List<Card> GetCardsInPile(List<CardFilter> filters = null)
+    {
+       if(filters == null)
+        {
+            return cards;
+        }
+
+       List<Card> eligibleCards = new List<Card>();
+        foreach (Card card in cards)
+        {
+            if(filters.All(it => it.Filter(card) == 1))
+            {
+                eligibleCards.Add(card);
+            }
+        }
+        return eligibleCards;
+    }
+
+    public void DrawCardFromPile(Card card)
+    {
+        cards.Remove(card);
+    }
+    /*
+     * 
+     */
 }
 
 //public class CardPile : MonoBehaviour

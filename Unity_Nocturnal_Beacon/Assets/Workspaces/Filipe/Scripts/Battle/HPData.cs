@@ -2,6 +2,7 @@ using DG.Tweening;
 using Minimalist.Audio;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -38,12 +39,18 @@ public class HPData : MonoBehaviour
         _battleUnit = unit;
         _shield = 0;
     }
-    public void DealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false)
+    public void DealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false, float delay = 0f)
     {
+        StartCoroutine(PerformDealDamage(damageOrigin, amount, noReflect, delay));
+    }
+
+    private IEnumerator PerformDealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false, float delay = 0f)
+    {
+        yield return new WaitForSeconds(delay);
         AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
         int finalAmount = amount;
-        foreach(BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
+        foreach (BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
         {
             if (status is StatusEffect_Thorns && noReflect)
             {
@@ -55,7 +62,7 @@ public class HPData : MonoBehaviour
             }
         }
 
-        if (finalAmount == 0) return;
+        if (finalAmount == 0) yield break;
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
         _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
         _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
@@ -69,13 +76,13 @@ public class HPData : MonoBehaviour
         }
 
         amount = Mathf.Abs(finalAmount);
-        if (_currentHp == 0) return;
+        if (_currentHp == 0) yield break;
         EffectManager.Instance.CreateNumber(
             EffectManager.EFFECTS_NUMBER.DAMAGE,
             transform.gameObject,
             amount);
         int hpDamage = amount;
-        if(_shield > 0)
+        if (_shield > 0)
         {
             hpDamage -= _shield;
             if (hpDamage < 0)
@@ -85,10 +92,10 @@ public class HPData : MonoBehaviour
             else
                 _shield = 0;
         }
-        if(hpDamage > 0)
+        if (hpDamage > 0)
         {
-            int result = _currentHp - hpDamage; 
-            if(result > 0)
+            int result = _currentHp - hpDamage;
+            if (result > 0)
             {
                 _currentHp = result;
             }

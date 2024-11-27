@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class CardPileManager
@@ -148,5 +150,16 @@ public class CardPileManager
         }
 
         piles[PileType.Draw].Shuffle();
+    }
+
+
+    public List<Card> GetCardsInPile(CardPileManager.PileType type, List<CardFilter> filters = null)
+    {
+        return piles[type].GetCardsInPile(filters);
+    }
+
+    public void RemoveCard(PileType type, Card card)
+    {
+        piles[type].Remove(card);
     }
 }

@@ -312,8 +312,12 @@ public class MapBuilderTD : MonoBehaviour
                 case NodeType.Upgd:
                     _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.UPGD);
                     break;
-                case NodeType.Evnt:
-                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.EVNT);
+                case NodeType.Qest:
+                    _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.QEST);
+                    _nonBattleNodeManager.SetQuest(
+                        towerConfigurationSO.questlist[
+                            Random.Range(0, towerConfigurationSO.questlist.Count)]
+                        );
                     break;
             }
 
@@ -601,7 +605,7 @@ public enum NodeType
     Shop,
     Rest,
     Upgd,
-    Evnt
+    Qest
 }
 
 [Serializable]
