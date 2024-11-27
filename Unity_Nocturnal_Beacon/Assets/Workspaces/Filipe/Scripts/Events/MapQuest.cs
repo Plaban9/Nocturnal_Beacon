@@ -6,7 +6,7 @@ using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "New MapEvent", menuName = "Map Event")]
-public class MapEvent : ScriptableObject
+public class MapQuest : ScriptableObject
 {
     [SerializeField]
     public string title = "Nameless Encounter";

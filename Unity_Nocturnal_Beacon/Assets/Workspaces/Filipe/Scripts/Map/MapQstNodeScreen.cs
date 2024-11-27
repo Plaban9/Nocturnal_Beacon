@@ -5,10 +5,10 @@ using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-public  class MapEvntNodeScreen : MapNonBattleNodeScreen
+public  class MapQstNodeScreen : MapNonBattleNodeScreen
 {
     [Header("DEBUG")]
-    [SerializeField] MapEvent _mapEvent;
+    [SerializeField] MapQuest _mapQuest;
 
     [Header("Assets")]
     [SerializeField] TextMeshProUGUI _title;
@@ -23,17 +23,22 @@ public  class MapEvntNodeScreen : MapNonBattleNodeScreen
 
     public void Start()
     {
-        _title.text = _mapEvent.title;
-        _description.text = _mapEvent.eventDescription;
-        _icon.material.mainTexture = _mapEvent.image;
         _animator = transform.GetChild(0).GetComponent<Animator>();
+
+    }
+
+    public void SetQuest(MapQuest quest)
+    {
+        _mapQuest = quest;
+        _title.text = _mapQuest.title;
+        _description.text = _mapQuest.eventDescription;
+        _icon.material.mainTexture = _mapQuest.image;
     }
 
 
     public override void ActivateNonBattleNodeScreen()
     {
         _animator.Play("EventOpen");
-
 
     }
 

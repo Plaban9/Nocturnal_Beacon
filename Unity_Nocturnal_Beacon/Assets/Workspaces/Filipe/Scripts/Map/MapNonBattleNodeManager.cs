@@ -14,7 +14,7 @@ public class MapNonBattleNodeManager : MonoBehaviour
     [SerializeField] private GameObject _restCanvas;
     [SerializeField] private GameObject _shopCanvas;
     [SerializeField] private GameObject _upgdCanvas;
-    [SerializeField] private GameObject _evntCanvas;
+    [SerializeField] private GameObject _questCanvas;
 
     [Header("Configurations")]
     [SerializeField] private float _fadeAnimDuration = 0.5f;
@@ -37,7 +37,7 @@ public class MapNonBattleNodeManager : MonoBehaviour
         _restCanvas.GetComponent<MapRestNodeScreen>()._manager = this;
         _shopCanvas.GetComponent<MapShopNodeScreen>()._manager = this;
         _upgdCanvas.GetComponent<MapUpgdNodeScreen>()._manager = this;
-        _evntCanvas.GetComponent<MapEvntNodeScreen>()._manager = this;
+        _questCanvas.GetComponent<MapQstNodeScreen>()._manager = this;
 
 
     }
@@ -104,10 +104,15 @@ public class MapNonBattleNodeManager : MonoBehaviour
             case NonBattleNodeTypes.UPGD:
                 ActivateScreen(_upgdCanvas);
                 break;
-            case NonBattleNodeTypes.EVNT:
-                ActivateScreen(_evntCanvas);
+            case NonBattleNodeTypes.QEST:
+                ActivateScreen(_questCanvas);
                 break;
         }
+    }
+
+    public void SetQuest(MapQuest quest)
+    {
+        _questCanvas.GetComponent<MapQstNodeScreen>().SetQuest(quest);
     }
 
     private void DeactivateEvent(NonBattleNodeTypes type)
@@ -123,8 +128,8 @@ public class MapNonBattleNodeManager : MonoBehaviour
             case NonBattleNodeTypes.UPGD:
                 DeactivateScreen(_upgdCanvas);
                 break;
-            case NonBattleNodeTypes.EVNT:
-                DeactivateScreen(_evntCanvas);
+            case NonBattleNodeTypes.QEST:
+                DeactivateScreen(_questCanvas);
                 break;
         }
     }
@@ -160,5 +165,5 @@ public enum NonBattleNodeTypes
     REST,
     SHOP,
     UPGD,
-    EVNT,
+    QEST,
 }

@@ -59,6 +59,7 @@ public class CardManager : MonoBehaviour
     [ContextMenu("Draw Card")]
     public void DrawCard(int i, UnitStatusData ubsf)
     {
+        if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.NoDraw)) return;
         StartCoroutine(PerformDrawCard(i, ubsf)); 
     }
 
@@ -83,6 +84,113 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Draw Card (Effect)")]
+    public void DrawRandomFromPile(CardPileManager.PileType cardpile, int amount, List<CardFilter> cardFilters, UnitStatusData ubsf)
+    {
+        if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.NoDraw)) return;
+        StartCoroutine(PerformDrawRandomFromPile(cardpile, amount, cardFilters, ubsf));
+    }
+
+    IEnumerator PerformDrawRandomFromPile(CardPileManager.PileType cardpile, int amount, List<CardFilter> cardFilters, UnitStatusData ubsf)
+    {
+        List<Card> cards = _cardPileManager.GetCardsInPile(cardpile, cardFilters);
+        List<int> cardIndex = new List<int>();
+        /*
+         * All this to make sure that the drawing does not draw the same card twice or affect the list during drawing.
+         */
+        if (amount < cards.Count)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                int value = Random.Range(0, cards.Count - 1);
+                while (cardIndex.Contains(value))
+                {
+                    value = Random.Range(0, cards.Count - 1);
+                }
+                cardIndex.Add(value);
+            }
+        }
+        if (cardIndex.Count > 0 && amount > 0)
+        {
+            foreach (int value in cardIndex)
+            {
+                Card card = cards[value];
+                
+                /*
+                * If player has confusion, add tag to randomize.
+                * Flushes previous effects on cards to avoid being affected on turns where you are not confused
+                */
+                card.FlushStatuses();
+                if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.Confused))
+                {
+                    card.AddStatus(new CardStatus_RandomCost());
+                }
+
+                Debug.Log($"Drawing {card.name} from {cardpile.ToString()}...");
+
+                _cardPileManager.RemoveCard(cardpile,card);
+                handZone.AddCard(card);
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+        else
+        {
+            /*
+             * If the number of drawn cards is bigger or equal to amount of cards available, no point in setting which ones to draw.
+             */
+            foreach (Card card in cards)
+            {
+
+                /*
+                * If player has confusion, add tag to randomize.
+                * Flushes previous effects on cards to avoid being affected on turns where you are not confused
+                */
+                card.FlushStatuses();
+                if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.Confused))
+                {
+                    card.AddStatus(new CardStatus_RandomCost());
+                }
+
+                _cardPileManager.RemoveCard(cardpile,card);
+                handZone.AddCard(card);
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
+    [ContextMenu("Draw Specific Cards (Effect)")]
+    /*
+     * This ought to be used only after checking which cards are on the pile, please.
+     */
+    public void DrawSpecificCardsFromPile(CardPileManager.PileType cardpile, List<Card> cards, UnitStatusData ubsf)
+    {
+        if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.NoDraw)) return;
+        StartCoroutine(PerformDrawSpecificCardsFromPile(cardpile, cards, ubsf));
+    }
+
+    IEnumerator PerformDrawSpecificCardsFromPile(CardPileManager.PileType cardpile, List<Card> cards, UnitStatusData ubsf)
+    {
+        foreach (Card card in cards)
+        {
+
+            /*
+            * If player has confusion, add tag to randomize.
+            * Flushes previous effects on cards to avoid being affected on turns where you are not confused
+            */
+            card.FlushStatuses();
+            if (ubsf.GetStatusEffects().Any(it => it._status.statusEffect == CardAttribute.StatusEffect.Confused))
+            {
+                card.AddStatus(new CardStatus_RandomCost());
+            }
+
+            _cardPileManager.RemoveCard(cardpile, card);
+            handZone.AddCard(card);
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
     public bool DeployCard(Card card, BattleUnit target)
     {
         if (_bm.PlayerTryToUseCard(card, target))
@@ -95,7 +203,36 @@ public class CardManager : MonoBehaviour
             // TODO: INFORM THE PLAYER THEY CANT USE CARD
             return false;
         }
+    }
 
+    public void DiscardRandomCard(int amount)
+    {
+        StartCoroutine(PerformDiscardRandomCard(amount));
+    }
+
+    public IEnumerator PerformDiscardRandomCard(int amount)
+    {
+        var cards = handZone.GetCardsInHand();
+        if (cards.Count <= amount)
+        {
+            StartCoroutine(DiscardHandZoneCard());
+            yield break;
+        } 
+
+        for (int i = 0; i < amount; i++)
+        {
+            var cardsInHand = handZone.GetCardsInHand();
+            var card = cardsInHand[Random.Range(0, cardsInHand.Count - 1)];
+            yield return StartCoroutine(card.PerformDiscard());
+            _cardPileManager.DiscardCard(card.GetCard());
+            handZone.RemoveCard(card);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        /* TODO:
+         * Animation of discarding cards?
+         */
     }
 
     public IEnumerator DiscardHandZoneCard()
