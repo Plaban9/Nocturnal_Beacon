@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Banshee
   sprite: {fileID: 21300000, guid: 18b65d71cca9d73449f30e0939de40e4, type: 3}
   startingHp: 10
-  flipSprite: 1
-  scale: 0.01
+  flipSprite: 0
+  scale: 0.03
   unitElement: 7
   behavior: {fileID: 11400000, guid: e2f361ded34259b4985f6f60f7c76aea, type: 2}
   isBoss: 0

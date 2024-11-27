@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 [Serializable]
@@ -18,6 +16,7 @@ public class TowerConfiguration : ScriptableObject
     [SerializeField] int extraShop = 1;
     public List<TowerEncounterData> encounterList = new List<TowerEncounterData>();
     public List<EnemyEncounter> bossList = new List<EnemyEncounter>();
+    public List<MapQuest> questlist = new List<MapQuest>();
 
     public enum FLOOR_TYPE
     {

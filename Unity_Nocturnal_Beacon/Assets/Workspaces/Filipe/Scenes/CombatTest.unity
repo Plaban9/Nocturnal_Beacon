@@ -1690,6 +1690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInformation: {fileID: 11400000, guid: 69865fb6815de524db6a76c44950b7c6, type: 2}
   _currentHeight: -1
+  _userGold: 100
 --- !u!4 &827326827
 Transform:
   m_ObjectHideFlags: 0
@@ -4685,7 +4686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyHolder: {fileID: 713908620}
   _enemyPrefab: {fileID: 2207191460694668032, guid: 0075faa76795a3b4bb646d06d2c97c87, type: 3}
-  _encounter: {fileID: 11400000, guid: 4da8fc7a39c1c814a9146880905e2305, type: 2}
+  _encounter: {fileID: 11400000, guid: 8502a66c5dc5c994c82f5b03aa29b00f, type: 2}
   _battleStateText: {fileID: 255157174}
   _manaText: {fileID: 1775109369}
   _endScreenCanvas: {fileID: 1493329788}

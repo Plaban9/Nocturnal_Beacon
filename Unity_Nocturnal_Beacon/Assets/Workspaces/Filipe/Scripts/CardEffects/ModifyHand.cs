@@ -6,10 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ModifyHand : CardEffect
 {
-    [SerializeField] int amount;
-    [SerializeField] Card speficicCard;
-    [SerializeField] List<Card> fromList;
-    [SerializeField] IModifyHandStrategies strategy;
+    [SerializeReference, SubclassSelector] IModifyHandStrategies strategy;
 
     public override string LocalizationKey => "CE_DESC_ModifyHand";
 
@@ -19,7 +16,7 @@ public class ModifyHand : CardEffect
         {
             string result = string.Empty;
 
-            result = strategy.ToString();
+            result = strategy.GetString();
 
             return result;
         }
@@ -29,7 +26,7 @@ public class ModifyHand : CardEffect
     {
         get
         {
-            string result = strategy.ToString();
+            string result = strategy.GetString();
             return result;
         }
     }
@@ -62,20 +59,10 @@ public class ModifyHand : CardEffect
 
     }
 
-    public void OnUse(EffectTarget target)
-    {
-       
-    }
-
-    public void AfterCast(EffectTarget target, int amount)
-    {
-        
-    }
-
     public override void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        base.OnUse(card, owner, targets);
-        
+        strategy.GetCardList(BattleManager.Instance);
+
     }
 
 }
