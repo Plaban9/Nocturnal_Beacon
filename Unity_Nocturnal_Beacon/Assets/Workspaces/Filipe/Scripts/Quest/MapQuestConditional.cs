@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
-public class MapEventConditional 
+public class MapQuestConditional 
 {
     [SerializeField] private string _requirementString = "This event requirements are unknown";
     [SerializeField] private string _successString = "For no reason in particular, you succeeded";

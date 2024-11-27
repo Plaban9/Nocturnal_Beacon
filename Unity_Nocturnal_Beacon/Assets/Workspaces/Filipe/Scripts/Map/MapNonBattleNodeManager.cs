@@ -39,7 +39,6 @@ public class MapNonBattleNodeManager : MonoBehaviour
         _upgdCanvas.GetComponent<MapUpgdNodeScreen>()._manager = this;
         _questCanvas.GetComponent<MapQstNodeScreen>()._manager = this;
 
-
     }
 
     #region Continue Button

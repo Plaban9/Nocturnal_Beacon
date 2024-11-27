@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e2fcc2e4fc37ec40b68712402d96124, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8df7e10e6acf24db1a5cc38178a1fc, type: 3}
   m_Name: AFrozenWall
   m_EditorClassIdentifier: 
   title: A Frozen Wall
@@ -38,10 +38,10 @@ MonoBehaviour:
     _failString: Your attack didnt use too much mana, so it wasn't as effective.
     _filter:
       rid: 4405684306645352455
-  eventEnd: The glacier remains still for a moment. As if it had a councioussness,
-    part of it cracks and opens way for you to cross.
+  questEnd: This event has no end description.
   rewards:
     neutralReward: 5
+    decentReward: 10
     goodReward: 10
     greatReward: 20
     perfectReward: 40

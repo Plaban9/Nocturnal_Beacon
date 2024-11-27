@@ -23,6 +23,7 @@ public class PlayerUnitData : ScriptableObject
         _unitData = unitData;
         _currentDeck = new Deck(true);
         _currentDeck.CloneFromDeck(unitData.startingDeck);
+        _currentDeck.InitDeck();
         _currency = currency;
         _maxMana = unitData.startingMana;          
     }

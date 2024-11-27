@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Exhume_1732751471
+  m_EditorClassIdentifier: 
+  id: 10040
+  uId: 1000012
+  name: Exhume
+  rarity: 1
+  cardType: 1
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: 2630aaca550cda44986260cb35cf1387, type: 3}
+  element: 1
+  price: 30
+  effects:
+  - rid: 4405684352422248464
+  - rid: 4405684352422248465
+  - rid: 4405684352422248466
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405684352422248464
+      type: {class: ModifyHand, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        strategy:
+          rid: 4405684352422248467
+    - rid: 4405684352422248465
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 5
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 1
+        target: 0
+        targetAmount: 0
+    - rid: 4405684352422248466
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: -5
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 2
+        targetAmount: 0
+    - rid: 4405684352422248467
+      type: {class: GetFromPile, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 1
+        availableToDraw: -1
+        pile: 1
