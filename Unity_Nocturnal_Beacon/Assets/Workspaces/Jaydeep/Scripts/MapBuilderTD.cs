@@ -339,8 +339,14 @@ public class MapBuilderTD : MonoBehaviour
 
         if (SceneController.Instance)
         {
-            if(NoctBeaconRunData.Instance.GetCurrentEncounter() != null)
+            if (NoctBeaconRunData.Instance.GetCurrentEncounter() != null)
+            {
                 SceneController.Instance.ToBattle();
+            }
+            else
+            {
+                LoadNodeList();
+            }
         }
         else
         {

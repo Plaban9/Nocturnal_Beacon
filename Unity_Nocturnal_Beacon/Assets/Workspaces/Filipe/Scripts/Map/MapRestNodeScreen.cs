@@ -17,7 +17,6 @@ public  class MapRestNodeScreen : MapNonBattleNodeScreen
     [SerializeField] Image _hpImage;
     [SerializeField] TextMeshProUGUI _text;
     [SerializeField] Button _restButton;
-    [SerializeField] Button _upgradeButton;
 
     private Animator _animator;
     private Material _hpMaterial;
@@ -31,12 +30,7 @@ public  class MapRestNodeScreen : MapNonBattleNodeScreen
             ()=>{ 
                 UseRest(_percentageHealed); 
             });
-        _upgradeButton.onClick.AddListener(
-            () =>
-            {
-                UseUpgrade();
-            });
-        _hpMaterial = _hpImage.GetComponent<Material>();
+        _hpMaterial = _hpImage.material;
     }
 
     private void UseRest(float amount)
@@ -72,17 +66,16 @@ public  class MapRestNodeScreen : MapNonBattleNodeScreen
     private void DisableButtons()
     {
         _restButton.interactable = false;
-        _upgradeButton.interactable = false;
     }
 
     private void EnableButtons()
     {
         _restButton.interactable = true;
-        _upgradeButton.interactable = true;
     }
 
     private void SetupHPData(PlayerUnitData pud)
     {
+        Debug.Log(_hpMaterial.name); 
         _hpMaterial.SetFloat("_pctShield", 0f);
         SetHP(pud);
 
@@ -119,6 +112,7 @@ public  class MapRestNodeScreen : MapNonBattleNodeScreen
         _animator.Play("RestOpen");
         _chose = false;
         _runData = NoctBeaconRunData.Instance.GetPlayerInformation();
+        SetupHPData(_runData);
         EnableButtons();
 
     }

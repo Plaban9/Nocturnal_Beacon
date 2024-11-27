@@ -61,7 +61,7 @@ Material:
     - _healthFlowSpeed: 4
     - _healthScale: 0.01
     - _healthSpeed: -0.9
-    - _pctHealthNShield: 0.611
+    - _pctHealthNShield: 1
     - _pctShield: 0
     - _shieldPulseSpeed: 7
     m_Colors:

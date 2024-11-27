@@ -18,17 +18,21 @@ MonoBehaviour:
   extraShop: 1
   encounterList:
   - _possibleEnemies:
-    - {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}
     - {fileID: 11400000, guid: 06c18377aba386e4b815521465f3dc0d, type: 2}
+    - {fileID: 11400000, guid: 56184ec8b87919f44a052ee5681da2d1, type: 2}
+    - {fileID: 11400000, guid: 8502a66c5dc5c994c82f5b03aa29b00f, type: 2}
     minHeight: 1
     maxHeight: 3
   - _possibleEnemies:
     - {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}
     - {fileID: 11400000, guid: 09cb8741d00a7eb459cdec846814ce56, type: 2}
-    minHeight: 2
+    - {fileID: 11400000, guid: 6b6fa92030363f245896abbd75b4be78, type: 2}
+    - {fileID: 11400000, guid: 285465f749004af429920a9dfb8303a4, type: 2}
+    minHeight: 3
     maxHeight: 4
   - _possibleEnemies:
     - {fileID: 11400000, guid: 867203edaa09e6e489e41d8dbd164958, type: 2}
+    - {fileID: 11400000, guid: cc60d39cade907a45a2232c2a33b8ce2, type: 2}
     minHeight: 4
     maxHeight: 6
   bossList:

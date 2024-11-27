@@ -78,7 +78,7 @@ public class Deck : ScriptableObject
         Counter = InitCounter;
     }
 
-    void CloneFromDeck(Deck deck)
+    public void CloneFromDeck(Deck deck)
     {
         ResetDeck();
 

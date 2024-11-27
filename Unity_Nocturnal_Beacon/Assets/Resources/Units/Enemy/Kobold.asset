@@ -17,4 +17,9 @@ MonoBehaviour:
   startingHp: 18
   flipSprite: 1
   scale: 1
+  unitElement: 1
   behavior: {fileID: 11400000, guid: 70d8e079bff916f40bc18782049b2e24, type: 2}
+  isBoss: 0
+  recolor: {r: 1, g: 1, b: 1, a: 1}
+  droppableCards: []
+  droppableGold: 0

@@ -8,7 +8,20 @@ public abstract class MapNonBattleNodeScreen : MonoBehaviour
 
     public abstract void ActivateNonBattleNodeScreen();
 
+
     public abstract void DeactivateNonBattleNodeScreen();
 
+
+    [ContextMenu("Activate")]
+    public void Activate()
+    {
+        ActivateNonBattleNodeScreen();
+    }
+
+    [ContextMenu("Deativate")]
+    public void Deactivate()
+    {
+        DeactivateNonBattleNodeScreen();
+    }
 
 }

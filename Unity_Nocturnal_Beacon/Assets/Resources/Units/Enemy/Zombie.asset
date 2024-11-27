@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a81513c0bf4e14aaa20b04cfa860f9, type: 3}
+  m_Name: Zombie
+  m_EditorClassIdentifier: 
+  unitName: Zombie
+  sprite: {fileID: 21300000, guid: 57dd946a2769e464ca30605694ec4e72, type: 3}
+  startingHp: 25
+  flipSprite: 0
+  scale: 0.04
+  unitElement: 5
+  behavior: {fileID: 11400000, guid: e459c648c4f34f945b79446d447515f3, type: 2}
+  isBoss: 0
+  recolor: {r: 1, g: 1, b: 1, a: 1}
+  droppableCards: []
+  droppableGold: 0

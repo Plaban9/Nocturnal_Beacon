@@ -25,8 +25,14 @@ public class ModifyStatuses : CardEffect
             string result = string.Empty;
             Debug.LogError(this.GetType().Name);
 
-            result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
-
+            if (statusEffectObject != null)
+            {
+                result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            }
+            else
+            {
+                result = "Error attempting to fetch description";
+            }
             return result;
         }
     }
@@ -191,6 +197,9 @@ public class ModifyStatuses : CardEffect
             case StatusEffect.WaterEleChange:
                 _bstf = new StatusEffect_ElementalChangeWater();
                 break;
+            case StatusEffect.GhostEleChange:
+                _bstf = new StatusEffect_ElementalChangeGhost();
+                break;
             case StatusEffect.NoAct:
                 _bstf = new StatusEffect_NoAct();
                 break;
@@ -202,11 +211,12 @@ public class ModifyStatuses : CardEffect
         if (_bstf == null)
             return;
         _bstf._status = statusEffectObject;
-        _bstf._intensity = val1;
+        _bstf._intensity = val1 ;
         _bstf._duration = val2;
         foreach (var unit in targets)
         {
             BattleStatusEffect newEffect = _bstf;
+            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
             newEffect.owner = unit;
             unit.GetUnitStatusData().AddStatusEffect(_bstf);
         }

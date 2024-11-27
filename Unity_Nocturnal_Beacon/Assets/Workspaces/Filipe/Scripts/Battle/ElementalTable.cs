@@ -10,6 +10,10 @@ public static class ElementalTable
         switch (target)
         {
             case Element.NONE:
+                if(origin == Element.GHOST)
+                {
+                    return ElementalEffectivity.UNAFFECTED;
+                }
                 return ElementalEffectivity.NEUTRAL;
                 
             case Element.EARTH:

@@ -81,6 +81,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public virtual void SetupForClickable(Card card, Action<CardDisplay> onClick, Texture2D onPointCursor = null)
     {
+        if (card == null) return;
         enablePointToZoom = true;
         this.card = card;
         this.onClick = onClick;

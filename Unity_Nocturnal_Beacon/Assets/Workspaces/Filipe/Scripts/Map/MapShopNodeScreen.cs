@@ -5,17 +5,11 @@ using UnityEngine.UI;
 
 public  class MapShopNodeScreen : MapNonBattleNodeScreen
 {
-    
-
-    [Header("Assets")]
-    [SerializeField] Button _shopButton;
-
     public override void ActivateNonBattleNodeScreen()
     {
-        _manager.ShowContinue();
-        _manager.SetProgressSkip();
+        _manager.HideContinue();
+        UIManager.Instance.ShowPage(GamePage.ShopPage);
     }
-
 
     public override void DeactivateNonBattleNodeScreen()
     {

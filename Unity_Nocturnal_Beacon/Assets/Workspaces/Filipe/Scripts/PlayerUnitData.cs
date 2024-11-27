@@ -21,7 +21,8 @@ public class PlayerUnitData : ScriptableObject
     public void Setup(PlayableData unitData, int currency)
     {
         _unitData = unitData;
-        _currentDeck = unitData.startingDeck;
+        _currentDeck = new Deck(true);
+        _currentDeck.CloneFromDeck(unitData.startingDeck);
         _currency = currency;
         _maxMana = unitData.startingMana;          
     }
