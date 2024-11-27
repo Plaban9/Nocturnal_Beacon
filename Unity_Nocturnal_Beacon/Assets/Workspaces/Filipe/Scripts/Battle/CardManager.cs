@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -15,9 +16,14 @@ public class CardManager : MonoBehaviour
     CardPileManager _cardPileManager;
 
     [Header("UI")]
+    [SerializeField] GameObject drawPileTitle;
+    [SerializeField] GameObject discardPileTitle;
+
     [SerializeField] TMPro.TMP_Text drawPileCounter;
     [SerializeField] TMPro.TMP_Text discardPileCounter;
     [SerializeField] TMPro.TMP_Text manaCounter;
+
+    [SerializeField] DeckPage pilePage;
 
     private BattleManager _bm;
 
@@ -110,4 +116,52 @@ public class CardManager : MonoBehaviour
          * Animation of discarding cards?
          */
     }
+
+
+    #region UI
+    public void OnClickDrawPile()
+    {
+        if (pilePage.IsShowing()) return;
+
+        var deck = _cardPileManager.PreviewDrawPile();
+        //pilePage = UIManager.Instance.ShowPage(GamePage.DeckPage).GetComponent<DeckPage>();
+        pilePage.Setup(deck);
+        pilePage.SetPromptText("Cards are drawn from here at the start of each turn.\n" +
+            "<size=28><color=#FFA342>(Cards shown are sorted by rarity)</color></size>");
+        pilePage.Show();
+        var closeBtn = pilePage.GetCloseButton();
+        closeBtn.onClick.RemoveAllListeners();
+        closeBtn.onClick.AddListener(() =>
+        {
+            pilePage.Close();
+            drawPileTitle.SetActive(false);
+        });
+
+        pilePage.transform.SetAsLastSibling();
+        drawPileTitle.transform.parent.SetAsLastSibling();
+        drawPileTitle.SetActive(true);
+    }
+
+    public void OnClickDiscardPile()
+    {
+        if (pilePage.IsShowing()) return;
+
+        var deck = _cardPileManager.PreviewDiscardPile();
+        //pilePage = UIManager.Instance.ShowPage(GamePage.DeckPage).GetComponent<DeckPage>();
+        pilePage.Setup(deck);
+        pilePage.SetPromptText("Cards here are shuffled into your draw pile when it runs out of cards.");
+        pilePage.Show();
+        var closeBtn = pilePage.GetCloseButton();
+        closeBtn.onClick.RemoveAllListeners();
+        closeBtn.onClick.AddListener(() =>
+        {
+            pilePage.Close();
+            discardPileTitle.SetActive(false);
+        });
+
+        pilePage.transform.SetAsLastSibling();
+        discardPileTitle.transform.parent.SetAsLastSibling();
+        discardPileTitle.SetActive(true);
+    }
+    #endregion
 }

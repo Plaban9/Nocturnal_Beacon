@@ -107,7 +107,7 @@ public class CardPile : MonoBehaviour
 
     public List<Card> Preview()
     {
-        return cards.OrderBy(x => x.uId).ToList();
+        return cards.OrderByDescending(x => x.rarity).ToList();
     }
 
     public List<Card> PreviewWithDrawSequence()
