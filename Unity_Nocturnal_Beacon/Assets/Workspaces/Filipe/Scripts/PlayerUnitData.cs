@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerUnitData", menuName ="PlayerUnitData")]
@@ -23,7 +25,13 @@ public class PlayerUnitData : ScriptableObject
         _unitData = unitData;
         _currentDeck = new Deck(true);
         _currentDeck.CloneFromDeck(unitData.startingDeck);
-        _currentDeck.InitDeck();
+
+        // Create a new deck and save to local
+        var newDeck = Instantiate(_currentDeck);
+        int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+        AssetDatabase.CreateAsset(newDeck, $"Assets/Resources/Deck/{unitData.startingDeck.name + "_" + sec}.asset");
+
+        _currentDeck = newDeck;
         _currency = currency;
         _maxMana = unitData.startingMana;          
     }
