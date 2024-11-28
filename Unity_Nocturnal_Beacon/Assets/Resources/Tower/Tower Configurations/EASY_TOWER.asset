@@ -37,3 +37,4 @@ MonoBehaviour:
     maxHeight: 6
   bossList:
   - {fileID: 11400000, guid: 912711c80949ef74ebdedd35b382c29a, type: 2}
+  questlist: []

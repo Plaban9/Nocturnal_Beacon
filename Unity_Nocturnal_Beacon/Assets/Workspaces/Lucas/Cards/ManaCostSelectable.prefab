@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectGO: {fileID: 2045272365156766120}
+  onLockedGO: {fileID: 0}
   manaText: {fileID: 2346311549547287732}
   cardEffectCost: {fileID: 7795695485839343222}
 --- !u!114 &8116500744064694153

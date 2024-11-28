@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10030
   uId: 0
-  name: QuickStab
+  name: Quick Stab
   rarity: 1
   cardType: 0
   manaCost: 1
