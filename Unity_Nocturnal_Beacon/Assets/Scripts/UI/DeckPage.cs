@@ -5,6 +5,8 @@ using UnityEngine;
 using UniRx;
 using System;
 using TMPro;
+using UnityEngine.UI;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class DeckPage : CommonPage
 {
@@ -12,7 +14,7 @@ public class DeckPage : CommonPage
     [SerializeField] Transform content;
     [SerializeField] Texture2D onPointCursor;
     [SerializeField] TextMeshProUGUI promptText;
-    [SerializeField] GameObject closeBtn;
+    [SerializeField] Button closeBtn;
 
     List<CardDisplay> cardDisplayList = new List<CardDisplay>();
 
@@ -35,7 +37,38 @@ public class DeckPage : CommonPage
 
     }
 
-    public void Setup(Deck deck = null, Action<CardDisplay> onDeckCardClick = null)
+    public void Setup()
+    {
+        Setup(NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export());
+    }
+
+    public void Setup(List<Card> deck)
+    {
+        var cards = deck;
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            if (i >= cardDisplayList.Count)
+            {
+                var cd = Instantiate(cardDisplayPrefab, content).GetComponent<CardDisplay>();
+                cd.Setup(cards[i]);
+                cd.SetScale(0.45f);
+                cardDisplayList.Add(cd);
+            }
+            else
+            {
+                cardDisplayList[i].Setup(cards[i]);
+                cardDisplayList[i].gameObject.SetActive(true);
+            }
+        }
+
+        for (int i = cards.Count; i < cardDisplayList.Count; i++)
+        {
+            cardDisplayList[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void Setup(Deck deck, Action<CardDisplay> onDeckCardClick)
     {
         if(deck == null)
         {
@@ -65,19 +98,21 @@ public class DeckPage : CommonPage
 
     public void Show()
     {
-        if (transform.localPosition.y > -Screen.height) return;
+        if (IsShowing() || isClosing) return;
 
-        transform.DOLocalMoveY(-50, 0.5f);
-        canvasGroup.DOFade(1, 0.5f);
+        gameObject.SetActive(true);
+
+        transform.DOLocalMoveY(0, 0.5f);
+        canvasGroup.DOFade(1, 0.25f);
     }
 
     public override void Close()
     {
-        if (isClosing) return;
+        if (isClosing || transform.localPosition.y < 0) return;
 
         isClosing = true;
 
-        transform.DOLocalMoveY(-Screen.height-100, 0.5f);
+        transform.DOLocalMoveY(-Screen.height - 100, 0.5f);
         canvasGroup.DOFade(0, 0.5f).onComplete += () =>
         {
             gameObject.SetActive(false);
@@ -106,7 +141,12 @@ public class DeckPage : CommonPage
         promptText.text = t;
     }
 
+    
     public void SetPointCursor(Texture2D t) => onPointCursor = t;
 
-    public void SetCloseBtn(bool set) => closeBtn.SetActive(set);
+    public void SetCloseBtn(bool set) => closeBtn.gameObject.SetActive(set);
+
+    public Button GetCloseButton() => closeBtn;
+
+    public bool IsShowing() => transform.localPosition.y == 0;
 }

@@ -35,6 +35,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] BattleUnit _player;
 
     int _mana;
+    int _maxMana;
 
     /*
      * Battle Info
@@ -105,7 +106,8 @@ public class BattleManager : MonoBehaviour
         _cardManager.SetDeck(NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck());
         _player.SetupPlayerUnit(NoctBeaconRunData.Instance.GetPlayerInformation());
         SetupEnemies();
-        _mana = NoctBeaconRunData.Instance.GetPlayerInformation().GetMaxMana();
+        _maxMana = NoctBeaconRunData.Instance.GetPlayerInformation().GetMaxMana();
+        _mana = _maxMana;
     }
 
     public void SetupEnemies()
@@ -225,7 +227,7 @@ public class BattleManager : MonoBehaviour
         DOTween.To(() => _mana,
             x => _mana = x, newMana, 0.5f).OnUpdate(() =>
             {
-                _manaText.text = $"{_mana}";
+                _manaText.text = $"{_mana}/{_maxMana}";
             }
         );
     }
@@ -516,4 +518,5 @@ public class BattleManager : MonoBehaviour
         }
     }
     #endregion
+
 }

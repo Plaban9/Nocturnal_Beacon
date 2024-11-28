@@ -97,6 +97,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         SetPrice(card.price);
     }
 
+    public void EnablePointToZoom(bool enable) => enablePointToZoom = enable;
     public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
     public void SetPrice(int price) => priceTag.SetPrice(price);
     public void RefreshPrice() => priceTag.Refresh();
