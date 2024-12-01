@@ -18,6 +18,7 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     bool highlight1Enemy = false;
     bool highlightAllEnemy = false;
     bool highlightSelf = false;
+    bool isAvailableToDiscard = true;
 
     public BattleUnit hoveredEnemy = null;
 
@@ -83,7 +84,7 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     {
         Debug.Log("BeingDrag");
         onDrag.Value = true;
-
+        isAvailableToDiscard = false;
         rt.anchoredPosition += eventData.delta;
 
         if (IsPointingDeployArea())
@@ -117,6 +118,7 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
+            isAvailableToDiscard = true;
             canvasGroup.blocksRaycasts = true;
             rt.anchoredPosition = oriPos;
         }
@@ -241,5 +243,15 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsAvailableToDiscard()
+    {
+        return isAvailableToDiscard;
+    }
+
+    public void SetAvailableToDiscard(bool isAvailableToDiscard)
+    {
+        this.isAvailableToDiscard = isAvailableToDiscard;
     }
 }

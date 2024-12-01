@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Napalm Vulcan
+  m_EditorClassIdentifier: 
+  id: 10021
+  uId: 0
+  name: Napalm Vulcan
+  rarity: 2
+  cardType: 0
+  manaCost: 0
+  sprite: {fileID: 21300000, guid: 8013ced2516877c43b1e60720f52748f, type: 3}
+  element: 7
+  price: 75
+  effects:
+  - rid: 4405684357995692035
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405684357995692035
+      type: {class: WithManaDoEffect, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        UseEffectBasedOnThis:
+          rid: 4405684357995692037
+        affects: 1
+    - rid: 4405684357995692037
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: -10
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 3
+        targetAmount: 0

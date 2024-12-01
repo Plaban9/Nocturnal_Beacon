@@ -23,7 +23,6 @@ public class ModifyStatuses : CardEffect
         get
         {
             string result = string.Empty;
-            Debug.LogError(this.GetType().Name);
 
             if (statusEffectObject != null)
             {
@@ -197,11 +196,80 @@ public class ModifyStatuses : CardEffect
             case StatusEffect.WaterEleChange:
                 _bstf = new StatusEffect_ElementalChangeWater();
                 break;
+            case StatusEffect.EarthEleChange:
+                _bstf = new StatusEffect_ElementalChangeEarth();
+                break;
+            case StatusEffect.FireEleChange:
+                _bstf = new StatusEffect_ElementalChangeFire();
+                break;
+            case StatusEffect.WindEleChange:
+                _bstf = new StatusEffect_ElementalChangeWind();
+                break;
+            case StatusEffect.LightEleChange:
+                _bstf = new StatusEffect_ElementalChangeLight();
+                break;
+            case StatusEffect.DarkEleChange:
+                _bstf = new StatusEffect_ElementalChangeDark();
+                break;
             case StatusEffect.GhostEleChange:
                 _bstf = new StatusEffect_ElementalChangeGhost();
                 break;
+            case StatusEffect.NoneEleChange:
+                _bstf = new StatusEffect_ElementalChangeNeutral();
+                break;
             case StatusEffect.NoAct:
                 _bstf = new StatusEffect_NoAct();
+                break;
+            case StatusEffect.LightWeak:
+                _bstf = new StatusEffect_VulnerableLight();
+                break;
+            case StatusEffect.EarthWeak:
+                _bstf = new StatusEffect_VulnerableEarth();
+                break;
+            case StatusEffect.WaterWeak:
+                _bstf = new StatusEffect_VulnerableWater();
+                break;
+            case StatusEffect.FireWeak:
+                _bstf = new StatusEffect_VulnerableFire();
+                break;
+            case StatusEffect.WindWeak:
+                _bstf = new StatusEffect_VulnerableWind();
+                break;
+            case StatusEffect.DarkWeak:
+                _bstf = new StatusEffect_VulnerableDark();
+                break;
+            case StatusEffect.GhostWeak:
+                _bstf = new StatusEffect_VulnerableGhost();
+                break;
+            case StatusEffect.NoneWeak:
+                _bstf = new StatusEffect_VulnerableNeutral();
+                break;
+            case StatusEffect.NoneResist:
+                _bstf = new StatusEffect_ResistNeutral();
+                break;
+            case StatusEffect.EarthResist:
+                _bstf = new StatusEffect_ResistEarth();
+                break;
+            case StatusEffect.WaterResist:
+                _bstf = new StatusEffect_ResistWater();
+                break;
+            case StatusEffect.FireResist:
+                _bstf = new StatusEffect_ResistFire();
+                break;
+            case StatusEffect.WindResist:
+                _bstf = new StatusEffect_ResistWind();
+                break;
+            case StatusEffect.LightResist:
+                _bstf = new StatusEffect_ResistLight();
+                break;
+            case StatusEffect.DarkResist:
+                _bstf = new StatusEffect_ResistDark();
+                break;
+            case StatusEffect.GhostResist:
+                _bstf = new StatusEffect_ResistGhost();
+                break;
+            case StatusEffect.Vampirism:
+                _bstf = new StatusEffect_Vampirism();
                 break;
             default:
 

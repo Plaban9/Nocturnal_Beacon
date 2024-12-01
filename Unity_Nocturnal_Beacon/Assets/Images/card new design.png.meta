@@ -93,11 +93,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: collar
+      name: card new design_0
       rect:
         serializedVersion: 2
         x: 8
@@ -111,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 825a9ea572397c84aad34f9ee5066525
-      internalID: 1610815083
+      spriteID: 5d7dc2d7848556a419f51de25f9d5c0a
+      internalID: 1830710193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background
+      name: card new design_1
       rect:
         serializedVersion: 2
         x: 584
@@ -132,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe106779194857248a8bc0d86073bcb0
-      internalID: 1994944444
+      spriteID: 9f290c4f66f7867418a484857d247ec9
+      internalID: -1850089223
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: title
+      name: card new design_2
       rect:
         serializedVersion: 2
         x: 14
@@ -153,50 +179,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d15ca6ce3bd2fb54381176839e7e008a
-      internalID: 587303972
+      spriteID: bfad7a65c1472394f845863454df8520
+      internalID: 1170273901
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: managood
+      name: card new design_3
       rect:
         serializedVersion: 2
-        x: 27
-        y: 752
-        width: 170
-        height: 177
-      alignment: 1
-      pivot: {x: 0, y: 1}
+        x: 20
+        y: 715
+        width: 229
+        height: 233
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18802a3a51352fb4192786513fd3c52b
-      internalID: 659517926
+      spriteID: cff7531782538d14f943fd3cef0714b2
+      internalID: 823031537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: manaenemy
+      name: card new design_4
       rect:
         serializedVersion: 2
         x: 309
         y: 14
         width: 226
         height: 881
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f56efad288404574ab9f370f639962de
-      internalID: 1184701271
+      spriteID: e6001b34eac0f1d4fa7b99db195e2684
+      internalID: 1842342426
       vertices: []
       indices: 
       edges: []
@@ -212,11 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      background: 1994944444
-      collar: 1610815083
-      manaenemy: 1184701271
-      managood: 659517926
-      title: 587303972
+      card new design_0: 1830710193
+      card new design_1: -1850089223
+      card new design_2: 1170273901
+      card new design_3: 823031537
+      card new design_4: 1842342426
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

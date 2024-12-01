@@ -388,7 +388,6 @@ public class MapBuilderTD : MonoBehaviour
 
     private void SetSelectedNode(MapNode node)
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.UI_Hover);
 
         var previousSelectedNode = currentSelectedNode;
         var modifier = node != bossNode ? 2f : 3f;

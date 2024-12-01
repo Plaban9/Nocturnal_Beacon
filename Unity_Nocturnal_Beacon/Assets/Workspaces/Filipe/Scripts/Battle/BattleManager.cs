@@ -219,17 +219,24 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    private void ModifyMana(int value)
+    public void ModifyMana(int value)
     {
         var newMana = _mana + value;
-        _mana += value;
+        var _currentMana = _mana;
+        if (newMana < 0) { newMana = 0; }
+        _mana = newMana;
         _manaText.GetComponent<Animator>().Play("ManaJump");
-        DOTween.To(() => _mana,
-            x => _mana = x, newMana, 0.5f).OnUpdate(() =>
+        DOTween.To(() => _currentMana,
+            x => _currentMana = x, newMana, 0.5f).OnUpdate(() =>
             {
-                _manaText.text = $"{_mana}/{_maxMana}";
+                _manaText.text = $"{_currentMana}/{_maxMana}";
             }
         );
+    }
+
+    public int GetMana()
+    {
+        return _mana;
     }
 
     private void CheckIfBattleIsOver()
@@ -255,7 +262,7 @@ public class BattleManager : MonoBehaviour
             if (NoctBeaconRunData.Instance.GetHeight() == 0)
             {
                 AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Gameplay, 0.5f, true);
-                float healthPct = 1.0f + ((float)_player.GetHPData().GetCurrentHP()) / ((float)_player.GetUnitData().startingHp);
+                float healthPct = 1.0f + ((float)_player.GetHPData().GetCurrentHP()) / ((float)_player.GetUnitData().maxHp);
                 float goldAmassed = NoctBeaconRunData.Instance.GetGold();
                 float bonusRare = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Rare).Count * 0.1f;
                 float bonusLeg = 1.0f + NoctBeaconRunData.Instance.GetPlayerInformation().GetCurrentDeck().Export().FindAll(it => it.rarity == CardAttribute.Rarity.Legendary).Count * 0.2f;
@@ -406,45 +413,57 @@ public class BattleManager : MonoBehaviour
 
         foreach (CardEffect effect in cardEffects)
         {
-            CheckIfBattleIsOver();
-            if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
-            if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
-            {
-                effect.OnUse(card, owner, new List<BattleUnit> { owner });
-            }
-            else
-            {
-                Debug.Log("Reach this");
-                switch (effect.GetTarget())
-                {
-                    case CardAttribute.EffectTarget.OpponentSingle:
-                        if (target == null) return false;
-                        effect.OnUse(card, owner, new List<BattleUnit> { target });
-                        break;
-                    case CardAttribute.EffectTarget.OpponentAll:
-                        effect.OnUse(card, owner, _enemies);
-                        break;
-                    case CardAttribute.EffectTarget.OpponentRandom:
-                        List<BattleUnit> viableUnits = _enemies.FindAll(it => !it.IsDead());
-                        effect.OnUse(card, owner, new List<BattleUnit> {viableUnits[
-                            UnityEngine.Random.Range(0, viableUnits.Count)] });
-                        break;
-                    case CardAttribute.EffectTarget.Both:
-                        effect.OnUse(card, owner, new List<BattleUnit> { target });
-                        effect.OnUse(card, owner, new List<BattleUnit> { owner });
-                        break;
-                }
-            }
+            bool effectResult = RunEffect(owner, target, card, effect);
+            if (!effectResult) return false;
         }
-        
-        if(owner.GetUnitData() is PlayableData)
+
+        if (owner.GetUnitData() is PlayableData)
         {
             ModifyMana(-card.GetManaCost());
         }
 
         SetupEnemiesIntent();
         CheckIfBattleIsOver();
-         PlayAnimation(owner, card);
+        PlayAnimation(owner, card);
+        return true;
+    }
+
+    public bool RunEffect(BattleUnit owner, BattleUnit target, Card card, CardEffect effect)
+    {
+        if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
+        CheckIfBattleIsOver();
+        if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
+        {
+            effect.OnUse(card, owner, new List<BattleUnit> { owner });
+        }
+        else
+        {
+            switch (effect.GetTarget())
+            {
+                case CardAttribute.EffectTarget.OpponentSingle:
+                    if (target == null) return false;
+                    effect.OnUse(card, owner, new List<BattleUnit> { target });
+                    break;
+                case CardAttribute.EffectTarget.OpponentAll:
+                    effect.OnUse(card, owner, _enemies);
+                    break;
+                case CardAttribute.EffectTarget.OpponentRandom:
+                    List<BattleUnit> viableUnits = _enemies.FindAll(it => !it.IsDead());
+                    BattleUnit chosen = viableUnits.GetRandom();
+                    effect.OnUse(card, owner, _enemies);
+                    break;
+                case CardAttribute.EffectTarget.Both:
+                    effect.OnUse(card, owner, new List<BattleUnit> { target });
+                    effect.OnUse(card, owner, new List<BattleUnit> { owner });
+                    break;
+                case CardAttribute.EffectTarget.Global:
+                    List<BattleUnit> enemiesPlusPlayer = _enemies;
+                    enemiesPlusPlayer.Add(owner);
+                    effect.OnUse(card, owner, enemiesPlusPlayer);
+                    break;
+            }
+        }
+        CheckIfBattleIsOver();
         return true;
     }
 

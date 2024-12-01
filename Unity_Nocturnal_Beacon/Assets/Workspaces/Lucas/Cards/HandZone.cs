@@ -56,7 +56,10 @@ public class HandZone : MonoBehaviour
     {
         var handCard = Instantiate(HandCardPrefab, transform).GetComponent<CardInHand>();
         handCard.Setup(card);
-        handCard.SubscribeOnDrag().Subscribe(x => isDraggingCard = x).AddTo(handCard.gameObject);
+        handCard.SubscribeOnDrag().Subscribe(x => 
+        isDraggingCard = x
+        
+        ).AddTo(handCard.gameObject);
         handCard.SubscribeOnDeploy().Subscribe(x =>
         {
             if (!DeployCard(x))

@@ -61,6 +61,26 @@ public class CardEffect : ICardEffect
         val1 = val1 >= 0 ? val : -val;
     }
 
+    public void SetValue(WithManaDoEffect.WithDoEffect val, int i)
+    {
+        switch (val)
+        {
+            case WithManaDoEffect.WithDoEffect.VAL1:
+                val1 = i;
+                break;
+            case WithManaDoEffect.WithDoEffect.VAL2:
+                Debug.Log($"Setting to attack {i} times");
+                val2 = i;
+                break;
+            case WithManaDoEffect.WithDoEffect.VAL3:
+                val3 = i;
+                break;
+            case WithManaDoEffect.WithDoEffect.VAL4:
+                val4 = i;
+                break;
+        }
+    }
+
     public int GetMainValue() => val1;
 
     public EffectTarget GetTarget() => target;

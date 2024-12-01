@@ -221,7 +221,7 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            var cardsInHand = handZone.GetCardsInHand();
+            var cardsInHand = handZone.GetCardsInHand().FindAll(it=> it.IsAvailableToDiscard());
             var card = cardsInHand[Random.Range(0, cardsInHand.Count - 1)];
             yield return StartCoroutine(card.PerformDiscard());
             _cardPileManager.DiscardCard(card.GetCard());

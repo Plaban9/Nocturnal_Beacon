@@ -7,14 +7,14 @@ using UnityEngine;
 public class FilterCardType : CardFilter
 {
     [SerializeField] CardAttribute.CardType type;
-    [SerializeField] CardTypeComparison comparison;
+    [SerializeField] ComparisonEnum comparison;
     public override int Filter(Card card)
     {
         switch (comparison)
         {
-            case CardTypeComparison.IS:
+            case ComparisonEnum.IS:
                 return type == card.cardType ? 1 : 0;
-            case CardTypeComparison.ISNOT:
+            case ComparisonEnum.ISNOT:
                 return type == card.cardType ? 0 : 1;
         }
         return 0;
@@ -22,7 +22,7 @@ public class FilterCardType : CardFilter
 
 }
 
-public enum CardTypeComparison
+public enum ComparisonEnum
 {
     IS,
     ISNOT

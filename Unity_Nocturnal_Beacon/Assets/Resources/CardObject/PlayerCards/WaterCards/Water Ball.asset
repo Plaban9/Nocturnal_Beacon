@@ -30,8 +30,8 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 3
-        val2: 3
+        val1: 2
+        val2: 5
         val3: 0
         val4: 0
         effectType: 0
