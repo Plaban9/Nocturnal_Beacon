@@ -16,6 +16,7 @@ MonoBehaviour:
   shopHeights: 03000000
   extraRest: 1
   extraShop: 1
+  questChance: 0.25
   encounterList:
   - _possibleEnemies:
     - {fileID: 11400000, guid: 06c18377aba386e4b815521465f3dc0d, type: 2}
@@ -37,4 +38,10 @@ MonoBehaviour:
     maxHeight: 6
   bossList:
   - {fileID: 11400000, guid: 912711c80949ef74ebdedd35b382c29a, type: 2}
-  questlist: []
+  questList:
+  - {fileID: 11400000, guid: 0c8363e4db5036f40b48e478e384b951, type: 2}
+  - {fileID: 11400000, guid: 28b861c9e2e86d041a77d2eb9a34111f, type: 2}
+  - {fileID: 11400000, guid: 4e585b392b4c04444ab852d622acb94c, type: 2}
+  - {fileID: 11400000, guid: 35067f5c9e8cc334baf16cf02fac646f, type: 2}
+  - {fileID: 11400000, guid: acbcb0a250956cf4ebb8d6eb63f5af59, type: 2}
+  - {fileID: 11400000, guid: 2635e6b8f5806994394f86de6bc61a90, type: 2}

@@ -210,6 +210,7 @@ MonoBehaviour:
   _intentObject: {fileID: 6552917253624168575}
   _intentObject2: {fileID: 3149346824409820403}
   _intentObject3: {fileID: 4364327612514627700}
+  _hoverForInfo: {fileID: 0}
 --- !u!114 &5930181459670283239
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -44,14 +44,14 @@ public class PlayerUnitData : ScriptableObject
     public int GetCurrentHP()
     {
         if (_currentHp == -1)
-            _currentHp = _unitData.startingHp; 
+            _currentHp = _unitData.maxHp; 
         return _currentHp;
     }
 
     public int GetMaxHP()
     {
         if (_maxHP == -1)
-            _maxHP = _unitData.startingHp;
+            _maxHP = _unitData.maxHp;
         return _maxHP;
     }
 

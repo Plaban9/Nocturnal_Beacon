@@ -38,6 +38,7 @@ public class BattleUnit : MonoBehaviour
     [SerializeField] public GameObject _intentObject;
     [SerializeField] public GameObject _intentObject2;
     [SerializeField] public GameObject _intentObject3;
+    [SerializeField] public TooltipEnemyHoverable _hoverForInfo;
 
     Animator _animator;
     bool _isPlayer = false;
@@ -57,6 +58,7 @@ public class BattleUnit : MonoBehaviour
         _hpData.InitializeMaxHP(_monsterData, this);
         SetUnitVisuals();
         SetupHealth();
+        _hoverForInfo.SetMonsterData(_monsterData);
     }
 
     public void SetupPlayerUnit(PlayerUnitData _playerUnitData)
@@ -189,49 +191,36 @@ public class BattleUnit : MonoBehaviour
         switch (getEffectiveness)
         {
             case ElementalEffectivity.UNAFFECTED:
-                _sign.text = "-";
+                _sign.text = "X";
                 _sign.fontSize = 48;
-                _effectivity.text = "IMPERVIOUS";
-                _color.color = new Color(0.8f, 0.2f, 0.8f);
                 break;
             case ElementalEffectivity.RESIST:
                 _sign.text = "-";
                 _sign.fontSize = 36;
-                _effectivity.text = "RESISTS";
-                _color.color = new Color(0.5f, 0.5f, 0.9f);
                 break;
             case ElementalEffectivity.INEFFECTIVE:
                 _sign.text = "-";
                 _sign.fontSize = 24;
-                _effectivity.text = "INEFFECTIVE";
-                _color.color = new Color(0.5f, 0.3f, 0.7f);
                 break;
             case ElementalEffectivity.NEUTRAL:
-                _sign.text = "~";
-                _sign.fontSize = 24;
-                _effectivity.text = "NEUTRAL";
-                _color.color = new Color(0.5f, 0.5f, 0.5f);
+                _sign.text = " ";
+                _sign.fontSize = 12;
                 break;
             case ElementalEffectivity.EFFECTIVE:
                 _sign.text = "+";
                 _sign.fontSize = 24;
-                _effectivity.text = "EFFECTIVE";
-                _color.color = new Color(0.7f, 0.65f, 0.64f);
-
                 break;
             case ElementalEffectivity.VERY_EFFECTIVE:
                 _sign.text = "+";
-                _sign.fontSize = 36;
-                _effectivity.text = "VRY EFFECTIVE";
-                _color.color = new Color(0.8f, 0.35f, 0.38f);
+                _sign.fontSize = 24;
                 break;
             case ElementalEffectivity.MAX_EFFECTIVE:
-                _sign.text = "+";
-                _sign.fontSize = 48;
-                _effectivity.text = "MAX EFFECTIVE";
-                _color.color = new Color(0.86f, 0.3f, 0.3f);
+                _sign.text = "M";
+                _sign.fontSize = 36;
                 break;
         }
+        _effectivity.text = ElementalTable.GetAffinityText(getEffectiveness);
+        _color.color = ElementalTable.GetAffinityColor(getEffectiveness);
 
     }
 
@@ -257,7 +246,7 @@ public class BattleUnit : MonoBehaviour
 
     public bool IsDead() {
         bool IsDead = _hpData.IsDead();
-        if( IsDead)
+        if(IsDead)
         {
             _intentHolder.transform.parent.GetComponent<CanvasGroup>().DOFade(0f, 0.2f);
             if (_unitData is MonsterData)

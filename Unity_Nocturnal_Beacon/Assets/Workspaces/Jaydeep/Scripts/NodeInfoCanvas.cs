@@ -75,6 +75,7 @@ public class NodeInfoCanvas : MonoBehaviour
         {
             var infoData = Instantiate(nodeInfoUITemplate, nodeInfoParent);
             infoData.SetMonsterSprite(enemy.sprite);
+            infoData.GetComponent<TooltipEnemyHoverable>().SetMonsterData(enemy);
             infoData.gameObject.SetActive(true);
         }
     }

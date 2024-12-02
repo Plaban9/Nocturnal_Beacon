@@ -28,7 +28,7 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
     [SerializeField] GameObject _chooserHolder;
 
     Animator _animator;
-    List<QuestCardPickerHoverable> _cardHoverables = new List<QuestCardPickerHoverable>();
+    List<CardPickerHoverables> _cardHoverables = new List<CardPickerHoverables>();
 
     public void Start()
     {
@@ -68,18 +68,18 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
             for (int i = 0; i < numberOfCards - cardsOnHolder; i++)
             {
                 GameObject c = Instantiate(_cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, _cardHolder.transform);
-                _cardHoverables.Add(c.GetComponent<QuestCardPickerHoverable>());
+                _cardHoverables.Add(c.GetComponent<CardPickerHoverables>());
                 c.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
         }
 
-        foreach (QuestCardPickerHoverable card in _cardHoverables)
+        foreach (CardPickerHoverables card in _cardHoverables)
         {
             card.gameObject.SetActive(false);
         }
 
         int index = 0;
-        foreach (QuestCardPickerHoverable card in _cardHoverables)
+        foreach (CardPickerHoverables card in _cardHoverables)
         {
             index++;
             if (index < numberOfCards)
@@ -121,7 +121,7 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
     private void SelectionStart(Card card, int i)
     {
         SelectCard(card);
-        for (int o = 0; o < _cardHoverables.Count; o++)
+        for (int o = 0; o < _cardHoverables.Count-1; o++)
         {
             if (o != i)
             {
@@ -178,9 +178,6 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
         _animator.SetBool("open", true) ;
         GetComponent<CanvasGroup>().interactable = true;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-
-        SetQuest(_mapQuest);
-
     }
 
 

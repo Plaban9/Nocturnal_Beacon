@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8df7e10e6acf24db1a5cc38178a1fc, type: 3}
+  m_Name: OverconfidentSoldier
+  m_EditorClassIdentifier: 
+  title: Overconfident Soldier
+  image: {fileID: 2800000, guid: ddcb5353eb3dfbb498bf37dd63533b6e, type: 3}
+  eventDescription: You come accross a fellow adventurer within the Nocturnal Beacon.
+    They demand a duel to decide who gets to move to the next floor first. They don't
+    seem to be taking no as a answer.
+  randomCardsAvailable: 5
+  conditions:
+  - _requirementString: I should make sure I hold back on the attack.
+    _successString: You successfully managed to hold back, scraping them slightly
+      but enough to send the message.
+    _failString: Your onslaught leaves nothing but pieces of the adventurer on the
+      wall.
+    _filter:
+      rid: 5880775371356110861
+  questEnd: With the duel concluded, you gain more insight on the card chosen.
+  rewards:
+    neutralReward: 5
+    decentReward: 25
+    goodReward: 0
+    greatReward: 0
+    perfectReward: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775371356110861
+      type: {class: FilterManaCost, ns: , asm: Assembly-CSharp}
+      data:
+        manaCost: 2
+        comparison: 1

@@ -30,8 +30,4 @@ public class FilterEffect : CardFilter
 
 }
 
-public enum Containment
-{
-    Have,
-    DontHave
-}
+

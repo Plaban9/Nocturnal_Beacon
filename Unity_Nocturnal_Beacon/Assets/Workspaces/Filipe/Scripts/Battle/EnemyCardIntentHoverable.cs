@@ -30,13 +30,13 @@ public class EnemyCardIntentHoverable : MonoBehaviour, IPointerEnterHandler, IPo
     public void OnPointerExit(PointerEventData eventData)
     {
         StopAllCoroutines();
-        EnemyCardIntentMouseHover.OnMouseOut();
+        TooltipManager.OnMouseOut();
     }
 
 
     private void ShowTooltip()
     {
-        EnemyCardIntentMouseHover.OnMouseOver(card, Input.mousePosition);
+        TooltipManager.OnMouseOver(new TooltipManager.TooltipDataCard(card, Input.mousePosition));
     }
 
     private IEnumerator StartTimer()

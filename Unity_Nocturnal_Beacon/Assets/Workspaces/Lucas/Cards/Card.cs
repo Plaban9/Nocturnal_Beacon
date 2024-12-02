@@ -45,7 +45,8 @@ namespace CardAttribute
         OpponentSingle,
         OpponentRandom,
         OpponentAll,
-        Both
+        Both,
+        Global
     }
 
     [Serializable]
@@ -92,6 +93,7 @@ namespace CardAttribute
         LightEleChange,      // Change Element to Light
         DarkEleChange,       // Change Element to Dark
         GhostEleChange,      // Change Element to Ghost
+        Vampirism,
 
 
         /* ============== DeBuffs ============== */
@@ -181,7 +183,8 @@ public class Card : ScriptableObject
     {
         return effects.Find(it =>
            (it.GetTarget() == CardAttribute.EffectTarget.OpponentAll ||
-          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom)
+          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom ||
+          it.GetTarget() == CardAttribute.EffectTarget.Global)
         ) != null;
     }
 

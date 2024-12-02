@@ -8,23 +8,23 @@ using UnityEngine;
 public class FilterManaCost : CardFilter
 {
     [SerializeField] int manaCost = 0;
-    [SerializeField] CardValueComparator comparison = CardValueComparator.EqualTo;
+    [SerializeField] ValueComparator comparison = ValueComparator.EqualTo;
 
     public override int Filter(Card card)
     {
         switch (comparison)
         {
-            case CardValueComparator.GreaterThan:
+            case ValueComparator.GreaterThan:
                 return manaCost > card.GetManaCost()? 1 : 0;
-            case CardValueComparator.LessThan:
+            case ValueComparator.LessThan:
                 return manaCost < card.GetManaCost() ? 1 : 0;
-            case CardValueComparator.EqualTo:
+            case ValueComparator.EqualTo:
                 return manaCost == card.GetManaCost() ? 1 : 0;
-            case CardValueComparator.NotEqualTo:
+            case ValueComparator.NotEqualTo:
                 return manaCost != card.GetManaCost() ? 1 : 0;
-            case CardValueComparator.GreaterThanOrEqualTo:
+            case ValueComparator.GreaterThanOrEqualTo:
                 return manaCost >= card.GetManaCost() ? 1 : 0;
-            case CardValueComparator.LessThanOrEqualTo:
+            case ValueComparator.LessThanOrEqualTo:
                 return manaCost <= card.GetManaCost() ? 1 : 0;
         }
         return 0;
@@ -32,12 +32,3 @@ public class FilterManaCost : CardFilter
 
 }
 
-public enum CardValueComparator
-{
-    GreaterThan,
-    LessThan,
-    EqualTo,
-    NotEqualTo,
-    GreaterThanOrEqualTo,
-    LessThanOrEqualTo
-}

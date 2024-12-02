@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Wendigo
   sprite: {fileID: 21300000, guid: 2bcbb3fad6e43a0409a24dd5438f0d06, type: 3}
-  startingHp: 32
+  maxHp: 32
   flipSprite: 1
   scale: 1
   unitElement: 3

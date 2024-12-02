@@ -61,6 +61,42 @@ public class CardEffect : ICardEffect
         val1 = val1 >= 0 ? val : -val;
     }
 
+    public void SetValue(WithManaDoEffect.CardVariable val, int i)
+    {
+        switch (val)
+        {
+            case WithManaDoEffect.CardVariable.VAL1:
+                val1 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL2:
+                val2 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL3:
+                val3 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL4:
+                val4 = i;
+                break;
+        }
+    }
+
+    public int GetValue(WithManaDoEffect.CardVariable val)
+    {
+        switch (val)
+        {
+            case WithManaDoEffect.CardVariable.VAL1:
+                return val1;
+            case WithManaDoEffect.CardVariable.VAL2:
+                return val2;
+            case WithManaDoEffect.CardVariable.VAL3:
+                return val3;
+            case WithManaDoEffect.CardVariable.VAL4:
+                return val4;
+            default:
+                return val1;
+        }
+    }
+
     public int GetMainValue() => val1;
 
     public EffectTarget GetTarget() => target;

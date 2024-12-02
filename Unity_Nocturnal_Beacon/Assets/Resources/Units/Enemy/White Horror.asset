@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: White Horror
   sprite: {fileID: 21300000, guid: 185a76f055239f648ab7fb824f4fbd89, type: 3}
-  startingHp: 24
+  maxHp: 40
   flipSprite: 1
   scale: 1
   unitElement: 3

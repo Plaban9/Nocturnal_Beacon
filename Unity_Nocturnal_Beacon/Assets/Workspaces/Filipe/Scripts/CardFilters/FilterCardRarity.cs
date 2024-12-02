@@ -7,22 +7,22 @@ using UnityEngine;
 public class FilterCardRarity : CardFilter
 {
     [SerializeField] CardAttribute.Rarity rarity;
-    [SerializeField] CardValueComparator comparator;
+    [SerializeField] ValueComparator comparator;
     public override int Filter(Card card)
     {
         switch (comparator)
         {
-            case CardValueComparator.GreaterThan:
+            case ValueComparator.GreaterThan:
                 return rarity > card.rarity ? 1 : 0;
-            case CardValueComparator.LessThan:
+            case ValueComparator.LessThan:
                 return rarity < card.rarity ? 1 : 0;
-            case CardValueComparator.EqualTo:
+            case ValueComparator.EqualTo:
                 return rarity == card.rarity ? 1 : 0;
-            case CardValueComparator.NotEqualTo:
+            case ValueComparator.NotEqualTo:
                 return rarity != card.rarity ? 1 : 0;
-            case CardValueComparator.GreaterThanOrEqualTo:
+            case ValueComparator.GreaterThanOrEqualTo:
                 return rarity >= card.rarity ? 1 : 0;
-            case CardValueComparator.LessThanOrEqualTo:
+            case ValueComparator.LessThanOrEqualTo:
                 return rarity <= card.rarity ? 1 : 0;
         }
         return 0;

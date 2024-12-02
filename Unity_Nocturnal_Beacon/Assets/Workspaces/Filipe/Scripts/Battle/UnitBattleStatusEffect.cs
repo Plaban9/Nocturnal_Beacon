@@ -15,7 +15,8 @@ public class UnitBattleStatusEffect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (bstf != null) UpdateInformation();        
+        if (bstf != null) UpdateInformation();
+        GetComponent<TooltipStatusHoverable>().SetStatus(bstf._status);
     }
     
     public void SetBattleStatusEffect(BattleStatusEffect bstf)

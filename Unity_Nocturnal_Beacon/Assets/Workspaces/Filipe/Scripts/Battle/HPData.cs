@@ -24,8 +24,8 @@ public class HPData : MonoBehaviour
     public void InitializeMaxHP(MonsterData _monsterData, BattleUnit unit)
     {
         _unitData = _monsterData;
-        _maxHp = _monsterData.startingHp;
-        _currentHp = _monsterData.startingHp;
+        _maxHp = _monsterData.maxHp;
+        _currentHp = _monsterData.maxHp;
         _battleUnit = unit;
         _shield = 0;
     }

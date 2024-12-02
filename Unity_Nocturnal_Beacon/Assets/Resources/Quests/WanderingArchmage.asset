@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8df7e10e6acf24db1a5cc38178a1fc, type: 3}
+  m_Name: WanderingArchmage
+  m_EditorClassIdentifier: 
+  title: Wandering Archmage
+  image: {fileID: 2800000, guid: 1d9375e96f263504f8b679fc78f52365, type: 3}
+  eventDescription: "A ghostly archmage shows reveal themselves to you. They claim
+    to be the greatest archmage to have ever existed, and could have taken over the
+    world if they didn't try harnessing the power of the Skyshard for themselves.
+    To prove their claim, they offer to train you in one of the four elemental magic,
+    these are...\t\t"
+  randomCardsAvailable: 5
+  conditions:
+  - _requirementString: Lucius' Fire Fighting basics;
+    _successString: They give you the fervent teachings of elder Lucius
+    _failString: 
+    _filter:
+      rid: 5880775371356110876
+  - _requirementString: Aebeecee's Wind Breaking demonstration;
+    _successString: They give you a practical demonstration of former wizard Aebeecee
+      wind magic
+    _failString: 
+    _filter:
+      rid: 5880775371356110877
+  - _requirementString: Saphien's Chill meditations;
+    _successString: You both sat and just talked... that's what the greatest water
+      mage did?
+    _failString: 
+    _filter:
+      rid: 5880775371356110879
+  - _requirementString: Clayton's Glass House Rock throwing
+    _successString: 'Your proficiency in throwing rocks is unparalleled. '
+    _failString: 
+    _filter:
+      rid: 5880775371356110883
+  questEnd: 'You''re not sure how much you learned, or how great of an archmage they
+    were. I guess results will speak for themselves. '
+  rewards:
+    neutralReward: 0
+    decentReward: 40
+    goodReward: 0
+    greatReward: 0
+    perfectReward: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775371356110876
+      type: {class: FilterElement, ns: , asm: Assembly-CSharp}
+      data:
+        element: 4
+    - rid: 5880775371356110877
+      type: {class: FilterElement, ns: , asm: Assembly-CSharp}
+      data:
+        element: 1
+    - rid: 5880775371356110879
+      type: {class: FilterElement, ns: , asm: Assembly-CSharp}
+      data:
+        element: 3
+    - rid: 5880775371356110883
+      type: {class: FilterElement, ns: , asm: Assembly-CSharp}
+      data:
+        element: 1

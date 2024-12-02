@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Hellhound
   sprite: {fileID: 21300000, guid: b3bf938267b85ab45914eb12229e83bb, type: 3}
-  startingHp: 26
+  maxHp: 36
   flipSprite: 0
   scale: 0.025
   unitElement: 4

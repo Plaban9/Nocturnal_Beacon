@@ -19,11 +19,11 @@ public class MapQuestConditional
 
     public string GetReqString()
     {
-        return _requirementString;
+        return "<color=blue>"+_requirementString+"</color>";
     }
 
     public string GetResString(Card card)
     {
-        return GetResult(card) == 1? _successString : _failString;
+        return GetResult(card) == 1? "<color=green>"+_successString+"</color>" : "<color=red>"+_failString+"</color>";
     }
 }

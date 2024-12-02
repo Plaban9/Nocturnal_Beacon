@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
+  m_Name: Status_EarthEleChange
+  m_EditorClassIdentifier: 
+  statusEffect: 19
+  name: Elemental Change - Earth
+  description: Sets element to Earth temporarily
+  icon: {fileID: 363553781, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  isPositive: 1

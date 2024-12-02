@@ -98,10 +98,13 @@ public class ModifyHealth : CardEffect
 
     override public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        for(int i = 0; i< val2+1; i++)
+        Debug.Log($"Attacking {val2} times");
+
+        for (int i = 0; i < val2 + 1; i++)
         {
-            foreach (BattleUnit target in targets)
+            if (this.target == EffectTarget.OpponentRandom)
             {
+                BattleUnit target = targets.GetRandom();
                 ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
                 float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
                 if (val1 < 0)
@@ -109,7 +112,7 @@ public class ModifyHealth : CardEffect
                     int damage = val1;
                     int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
                     int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
-                    target.GetHPData().DealDamage(owner, afterElemental, false, i*0.2f);
+                    target.GetHPData().DealDamage(owner, afterElemental, false, i * 0.2f);
                 }
                 else if (val1 > 0)
                 {
@@ -117,6 +120,27 @@ public class ModifyHealth : CardEffect
                     int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
                     int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
                     target.GetHPData().RecoverHealth(afterElemental);
+                }
+            }
+            else {
+                foreach (BattleUnit target in targets)
+                {
+                    ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
+                    float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
+                    if (val1 < 0)
+                    {
+                        int damage = val1;
+                        int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                        int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
+                        target.GetHPData().DealDamage(owner, afterElemental, false, i * 0.2f);
+                    }
+                    else if (val1 > 0)
+                    {
+                        int damage = val1;
+                        int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                        int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
+                        target.GetHPData().RecoverHealth(afterElemental);
+                    }
                 }
             }
         }
