@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class CardLibrary : MonoBehaviour
@@ -100,6 +101,8 @@ public class CardLibrary : MonoBehaviour
        foreach(var cardObject in cardObjects)
         {
             cardObject.id = ++idCounter;
+            EditorUtility.SetDirty(cardObject);            
         }
+
     }
 }

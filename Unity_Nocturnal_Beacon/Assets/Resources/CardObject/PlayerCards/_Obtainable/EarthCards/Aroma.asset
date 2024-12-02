@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Aroma
   m_EditorClassIdentifier: 
-  id: 10017
+  id: 1000023
   uId: 0
   name: Aroma
   rarity: 2
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 50
   effects:
   - rid: 4405684332640862219
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

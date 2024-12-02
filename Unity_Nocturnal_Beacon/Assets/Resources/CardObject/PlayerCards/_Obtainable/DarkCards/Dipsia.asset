@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Dipsia
   m_EditorClassIdentifier: 
-  id: 10043
-  uId: 1000016
+  id: 1000018
+  uId: 1000008
   name: Dipsia
   rarity: 2
   cardType: 1
@@ -25,6 +25,7 @@ MonoBehaviour:
   - rid: 4405684357995692066
   - rid: 4405684357995692068
   - rid: 4405684357995692069
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Defend
   m_EditorClassIdentifier: 
-  id: 10011
+  id: 1000013
   uId: 0
   name: Defend
   rarity: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 4405684328671215630
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

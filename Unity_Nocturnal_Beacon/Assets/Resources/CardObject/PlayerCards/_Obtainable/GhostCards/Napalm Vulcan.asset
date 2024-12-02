@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Napalm Vulcan
   m_EditorClassIdentifier: 
-  id: 10021
+  id: 1000041
   uId: 0
   name: Napalm Vulcan
   rarity: 2
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 75
   effects:
   - rid: 4405684357995692035
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

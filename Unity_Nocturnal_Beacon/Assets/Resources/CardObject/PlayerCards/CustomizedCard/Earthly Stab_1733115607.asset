@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Earthly Stab_1733115607
   m_EditorClassIdentifier: 
-  id: 10046
+  id: 1000075
   uId: 1000000
   name: Earthly Stab
   rarity: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 5880775371356110894
   - rid: 5880775371356110895
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

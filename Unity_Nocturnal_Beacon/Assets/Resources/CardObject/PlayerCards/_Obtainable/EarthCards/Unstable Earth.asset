@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Unstable Earth
   m_EditorClassIdentifier: 
-  id: 10042
+  id: 1000028
   uId: 0
   name: Unstable Earth
   rarity: 1
@@ -25,6 +25,7 @@ MonoBehaviour:
   - rid: 4405684357995692061
   - rid: 4405684357995692062
   - rid: 4405684357995692063
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

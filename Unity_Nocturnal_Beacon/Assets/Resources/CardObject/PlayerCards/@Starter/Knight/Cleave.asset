@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Cleave
   m_EditorClassIdentifier: 
-  id: 10010
+  id: 1000012
   uId: 0
   name: Cleave
   rarity: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684328671215631
   - rid: 4405684328671215632
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:
