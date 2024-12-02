@@ -12,7 +12,7 @@ using System.Linq;
 
 public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] bool enablePointToZoom = false;
+    [SerializeField] protected bool enablePointToZoom = false;
     [SerializeField] float zoomRatio = 0.6f;
     [SerializeField] Texture2D onPointCursor;
 
@@ -33,7 +33,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [SerializeField] TooltipElementHoverable _tooltipElementHoverable;
 
-    float oriZoomRatio = 1f;
+    protected float oriZoomRatio = 1f;
 
     Action<CardDisplay> onClick;
     ReactiveProperty<CardDisplay> onPoint = new();
@@ -53,6 +53,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void Setup(Card card)
     {
         this.card = card;
+
         if (card == null) return; 
         manaText.text = card.effects.Any(it=> it is WithManaDoEffect) ? "X" : card.GetManaCost().ToString();
         if (card.GetManaCost() > card.GetBaseManaCost())
