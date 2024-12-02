@@ -18,10 +18,13 @@ public class ModifyMana : CardEffect
                     "Recover {0} mana.":
                     "Lose {0} mana."
                 ,
-                val1);
+                Math.Abs(val1));
         }
     }
-    public ModifyMana() { }
+    public ModifyMana(int i) {
+        this.target = EffectTarget.Self;
+        val1 = i;
+    }
 
 
     public ModifyMana(EffectTarget target, int val1, int val2)
@@ -41,13 +44,13 @@ public class ModifyMana : CardEffect
         {
             int baseVal = 20;
             int scaling = (int) Mathf.Pow(4, 1 + val1);
-            result = val1 > 0 ? (int)baseVal + scaling : 0;
+            result = val1 > 0 ? (int) baseVal + scaling : 0;
             return result;
         }
         else {
             int baseVal = 5;
             int scaling = 3 * val1;
-            result = val1 != 0 ? (int)baseVal + scaling : 0;
+            result = val1 != 0 ? (int) baseVal + scaling : 0;
             return result;
         }
     }

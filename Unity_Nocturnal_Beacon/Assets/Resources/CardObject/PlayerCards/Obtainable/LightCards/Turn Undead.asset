@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Turn Undead
   m_EditorClassIdentifier: 
   id: 10037
-  uId: 0
+  uId: 1000010
   name: Turn Undead
   rarity: 0
   cardType: 1
@@ -67,7 +67,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 0
-        target: 0
+        target: 1
         targetAmount: 0
         UseEffectBasedOnThis:
           rid: 5880775371356110854

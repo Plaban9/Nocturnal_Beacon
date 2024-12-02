@@ -340,7 +340,7 @@ public class MapBuilderTD : MonoBehaviour
                     break;
                 case NodeType.Qest:
                     _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.QEST);
-                    _nonBattleNodeManager.SetQuest(currentSelectedNode.MapQuest);
+                    _nonBattleNodeManager.SetQuest(towerConfigurationSO.questList.GetRandom());
                     break;
             }
 

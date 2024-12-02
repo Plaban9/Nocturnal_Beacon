@@ -67,30 +67,23 @@ public class ModifyHealth : CardEffect
     {
         int result;
         float multiplier = 1;
+        int targettingMultiplier = 1;
 
         switch (target)
         {
             case EffectTarget.OpponentSingle:
-                multiplier = 2;
+                targettingMultiplier = 2;
                 break;
             case EffectTarget.OpponentAll:
-                multiplier = 4;
+                targettingMultiplier = 4;
                 break;
             case EffectTarget.OpponentRandom:
-                multiplier = 1;
+                targettingMultiplier = 1;
                 break;
         }
 
-        if (val2 > 0)
-        {
-            multiplier += val2;
-        }
-        else if (val2 == -1)
-        {
-            multiplier += 2;
-        }
 
-        result = (int)multiplier * Mathf.Abs(val1);
+        result = (int) Mathf.Pow(Mathf.Abs(val1*2), targettingMultiplier)*val2;
 
         return result;
     }
@@ -98,7 +91,6 @@ public class ModifyHealth : CardEffect
 
     override public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        Debug.Log($"Attacking {val2} times");
 
         for (int i = 0; i < val2 + 1; i++)
         {

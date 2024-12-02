@@ -15,5 +15,5 @@ MonoBehaviour:
   statusEffect: 15
   name: Elemental Change - Neutral
   description: Sets element to Neutral temporarily
-  icon: {fileID: 363553781, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  icon: {fileID: -751766853, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1

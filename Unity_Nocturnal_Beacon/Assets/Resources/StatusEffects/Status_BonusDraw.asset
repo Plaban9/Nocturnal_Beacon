@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Status_BonusDraw
   m_EditorClassIdentifier: 
   statusEffect: 6
-  icon: {fileID: 21300000, guid: b0c94b00cce63ad43941eadb57ef5c07, type: 3}
-  description: Draws an additional card next turn
   name: Bonus Draw
+  description: Draws an additional card next turn
+  icon: {fileID: 1430145634, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1

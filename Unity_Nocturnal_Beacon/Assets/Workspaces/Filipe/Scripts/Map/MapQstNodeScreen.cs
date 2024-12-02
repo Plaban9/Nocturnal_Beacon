@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -184,8 +182,8 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
     public override void DeactivateNonBattleNodeScreen()
     {
         _animator.SetBool("open", false);
-        GetComponent<CanvasGroup>().interactable = true;
-        GetComponent<CanvasGroup>().blocksRaycasts = true;
+        GetComponent<CanvasGroup>().interactable = false;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
         GetComponent<CanvasGroup>().DOFade(0f, 2f);
         _manager.HideContinue();
     }

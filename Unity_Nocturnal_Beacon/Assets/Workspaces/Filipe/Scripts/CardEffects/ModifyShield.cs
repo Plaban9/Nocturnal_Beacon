@@ -17,7 +17,7 @@ public class ModifyShield : CardEffect
 
     public override int GetEffectCost()
     {
-        return 3 * Mathf.Abs(val1);
+        return Mathf.Abs(val1*2);
     }
 
     public ModifyShield() {
