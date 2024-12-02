@@ -37,6 +37,11 @@ public class BattleManager : MonoBehaviour
     int _mana;
     int _maxMana;
 
+    float minX = 0.23f;
+    float maxX = 3.73f;
+    float minZ = 0.47f;
+    float maxZ = 3.75f;
+
     /*
      * Battle Info
      */
@@ -125,9 +130,9 @@ public class BattleManager : MonoBehaviour
         for(int i = 0; i < enemiesData.Count; i++)
         {
             Vector3 position = new Vector3(
-                    _encounter.GetX(i)*2.5f,
+                    minX + (maxX - minX) * _encounter.positionsPercentage[i].x,
                     2.5f,
-                    _encounter.GetZ(i)*2.5f);
+                    minZ+(maxZ - minZ) * _encounter.positionsPercentage[i].y);
             GameObject enemyFrame = Instantiate(_enemyPrefab,position, Quaternion.Euler(-90f,0f,0f),
                 _enemyHolder);
             //enemyFrame.transform.position = ;

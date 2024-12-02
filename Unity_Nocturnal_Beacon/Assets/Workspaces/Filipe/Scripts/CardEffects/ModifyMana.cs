@@ -12,14 +12,18 @@ public class ModifyMana : CardEffect
     {
         get
         {
-            
+
             return string.Format(
-                val1>0? 
-                    "Recover {0} mana.":
+                val1 > 0 ?
+                    "Recover {0} mana." :
                     "Lose {0} mana."
                 ,
                 Math.Abs(val1));
         }
+
+    }
+    public ModifyMana()
+    {
     }
     public ModifyMana(int i) {
         this.target = EffectTarget.Self;

@@ -38,6 +38,10 @@ public class ModifyHand : CardEffect
         return strategy.GetCost();
     }
 
+    public ModifyHand()
+    {
+    }
+
     public ModifyHand(int i) {
         if(i > 0)
         {

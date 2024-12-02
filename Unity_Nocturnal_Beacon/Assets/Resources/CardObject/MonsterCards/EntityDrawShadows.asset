@@ -23,7 +23,7 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 5880775386425720883
-  - rid: 5880775386425720887
+  - rid: 5880775390931976202
   DEBUG_DESCRIPTION: Applies 1 <color=#FB8B48>Vulnerable to Dark</color> on all units
     for 3 turns.Gain 4 Block.
   references:
@@ -41,9 +41,9 @@ MonoBehaviour:
         target: 5
         targetAmount: 2
         statusEffectObject: {fileID: 11400000, guid: 90e35d7eab7a04247b076e57a3ad8754, type: 2}
-        statusEffect: 16
+        statusEffect: 36
         statusStacks: 0
-    - rid: 5880775386425720887
+    - rid: 5880775390931976202
       type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
