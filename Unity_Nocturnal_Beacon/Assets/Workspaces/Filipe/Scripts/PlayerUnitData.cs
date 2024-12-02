@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System.IO;
 
 [CreateAssetMenu(fileName = "PlayerUnitData", menuName ="PlayerUnitData")]
 public class PlayerUnitData : ScriptableObject
@@ -19,6 +20,8 @@ public class PlayerUnitData : ScriptableObject
     private int _currency;
     [SerializeField]
     private int _maxMana;
+    [SerializeField]
+    private int _currentRun;
 
     public void Setup(PlayableData unitData, int currency)
     {
@@ -29,7 +32,13 @@ public class PlayerUnitData : ScriptableObject
         // Create a new deck and save to local
         var newDeck = Instantiate(_currentDeck);
         int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-        AssetDatabase.CreateAsset(newDeck, $"Assets/Resources/Deck/{unitData.startingDeck.name + "_" + sec}.asset");
+        newDeck.name = unitData.startingDeck.name + "_" + sec;
+
+#if UNITY_EDITOR
+        AssetDatabase.CreateAsset(newDeck, $"Assets/Resources/Deck/{newDeck.name}.asset");
+#else
+        ScriptableObjectSaver.SaveScriptableObject(newDeck, "PlayerDecks");
+#endif
 
         _currentDeck = newDeck;
         _currency = currency;

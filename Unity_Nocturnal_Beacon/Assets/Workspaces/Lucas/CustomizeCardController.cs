@@ -249,8 +249,11 @@ public class CustomizeCardController : MonoBehaviour
         CardLibrary.Instance.AddNewCard(newCard);
 
         int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+        #if UNITY_EDITOR
         AssetDatabase.CreateAsset(newCard, $"Assets/Resources/CardObject/PlayerCards/{newCard.name + "_" + sec}.asset");
-
+        #else
+        ScriptableObjectSaver.SaveScriptableObject(newCard, "CustomizedCards");
+        #endif
         onCustomized?.Invoke(newCard);
 
         UIManager.Instance.ShowNoticeBar("Card customized successfully!!");

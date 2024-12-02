@@ -45,6 +45,20 @@ public class CardLibrary : MonoBehaviour
             }
             cards.Add(cardObject);
         }
+
+        #if !UNITY_EDITOR
+        var customizedCards = ScriptableObjectSaver.LoadScriptableObject<Card>("PlayerCards");
+
+        foreach(var cc in customizedCards)
+        {
+            if(!cardsDict.TryAdd(cc.id, cc))
+            {
+                Debug.LogError($"Customized Card [{cc.name}] has duplicated Id: {cc.id}");
+            }
+
+            cards.Add(cc);
+        }
+        #endif
     }
 
     private void Reset()

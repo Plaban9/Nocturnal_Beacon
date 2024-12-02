@@ -13,6 +13,7 @@ namespace DemoImage_WeaponBundle1
         // Start is called before the first frame update
         void Start()
         {
+            #if UNITY_EDITOR
             DemoImage = GetComponentsInChildren<Image>();
             int j = 1;
             
@@ -57,6 +58,8 @@ namespace DemoImage_WeaponBundle1
                         break;
                 }
             }
+
+            #endif
         }
     }
 }

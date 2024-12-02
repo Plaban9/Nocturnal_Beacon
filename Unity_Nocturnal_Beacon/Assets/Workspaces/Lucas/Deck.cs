@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
-[CreateAssetMenu(fileName = "New Deck", menuName = "Deck")]
+[Serializable ,CreateAssetMenu(fileName = "New Deck", menuName = "Deck")]
 public class Deck : ScriptableObject
 {
     [SerializeField, SerializeReference] List<Card> cards = new List<Card>();
