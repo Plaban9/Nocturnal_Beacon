@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Status_Strength
   m_EditorClassIdentifier: 
   statusEffect: 0
-  icon: {fileID: 21300000, guid: b43d6ffc9c459c14f8e5246c8b76cf8c, type: 3}
-  description: Increases damage dealt by the intesity.
   name: Strength
+  description: Increases damage dealt by the intesity.
+  icon: {fileID: -2050123560, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1

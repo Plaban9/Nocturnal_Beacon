@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_Weak
   m_EditorClassIdentifier: 
-  statusEffect: 25
+  statusEffect: 26
   name: Weak
   description: Reduce damage dealt by 25%
-  icon: {fileID: 21300000, guid: 6e67624f2088dac408d965beb8aa0b42, type: 3}
+  icon: {fileID: -1279707862, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 0

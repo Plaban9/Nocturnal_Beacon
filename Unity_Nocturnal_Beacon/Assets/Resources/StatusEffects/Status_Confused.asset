@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_Confused
   m_EditorClassIdentifier: 
-  statusEffect: 28
+  statusEffect: 29
   name: Confused
   description: Randomize costs of all cards from 0 to 3.
   icon: {fileID: 21300000, guid: f151875380eb6fc40a5870c8dc33e88d, type: 3}

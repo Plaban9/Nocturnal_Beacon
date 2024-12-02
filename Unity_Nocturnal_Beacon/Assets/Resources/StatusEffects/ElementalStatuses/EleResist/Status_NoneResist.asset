@@ -15,5 +15,5 @@ MonoBehaviour:
   statusEffect: 7
   name: Resistance to Neutral
   description: Increased resistance to Neutral cards
-  icon: {fileID: 21300000, guid: 0b9c347734d616f48b49cb21bab55a8e, type: 3}
+  icon: {fileID: -2092178096, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 0

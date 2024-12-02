@@ -17,4 +17,10 @@ public class StatusEffect_Strength : BattleStatusEffect
     {
         _duration -= 1;
     }
+
+    public override int GetCost()
+    {
+        return 15;
+    }
+
 }

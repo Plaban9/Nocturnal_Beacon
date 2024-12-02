@@ -31,17 +31,24 @@ public class CardEffectManager : MonoBehaviour
     {
         cardEffectList = new List<CardEffect>
         {
-            new ModifyCardCount(1),
-            new ModifyCardCount(-1),
+            new ModifyHand(1),
+            new ModifyHand(-1),
+            new ModifyMana(1),
+            new ModifyMana(-1),
             new ModifyHealth(EffectTarget.Self, 1, 0),
             new ModifyHealth(EffectTarget.Self, -1, 0),
             new ModifyHealth(EffectTarget.OpponentSingle, -1, 0),
             new ModifyHealth(EffectTarget.OpponentRandom, -1, 0),
             new ModifyHealth(EffectTarget.OpponentAll, -1, 0),
-            new ModifyShield(),
-            new ModifyStatuses(new StatusEffectObject(StatusEffect.Strength), 1, AppMechanic.OnUse, 1),
-            new ModifyStatuses(new StatusEffectObject(StatusEffect.Dexterity), 1, AppMechanic.OnUse, 1),
-            new ModifyStatuses(new StatusEffectObject(StatusEffect.Regenerate), 1, AppMechanic.OnUse, 1)
+            new ModifyShield(1),
+
         };
+ 
+        //foreach (EffectTarget target in Enum.GetValues(typeof(EffectTarget)))
+        //{
+        //    foreach(StatusEffect statusEffect in Enum.GetValues(typeof(StatusEffect))){
+        //        cardEffectList.Add(new ModifyStatuses(new StatusEffectObject(statusEffect), 1, target, AppMechanic.OnUse, 1));
+        //    }
+        //}
     }
 }

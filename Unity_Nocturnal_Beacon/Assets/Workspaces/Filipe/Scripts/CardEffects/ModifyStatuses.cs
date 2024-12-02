@@ -24,15 +24,55 @@ public class ModifyStatuses : CardEffect
         {
             string result = string.Empty;
 
-            if (statusEffectObject != null)
-            {
-                result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
-            }
-            else
-            {
-                result = "Error attempting to fetch description";
-            }
-            return result;
+            string formatted = String.Format("" +
+                "{0} {1} <color=#FB8B48>{2}</color> on {3} for {4} turns.",
+                    "Applies",
+                   val1,
+                   statusEffectObject.GetName(),
+                   target switch
+                   {
+                       EffectTarget.Self => "yourself",
+                       EffectTarget.OpponentSingle => "an enemy",
+                       EffectTarget.OpponentRandom => "a random enemy",
+                       EffectTarget.OpponentAll => "all enemies",
+                       EffectTarget.Global => "all units",
+                       EffectTarget.Both => "both user and target",
+                       _ => "... no one?",
+                   },
+                   val2);
+
+            return formatted;
+
+            //if (statusEffectObject != null)
+            //{
+            //    if(target == EffectTarget.Self)
+            //    {
+            //        if (_statusObj.isPositive)
+            //        {
+            //            result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color> on yourself";
+            //        }
+            //        else
+            //        {
+            //            result = $"Inflict {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color> on yourself";
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (!_statusObj.isPositive)
+            //        {
+            //            result = $"Inflict {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            //        }
+            //        else
+            //        {
+            //            result = $"Bestow {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    result = "Error attempting to fetch description";
+            //}
+            //return result;
         }
     }
 
@@ -69,29 +109,54 @@ public class ModifyStatuses : CardEffect
     {
         int val = 0;
 
-        switch (statusEffect)
+        //switch (statusEffect)
+        //{
+        //    case StatusEffect.Strength:
+        //        val = (5 + 3 * (val-1)) * val;
+        //        break;
+        //    case StatusEffect.Dexterity:
+        //        val = (5 + 3 * (val - 1)) * val;
+        //        break;
+        //    case StatusEffect.Regenerate:
+        //        val = (4 + 2 * (val - 1)) * val;
+        //        break;
+        //    default:
+        //        break;
+        //}
+
+        //buffing
+        if(target == EffectTarget.Self)
         {
-            case StatusEffect.Strength:
-                val = (5 + 3 * (val-1)) * val;
-                break;
-            case StatusEffect.Dexterity:
-                val = (5 + 3 * (val - 1)) * val;
-                break;
-            case StatusEffect.Regenerate:
-                val = (4 + 2 * (val - 1)) * val;
-                break;
-            default:
-                break;
+            if (statusEffectObject.isPositive)
+            {
+                return (int)Math.Pow(30, val1 + val2);
+            }
+            else
+            {
+                return Mathf.Max(30,(int)Math.Pow(30, val1 + val2));
+            }
+        }
+        else
+        {
+            if (statusEffectObject.isPositive)
+            {
+                return -(int)Math.Pow(30, val1 + val2);
+            }
+            else
+            {
+                return (int)Math.Pow(30, val1 + val2);
+            }
         }
 
-        return val;
     }
 
     public ModifyStatuses() { }
-    public ModifyStatuses(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
+    public ModifyStatuses(StatusEffectObject statusObj, int duration, EffectTarget target, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
         statusEffect = statusObj.statusEffect;
         _bstf = null;
+
+        this.target = target;
         switch (statusEffect)
         {
             case StatusEffect.Strength:

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_NoAct
   m_EditorClassIdentifier: 
-  statusEffect: 37
-  icon: {fileID: 620650393, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
-  description: Cannot act for this turn. Enemies may resist this effect.
+  statusEffect: 38
   name: Cant Act
+  description: Cannot act for this turn. Enemies may resist this effect.
+  icon: {fileID: 620650393, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
   isPositive: 0

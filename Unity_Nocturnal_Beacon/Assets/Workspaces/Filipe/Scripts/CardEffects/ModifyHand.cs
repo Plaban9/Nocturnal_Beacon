@@ -35,25 +35,21 @@ public class ModifyHand : CardEffect
     {
         int val = 0;
 
-        //switch (statusEffect)
-        //{
-        //    case StatusEffect.Strength:
-        //        val = (5 + 3 * (val - 1)) * val;
-        //        break;
-        //    case StatusEffect.Dexterity:
-        //        val = (5 + 3 * (val - 1)) * val;
-        //        break;
-        //    case StatusEffect.Regenerate:
-        //        val = (4 + 2 * (val - 1)) * val;
-        //        break;
-        //    default:
-        //        break;
-        //}
-
-        return val;
+        return strategy.GetCost();
     }
 
-    public ModifyHand() { }
+    public ModifyHand(int i) {
+        if(i > 0)
+        {
+            strategy = new GetNextFromDeck();
+            (strategy as GetNextFromDeck).amount = 1;
+        }
+        else
+        {
+            strategy = new DiscardFromHand();
+            (strategy as DiscardFromHand).amount = 1;
+        }
+    }
     public ModifyHand(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
 
