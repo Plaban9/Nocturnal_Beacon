@@ -4,10 +4,12 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-[Serializable ,CreateAssetMenu(fileName = "New Deck", menuName = "Deck")]
+[Serializable, CreateAssetMenu(fileName = "New Deck", menuName = "Deck")]
 public class Deck : ScriptableObject
 {
-    [SerializeField, SerializeReference] List<Card> cards = new List<Card>();
+    [SerializeField] List<CardJson> cardJsons = new();
+
+    [SerializeField, SerializeReference] List<Card> cards = new();
 
     public Dictionary<int, Card> CardByUID { get; private set; }
 
@@ -26,6 +28,12 @@ public class Deck : ScriptableObject
         
     }
 
+    public Deck ToJson()
+    {
+        this.cardJsons = cards.Select(x => new CardJson(x.id)).ToList();
+        return this;
+    }
+
     public void InitDeck()
     {
         Counter = InitCounter;
@@ -38,6 +46,11 @@ public class Deck : ScriptableObject
 
             CardByUID[uId] = cards[i];
         }
+
+    }
+
+    public Deck()
+    {
 
     }
 

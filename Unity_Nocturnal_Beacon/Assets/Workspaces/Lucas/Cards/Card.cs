@@ -1,4 +1,5 @@
 using CardAttribute;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -137,12 +138,22 @@ namespace CardAttribute
 
 }
 
-[CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
 [Serializable]
+public class CardJson
+{
+    public int id;
+
+    public CardJson(int id)
+    {
+        this.id = id;
+    }   
+}
+
+[Serializable, CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
 public class Card : ScriptableObject
 {
     public int id;
-    [HideInInspector] public int uId;   // unique Id
+    [SerializeField, HideInInspector] public int uId;   // unique Id
     public new string name;
     public Rarity rarity;
     public CardType cardType;

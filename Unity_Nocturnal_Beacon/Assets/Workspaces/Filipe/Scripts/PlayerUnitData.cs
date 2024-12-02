@@ -37,7 +37,7 @@ public class PlayerUnitData : ScriptableObject
 #if UNITY_EDITOR
         AssetDatabase.CreateAsset(newDeck, $"Assets/Resources/Deck/{newDeck.name}.asset");
 #else
-        ScriptableObjectSaver.SaveScriptableObject(newDeck, "PlayerDecks");
+        ScriptableObjectSaver.SaveScriptableObject(newDeck.ToJson(), "PlayerDecks");
 #endif
 
         _currentDeck = newDeck;

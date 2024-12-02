@@ -21,17 +21,18 @@ public static class ScriptableObjectSaver
             return;
         }
 
-        string json = JsonUtility.ToJson(so);
-        string path = GetSavePath(folderName, so.name);
+        string json = JsonUtility.ToJson(so, true);
+        string folderPath = GetSavePath(folderName);
+        string filePath = Path.Combine(folderPath, so.name + ".json");
 
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(folderPath))
         {
-            Directory.CreateDirectory(path);
-            Debug.Log($"Folder created: {path}");
+            Directory.CreateDirectory(folderPath);
+            Debug.Log($"Folder created: {folderPath}");
         }
         
-        File.WriteAllText(path, json);
-        Debug.Log($"ScriptableObject saved to: {path}");
+        File.WriteAllText(filePath, json);
+        Debug.Log($"ScriptableObject saved to: {filePath}");
     }
 
     public static List<T> LoadScriptableObject<T>(string folderName)
