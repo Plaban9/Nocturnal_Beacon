@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a81513c0bf4e14aaa20b04cfa860f9, type: 3}
+  m_Name: Shade
+  m_EditorClassIdentifier: 
+  unitName: Shade
+  sprite: {fileID: 21300000, guid: d69a849b5a456564ca4b083dfd587fae, type: 3}
+  maxHp: 24
+  flipSprite: 0
+  scale: 0.025
+  unitElement: 5
+  behavior: {fileID: 11400000, guid: afe1a40f06fa3f548a46b597702389bf, type: 2}
+  isBoss: 0
+  recolor: {r: 1, g: 1, b: 1, a: 1}
+  droppableCards: []
+  droppableGold: 0

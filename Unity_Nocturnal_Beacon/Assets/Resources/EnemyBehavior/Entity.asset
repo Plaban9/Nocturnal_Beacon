@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef548df6f717a34abef3c5a4e1c8d78, type: 3}
+  m_Name: Entity
+  m_EditorClassIdentifier: 
+  _complexBehavior:
+  - playedCard: {fileID: 11400000, guid: bf1109c0283ac7c4fba0000aaa14b107, type: 2}
+    criteria:
+      rid: 5880775386425720888
+  - playedCard: {fileID: 11400000, guid: 2ddb3dc5041bc3d4a8f55e4e7a6eae1b, type: 2}
+    criteria:
+      rid: 5880775386425720889
+  - playedCard: {fileID: 11400000, guid: 086836caaf3d33d4ca4a33a65d0cf736, type: 2}
+    criteria:
+      rid: 5880775386425720894
+  - playedCard: {fileID: 11400000, guid: f02ae2d0a9956a142843a5f682b396a5, type: 2}
+    criteria:
+      rid: 5880775386425720896
+  _cantActCard: {fileID: 11400000, guid: 9cfbe4f933964b842a9fb94e4f643705, type: 2}
+  _stagger: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775386425720888
+      type: {class: BattleCriteria_CurrentTurnModulo, ns: , asm: Assembly-CSharp}
+      data:
+        turnModulo: 1
+    - rid: 5880775386425720889
+      type: {class: BattleCriteria_HPIs, ns: , asm: Assembly-CSharp}
+      data:
+        whoseHp: 0
+        valueComparator: 0
+        threshold: 0.7
+    - rid: 5880775386425720894
+      type: {class: BattleCriteria_HPIs, ns: , asm: Assembly-CSharp}
+      data:
+        whoseHp: 0
+        valueComparator: 5
+        threshold: 0.7
+    - rid: 5880775386425720896
+      type: {class: BattleCriteria_HPIs, ns: , asm: Assembly-CSharp}
+      data:
+        whoseHp: 0
+        valueComparator: 5
+        threshold: 0.4

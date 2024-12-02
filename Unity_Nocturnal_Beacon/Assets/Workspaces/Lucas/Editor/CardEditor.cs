@@ -56,6 +56,7 @@ public class CardEditor : Editor
     {
         string assetPath = AssetDatabase.GetAssetPath(card.GetInstanceID());
         card.name = Path.GetFileNameWithoutExtension(assetPath);
+        card.UpdateDebugDescription();
     }
 
 }
