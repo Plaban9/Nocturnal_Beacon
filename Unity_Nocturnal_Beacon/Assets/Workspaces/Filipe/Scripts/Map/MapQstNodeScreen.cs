@@ -35,21 +35,29 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
 
     public void SetQuest(MapQuest quest)
     {
-        _mapQuest = quest;
-        _title.text = _mapQuest.title;
-        string finalQuestString = "";
-        foreach (MapQuestConditional questConditional in _mapQuest.conditions)
+        if (quest != null)
         {
-            finalQuestString += string.Format("{0}\n", questConditional.GetReqString());
+            _mapQuest = quest;
+            _title.text = _mapQuest.title;
+            string finalQuestString = "";
+            foreach (MapQuestConditional questConditional in _mapQuest.conditions)
+            {
+                finalQuestString += string.Format("{0}\n", questConditional.GetReqString());
+            }
+
+            _description.text = string.Format("{0}\n\n{1}",
+                _mapQuest.eventDescription,
+                finalQuestString);
+            _icon.material.mainTexture = _mapQuest.image;
+            SetCards(quest.randomCardsAvailable);
         }
-
-        _description.text = string.Format("{0}\n\n{1}\n{2}",
-            _mapQuest.eventDescription,
-            finalQuestString,
-            "What card could fulfill that...?");
-        _icon.material.mainTexture = _mapQuest.image;
-        SetCards(quest.randomCardsAvailable);
-
+        else
+        {
+            foreach(Transform t in _chooserHolder.transform)
+            {
+                Destroy(t.gameObject);
+            }
+        }
     }
 
     public void SetCards(int numberOfCards)
@@ -114,6 +122,8 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
                 SelectionStart(card, i);
             });
         }
+        _chooserHolder.GetComponent<CanvasGroup>().interactable = true;
+        _chooserHolder.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     private void SelectionStart(Card card, int i)
@@ -182,9 +192,11 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
     public override void DeactivateNonBattleNodeScreen()
     {
         _animator.SetBool("open", false);
+        _animator.SetBool("outcome", false);
         GetComponent<CanvasGroup>().interactable = false;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         GetComponent<CanvasGroup>().DOFade(0f, 2f);
+        SetQuest(null);
         _manager.HideContinue();
     }
 }

@@ -43,6 +43,11 @@ public class BattleManager : MonoBehaviour
     int _currentTurn = 0;
     private BATTLE_STATE _currentState = BATTLE_STATE.SETUP;
 
+    public int GetCurrentTurn()
+    {
+        return _currentTurn;
+    }
+
 
     public static BattleManager Instance { get; private set; }
     private void Awake()
@@ -119,12 +124,13 @@ public class BattleManager : MonoBehaviour
 
         for(int i = 0; i < enemiesData.Count; i++)
         {
-            GameObject enemyFrame = Instantiate(_enemyPrefab,
-                _enemyHolder);
-            enemyFrame.transform.position = new Vector3(
-                    _encounter.GetX(i),
+            Vector3 position = new Vector3(
+                    _encounter.GetX(i)*2.5f,
                     2.5f,
-                    _encounter.GetZ(i));
+                    _encounter.GetZ(i)*2.5f);
+            GameObject enemyFrame = Instantiate(_enemyPrefab,position, Quaternion.Euler(-90f,0f,0f),
+                _enemyHolder);
+            //enemyFrame.transform.position = ;
             BattleUnit newUnit = enemyFrame.GetComponent<BattleUnit>();
             _enemies.Add(newUnit);
             newUnit.SetupUnit(enemiesData[i]);
@@ -317,15 +323,14 @@ public class BattleManager : MonoBehaviour
         {
             if (!enemy.IsDead())
             {
-                enemy.ShowIntent(0);
                 EnemyBehavior behavior = (enemy.GetUnitData() as MonsterData).behavior;
                 List<Card> enemyCard = behavior.GetCardsUsed(enemy, _currentTurn);
                 for(int i = 0; i < enemyCard.Count; i++)
                 {
+                    enemy.ShowIntent(i);
                     enemy.SetNextTurnIntent(i, enemyCard[i], index);
-
+                    index += 1;
                 }
-                index += 1;
             }
         }
     }
@@ -356,8 +361,8 @@ public class BattleManager : MonoBehaviour
                     yield return new WaitForSeconds(0.1f);
                     PerformEnemyBehavior(enemy, cards[i]);
                     yield return new WaitForSeconds(0.3f);
-                    enemy.HideIntent(0);
                 }
+                enemy.HideAllIntent();
             }
         }
         /*
@@ -469,9 +474,9 @@ public class BattleManager : MonoBehaviour
                     effect.OnUse(card, owner, new List<BattleUnit> { owner });
                     break;
                 case CardAttribute.EffectTarget.Global:
-                    List<BattleUnit> enemiesPlusPlayer = _enemies;
-                    enemiesPlusPlayer.Add(owner);
-                    effect.OnUse(card, owner, enemiesPlusPlayer);
+                    List<BattleUnit> allUnits = _enemies.FindAll(it => !it.IsDead());
+                    allUnits.Add(GetPlayerbattleUnit());
+                    effect.OnUse(card, owner,allUnits);
                     break;
             }
         }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4773ad4abf0c3234787d7f39fe568c99, type: 3}
+  m_Name: MEDIUM_TOWER
+  m_EditorClassIdentifier: 
+  restHeights: 0200000006000000
+  shopHeights: 0400000008000000
+  extraRest: 1
+  extraShop: 1
+  questChance: 0.25
+  encounterList:
+  - _possibleEnemies:
+    - {fileID: 11400000, guid: 56184ec8b87919f44a052ee5681da2d1, type: 2}
+    - {fileID: 11400000, guid: 8502a66c5dc5c994c82f5b03aa29b00f, type: 2}
+    - {fileID: 11400000, guid: 0faa4a32b6162a44e8f6a5e8ce3b91a2, type: 2}
+    - {fileID: 11400000, guid: a29980c816d376f498f45f3312fe1a6d, type: 2}
+    - {fileID: 11400000, guid: 4300d59cefbe1e84791c191f9041bf3a, type: 2}
+    minHeight: 2
+    maxHeight: 4
+  - _possibleEnemies:
+    - {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}
+    - {fileID: 11400000, guid: 09cb8741d00a7eb459cdec846814ce56, type: 2}
+    - {fileID: 11400000, guid: 6b6fa92030363f245896abbd75b4be78, type: 2}
+    - {fileID: 11400000, guid: 285465f749004af429920a9dfb8303a4, type: 2}
+    - {fileID: 11400000, guid: 90b05a426eebeaf48ac3509a34027d01, type: 2}
+    - {fileID: 11400000, guid: d9e96cd19e8c9d44889008daab18b179, type: 2}
+    - {fileID: 11400000, guid: f42216f6cb9414846a66b80153588a82, type: 2}
+    - {fileID: 11400000, guid: 06c18377aba386e4b815521465f3dc0d, type: 2}
+    minHeight: 4
+    maxHeight: 8
+  - _possibleEnemies:
+    - {fileID: 11400000, guid: 867203edaa09e6e489e41d8dbd164958, type: 2}
+    - {fileID: 11400000, guid: cc60d39cade907a45a2232c2a33b8ce2, type: 2}
+    - {fileID: 11400000, guid: 41acf1665362c664db66963c6bac9f96, type: 2}
+    - {fileID: 11400000, guid: e31bfbd2900e82d418902b270dcbff3a, type: 2}
+    - {fileID: 11400000, guid: 5cdcb08f2374a7f4a810a7f2a88cf9b2, type: 2}
+    - {fileID: 11400000, guid: 935aa3cc27351d640928e8a641c943b8, type: 2}
+    minHeight: 8
+    maxHeight: 14
+  bossList:
+  - {fileID: 11400000, guid: 912711c80949ef74ebdedd35b382c29a, type: 2}
+  - {fileID: 11400000, guid: 77c6aee9c7a504044880b9daf4b38bae, type: 2}
+  questList:
+  - {fileID: 11400000, guid: 0c8363e4db5036f40b48e478e384b951, type: 2}
+  - {fileID: 11400000, guid: 28b861c9e2e86d041a77d2eb9a34111f, type: 2}
+  - {fileID: 11400000, guid: 4e585b392b4c04444ab852d622acb94c, type: 2}
+  - {fileID: 11400000, guid: 35067f5c9e8cc334baf16cf02fac646f, type: 2}
+  - {fileID: 11400000, guid: acbcb0a250956cf4ebb8d6eb63f5af59, type: 2}
+  - {fileID: 11400000, guid: 2635e6b8f5806994394f86de6bc61a90, type: 2}

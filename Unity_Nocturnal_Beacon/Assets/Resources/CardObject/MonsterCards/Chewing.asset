@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684328671215638
   - rid: 4405684328671215639
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:
@@ -50,5 +51,5 @@ MonoBehaviour:
         target: 1
         targetAmount: 0
         statusEffectObject: {fileID: 11400000, guid: ede201913a02933429f5687a9609e39b, type: 2}
-        statusEffect: 24
+        statusEffect: 25
         statusStacks: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Frost Driver
   m_EditorClassIdentifier: 
   id: 10016
-  uId: 0
+  uId: 1000036
   name: Frost Driver
   rarity: 2
   cardType: 0
@@ -25,6 +25,9 @@ MonoBehaviour:
   - rid: 4405684332640862216
   - rid: 4405684332640862217
   - rid: 4405684332640862218
+  DEBUG_DESCRIPTION: Applies 1 <color=#FB8B48>Elemental Change - Water</color> on
+    an enemy for 1 turns.Deal 12 damage.Applies 1 <color=#FB8B48>Cant Act</color>
+    on an enemy for 1 turns.
   references:
     version: 2
     RefIds:
@@ -57,8 +60,8 @@ MonoBehaviour:
       type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 0
-        val2: 0
+        val1: 1
+        val2: 1
         val3: 0
         val4: 0
         effectType: 0

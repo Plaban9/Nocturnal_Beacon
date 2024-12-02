@@ -24,6 +24,8 @@ MonoBehaviour:
   effects:
   - rid: 4405684357995692050
   - rid: 4405684357995692053
+  DEBUG_DESCRIPTION: 'On target enemy that health is greater than 50% : Deal 8 damage.On
+    target enemy that health is less than 50% : Deal 20 damage.'
   references:
     version: 2
     RefIds:
@@ -39,20 +41,9 @@ MonoBehaviour:
         target: 1
         targetAmount: 0
         UseEffectBasedOnThis:
-          rid: 4405684357995692051
+          rid: 5880775376634904646
         TargetCriteriaStrategy:
           rid: 4405684357995692052
-    - rid: 4405684357995692051
-      type: {class: CardEffect, ns: , asm: Assembly-CSharp}
-      data:
-        appMechanic: 0
-        val1: -8
-        val2: 0
-        val3: 0
-        val4: 0
-        effectType: 0
-        target: 1
-        targetAmount: 0
     - rid: 4405684357995692052
       type: {class: HealthPercent, ns: , asm: Assembly-CSharp}
       data:
@@ -70,11 +61,16 @@ MonoBehaviour:
         target: 1
         targetAmount: 0
         UseEffectBasedOnThis:
-          rid: 4405684357995692054
+          rid: 5880775376634904645
         TargetCriteriaStrategy:
           rid: 4405684357995692055
-    - rid: 4405684357995692054
-      type: {class: CardEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4405684357995692055
+      type: {class: HealthPercent, ns: , asm: Assembly-CSharp}
+      data:
+        comparator: 1
+        percent: 0.5
+    - rid: 5880775376634904645
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
         val1: -20
@@ -84,8 +80,14 @@ MonoBehaviour:
         effectType: 0
         target: 1
         targetAmount: 0
-    - rid: 4405684357995692055
-      type: {class: HealthPercent, ns: , asm: Assembly-CSharp}
+    - rid: 5880775376634904646
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
-        comparator: 1
-        percent: 0.5
+        appMechanic: 0
+        val1: -8
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 1
+        targetAmount: 0

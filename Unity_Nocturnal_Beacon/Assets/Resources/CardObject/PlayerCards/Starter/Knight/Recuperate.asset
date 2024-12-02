@@ -24,6 +24,8 @@ MonoBehaviour:
   effects:
   - rid: 4405684328671215634
   - rid: 4405684328671215636
+  DEBUG_DESCRIPTION: Applies 5 <color=#FB8B48>Regenerate</color> on yourself for
+    3 turns.Heal 5 HP.
   references:
     version: 2
     RefIds:
@@ -49,6 +51,6 @@ MonoBehaviour:
         val2: 0
         val3: 0
         val4: 0
-        effectType: 6
+        effectType: 1
         target: 0
         targetAmount: 0

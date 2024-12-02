@@ -25,6 +25,9 @@ MonoBehaviour:
   - rid: 4405684332640862233
   - rid: 4405684332640862234
   - rid: 4405684332640862235
+  DEBUG_DESCRIPTION: Applies 3 <color=#FB8B48>Strength</color> on yourself for 3
+    turns.Applies 3 <color=#FB8B48>Vulnerable to Light</color> on yourself for 4
+    turns.Applies 3 <color=#FB8B48>Regenerate</color> on yourself for 3 turns.
   references:
     version: 2
     RefIds:
@@ -53,8 +56,8 @@ MonoBehaviour:
         effectType: 0
         target: 0
         targetAmount: 0
-        statusEffectObject: {fileID: 0}
-        statusEffect: 24
+        statusEffectObject: {fileID: 11400000, guid: 88d331e1a900dcc42a402f8315476047, type: 2}
+        statusEffect: 35
         statusStacks: 0
     - rid: 4405684332640862235
       type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}

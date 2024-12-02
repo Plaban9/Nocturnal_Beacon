@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10029
   uId: 0
-  name: Earth Spike
+  name: EarthSpike
   rarity: 0
   cardType: 0
   manaCost: 1
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684332640862248
   - rid: 4405684332640862249
+  DEBUG_DESCRIPTION: Deal 6 damage.Gain 4 Block.
   references:
     version: 2
     RefIds:
@@ -36,7 +37,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 0
-        target: 0
+        target: 1
         targetAmount: 0
     - rid: 4405684332640862249
       type: {class: ModifyShield, ns: , asm: Assembly-CSharp}

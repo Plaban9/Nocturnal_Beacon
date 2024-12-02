@@ -216,6 +216,20 @@ public class ModifyStatuses : CardEffect
     public override void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         base.OnUse(card, owner, targets);
+        
+        foreach (var unit in targets)
+        {
+            BattleStatusEffect newEffect = GetBSTF(statusEffect);
+            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
+            newEffect._duration = val2;
+            _bstf._status = statusEffectObject;
+            newEffect.owner = unit;
+            unit.GetUnitStatusData().AddStatusEffect(newEffect);
+        }
+    }
+
+    private BattleStatusEffect GetBSTF(StatusEffect statusEffect)
+    {
         _bstf = null;
         switch (statusEffect)
         {
@@ -342,17 +356,8 @@ public class ModifyStatuses : CardEffect
         }
 
         if (_bstf == null)
-            return;
-        _bstf._status = statusEffectObject;
-        _bstf._intensity = val1 ;
-        _bstf._duration = val2;
-        foreach (var unit in targets)
-        {
-            BattleStatusEffect newEffect = _bstf;
-            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
-            newEffect.owner = unit;
-            unit.GetUnitStatusData().AddStatusEffect(_bstf);
-        }
+            return null;
+        return _bstf;
     }
 
 }

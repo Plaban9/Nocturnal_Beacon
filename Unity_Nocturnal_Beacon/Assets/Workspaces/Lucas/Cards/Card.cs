@@ -2,7 +2,11 @@ using CardAttribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using static Minimalist.Inverse.Constants.Gameplay;
+using UnityEngine.UIElements;
 
 namespace CardAttribute
 {
@@ -139,6 +143,7 @@ namespace CardAttribute
 
 [CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
 [Serializable]
+[ExecuteInEditMode]
 public class Card : ScriptableObject
 {
     public int id;
@@ -226,8 +231,24 @@ public class Card : ScriptableObject
         manaCost = i;
     }
 
+    [SerializeField]
+    [TextArea(5, 5)] 
+    public string DEBUG_DESCRIPTION;
+    [ExecuteInEditMode]    
+    public void UpdateDebugDescription()
+    {
+        string final = "";
+        foreach(CardEffect effect in effects)
+        {
+            final += effect.EffectDescription;
+        }
+        DEBUG_DESCRIPTION = final;
+     }
+
 
 }
+
+
 
 public enum ElementalEffectivity
 {
