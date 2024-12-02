@@ -15,5 +15,5 @@ MonoBehaviour:
   statusEffect: 19
   name: Elemental Change - Earth
   description: Sets element to Earth temporarily
-  icon: {fileID: 363553781, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  icon: {fileID: 1117259501, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1

@@ -24,6 +24,8 @@ MonoBehaviour:
   effects:
   - rid: 4405684332640862222
   - rid: 4405684332640862223
+  DEBUG_DESCRIPTION: Deal 8 damage to ALL enemies.Applies 1 <color=#FB8B48>Weak</color>
+    on an enemy for 2 turns.
   references:
     version: 2
     RefIds:
@@ -47,7 +49,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 0
-        target: 0
+        target: 1
         targetAmount: 0
         statusEffectObject: {fileID: 11400000, guid: 1b7303cb8346bc049978011ae46f9b8c, type: 2}
         statusEffect: 25

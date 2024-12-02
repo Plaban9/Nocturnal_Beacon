@@ -160,6 +160,13 @@ public class BattleUnit : MonoBehaviour
         intentObj.SetActive(false);
     }
 
+    public void HideAllIntent()
+    {
+        GetIntentSlot(0).SetActive(false);
+        GetIntentSlot(1).SetActive(false);
+        GetIntentSlot(2).SetActive(false);
+    }
+
     public void Outline()
     {
         float outline = _materialSprite.GetFloat("_OutlineThickness");

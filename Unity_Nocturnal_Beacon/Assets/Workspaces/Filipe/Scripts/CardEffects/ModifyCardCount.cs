@@ -25,7 +25,21 @@ public class ModifyCardCount : CardEffect
 
     public override int GetEffectCost()
     {
-        return (6 + val1) * Mathf.Abs(val1);
+        if (val1 > 0)
+        {
+            int result = 7;
+            result = (int)Mathf.Pow(result, val1);
+
+            return (6 + val1) * Mathf.Abs(val1);
+        }
+        else
+        {
+            int result = 4;
+            result = (int)Mathf.Pow(result, val1);
+
+            return result;
+        }
+        return 0;
     }
 
     public ModifyCardCount(int amount)

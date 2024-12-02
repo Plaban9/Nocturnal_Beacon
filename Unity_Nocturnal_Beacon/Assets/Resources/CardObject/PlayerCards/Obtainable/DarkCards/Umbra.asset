@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Umbra
   m_EditorClassIdentifier: 
-  id: 10014
+  id: 10060
   uId: 1000011
   name: Umbra
   rarity: 0
@@ -24,6 +24,8 @@ MonoBehaviour:
   effects:
   - rid: 4405684332640862212
   - rid: 4405684332640862228
+  DEBUG_DESCRIPTION: Deal 8 damage.Applies 1 <color=#FB8B48>Vulnerable</color> on
+    an enemy for 2 turns.
   references:
     version: 2
     RefIds:
@@ -50,5 +52,5 @@ MonoBehaviour:
         target: 1
         targetAmount: 0
         statusEffectObject: {fileID: 11400000, guid: ede201913a02933429f5687a9609e39b, type: 2}
-        statusEffect: 24
+        statusEffect: 25
         statusStacks: 0

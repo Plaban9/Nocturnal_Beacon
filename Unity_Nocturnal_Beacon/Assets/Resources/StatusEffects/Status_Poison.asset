@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_Poison
   m_EditorClassIdentifier: 
-  statusEffect: 23
+  statusEffect: 24
   name: Poison
   description: Takes damage at the end of the turn
   icon: {fileID: 21300000, guid: 94c966cf8e1f319448c7b33106d1b460, type: 3}

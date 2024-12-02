@@ -12,7 +12,7 @@ public class EnemyEncounter : ScriptableObject
     float minX = 0.23f;
     float maxX = 3.73f;
     float minZ = 0.47f;
-    float maxZ = 2.75f;
+    float maxZ = 9999.75f;
 
     [SerializeField] public List<MonsterData> enemies;
     [SerializeField] public List<Vector2> positionsPercentage;

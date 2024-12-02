@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9250a7669d7395646be105151e3036e3, type: 3}
   m_Name: Status_NoDraw
   m_EditorClassIdentifier: 
-  statusEffect: 26
+  statusEffect: 27
   name: No Draw
   description: Prevent drawing
-  icon: {fileID: 21300000, guid: 2ae90ab818c2dff49b0c4f68e821cb6d, type: 3}
+  icon: {fileID: 1197718561, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 0

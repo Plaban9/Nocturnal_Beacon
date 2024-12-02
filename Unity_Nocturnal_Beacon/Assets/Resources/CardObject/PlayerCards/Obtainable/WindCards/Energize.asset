@@ -16,13 +16,14 @@ MonoBehaviour:
   uId: 1000012
   name: Energize
   rarity: 1
-  cardType: 0
+  cardType: 1
   manaCost: 1
   sprite: {fileID: 21300000, guid: 2456dd2824f5ec540830760922f5bac6, type: 3}
   element: 2
   price: 0
   effects:
   - rid: 4405684352422248479
+  DEBUG_DESCRIPTION: Recover 3 mana.
   references:
     version: 2
     RefIds:

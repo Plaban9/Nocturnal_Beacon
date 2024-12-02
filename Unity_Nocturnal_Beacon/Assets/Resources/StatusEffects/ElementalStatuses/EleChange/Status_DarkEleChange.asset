@@ -15,5 +15,5 @@ MonoBehaviour:
   statusEffect: 21
   name: Elemental Change - Dark
   description: Sets element to Dark temporarily
-  icon: {fileID: 21300000, guid: c9a0e64673c4f4542a91351d934414a0, type: 3}
+  icon: {fileID: 2006385249, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1

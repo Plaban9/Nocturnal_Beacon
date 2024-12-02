@@ -15,5 +15,5 @@ MonoBehaviour:
   statusEffect: 16
   name: Elemental Change - Fire
   description: Sets element to Fire temporarily
-  icon: {fileID: 363553781, guid: 8bc87935f3814a54b84a55148df5dc1e, type: 3}
+  icon: {fileID: -1734769244, guid: eea73c597947623449dce9624945bac1, type: 3}
   isPositive: 1
