@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: FencerWStab
+  m_Name: Fiery Stab_1732753389
   m_EditorClassIdentifier: 
-  id: 10003
-  uId: 0
-  name: Windy Stab
+  id: 10038
+  uId: 1000001
+  name: Fiery Stab
   rarity: 0
   cardType: 0
   manaCost: 1
-  sprite: {fileID: 21300000, guid: 0228b3d73e2298242983e2f315ef720f, type: 3}
-  element: 2
+  sprite: {fileID: 21300000, guid: 33397c7c3af931b43b11b9ef89afef43, type: 3}
+  element: 4
   price: 0
   effects:
-  - rid: 4405684328671215619
+  - rid: 1688478859772821508
+  - rid: 1688478859772821509
   references:
     version: 2
     RefIds:
-    - rid: 4405684328671215619
+    - rid: 1688478859772821508
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
@@ -36,4 +37,15 @@ MonoBehaviour:
         val4: 0
         effectType: 0
         target: 1
+        targetAmount: 0
+    - rid: 1688478859772821509
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 40
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 1
+        target: 0
         targetAmount: 0

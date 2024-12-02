@@ -11,6 +11,8 @@ public class CardLibrary : MonoBehaviour
     
     [SerializeField] List<Card> cards = new List<Card>();
 
+    static readonly int InitCounter = 1000000;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -87,5 +89,17 @@ public class CardLibrary : MonoBehaviour
     {
         card.id = GetNextCardId();
         return cardsDict.TryAdd(card.id, card);
+    }
+
+    [ContextMenu("Resort Cards ID (USE CAREFULLY)")]
+    public void ResortCardsId()
+    {
+        var cardObjects = Resources.LoadAll<Card>("CardObject/PlayerCards");
+        var idCounter = InitCounter;
+
+       foreach(var cardObject in cardObjects)
+        {
+            cardObject.id = ++idCounter;
+        }
     }
 }
