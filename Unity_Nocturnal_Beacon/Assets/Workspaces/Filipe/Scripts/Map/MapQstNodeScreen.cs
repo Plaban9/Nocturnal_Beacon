@@ -69,6 +69,7 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
         _chooserHolder.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         int cardsOnHolder = _cardHolder.transform.childCount;
+        _cardHoverables = new List<CardPickerHoverables>();
         if (cardsOnHolder < numberOfCards)
         {
             for (int i = 0; i < numberOfCards - cardsOnHolder; i++)

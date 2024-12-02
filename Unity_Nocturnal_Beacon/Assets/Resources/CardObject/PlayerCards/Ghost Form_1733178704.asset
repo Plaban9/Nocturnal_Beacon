@@ -10,31 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: Jupitel Thunder
+  m_Name: Ghost Form_1733178704
   m_EditorClassIdentifier: 
-  id: 10076
-  uId: 1000019
-  name: Jupitel Thunder
+  id: 1000014
+  uId: 1000014
+  name: Ghost Form
   rarity: 2
-  cardType: 0
-  manaCost: 2
-  sprite: {fileID: 21300000, guid: ec9a21ce586964d4cb814cbcceae79a1, type: 3}
-  element: 2
-  price: 15
+  cardType: 1
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: f4c0b32253a6f404d96f2d611c7bb928, type: 3}
+  element: 7
+  price: 0
   effects:
-  - rid: 4405684332640862255
-  DEBUG_DESCRIPTION: Deal 1 damage 12 times.
+  - rid: 5880775390931976197
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:
-    - rid: 4405684332640862255
-      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+    - rid: 5880775390931976197
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -1
-        val2: 12
+        val1: 1
+        val2: 2
         val3: 0
         val4: 0
         effectType: 0
-        target: 1
+        target: 0
         targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 45ed4180e552d12488d8064a53c650f1, type: 2}
+        statusEffect: 22
+        statusStacks: 0
