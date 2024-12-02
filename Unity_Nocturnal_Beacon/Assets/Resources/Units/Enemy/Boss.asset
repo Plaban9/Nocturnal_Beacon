@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Entity
   sprite: {fileID: 21300000, guid: b39df923138b21a4291fa3035f51b3f1, type: 3}
-  startingHp: 80
+  maxHp: 200
   flipSprite: 0
   scale: 0.03
   unitElement: 5

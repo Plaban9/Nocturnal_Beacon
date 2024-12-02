@@ -18,7 +18,7 @@ MonoBehaviour:
   rarity: -1
   cardType: 1
   manaCost: 1
-  sprite: {fileID: 21300000, guid: 109bacc3a598fc949b5f41dd31e7eba2, type: 3}
+  sprite: {fileID: 21300000, guid: e691198d56e3a1848b5009e1ff94dbb5, type: 3}
   element: 7
   price: 0
   effects:
@@ -35,7 +35,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 6
-        target: 0
+        target: 1
         targetAmount: 0
         statusEffectObject: {fileID: 11400000, guid: 43a6ffcedb9341c4b8a339cad50c1a4b, type: 2}
         statusEffect: 28

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fa4efc7c66c984e9532283489d005d, type: 3}
+  m_Name: FencerStarter_1733102022
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: 9c25ee7258990594c972bff1ac7e2b4f, type: 2}
+  - {fileID: 11400000, guid: a3c513bb7907fab428205a21d4bdd6cb, type: 2}
+  - {fileID: 11400000, guid: daba6720a295fa64f81ee427d1a56f6f, type: 2}
+  - {fileID: 11400000, guid: 7360ebfe4bce8354295d6ef196d4eeba, type: 2}
+  - {fileID: 11400000, guid: 38aaa7d82398fea4abdfc5b108dc6b1c, type: 2}
+  - {fileID: 11400000, guid: 7360ebfe4bce8354295d6ef196d4eeba, type: 2}
+  - {fileID: 11400000, guid: c6549e1339d536f46b78089acbd6d11d, type: 2}
+  - {fileID: 11400000, guid: c6549e1339d536f46b78089acbd6d11d, type: 2}
+  - {fileID: 11400000, guid: c6549e1339d536f46b78089acbd6d11d, type: 2}
+  - {fileID: 11400000, guid: c6549e1339d536f46b78089acbd6d11d, type: 2}

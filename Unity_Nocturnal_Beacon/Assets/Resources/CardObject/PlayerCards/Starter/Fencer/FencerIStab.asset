@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: FencerIStab
   m_EditorClassIdentifier: 
   id: 10001
-  uId: 0
+  uId: 1000005
   name: Icy Stab
   rarity: 0
   cardType: 0
   manaCost: 1
   sprite: {fileID: 21300000, guid: 8a6cb886c1d1f2049aafaed4506dfb7f, type: 3}
-  element: 0
+  element: 3
   price: 0
   effects:
   - rid: 4405684328671215619

@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8df7e10e6acf24db1a5cc38178a1fc, type: 3}
+  m_Name: Repurposing Weapons
+  m_EditorClassIdentifier: 
+  title: Repurposing Weapons
+  image: {fileID: 2800000, guid: b11f9c52da2945740b5078d84177a9ab, type: 3}
+  eventDescription: You find a stash of weapons, some in great quality, others in
+    not so much. Maybe you could pilfer one to improve your weaponry?
+  randomCardsAvailable: 5
+  conditions:
+  - _requirementString: Cads without element will benefit from a new weapon;
+    _successString: Due to wielding a card without element, it will be gain more
+      from a new weapon.
+    _failString: The card used had an element.
+    _filter:
+      rid: 5880775371356110876
+  - _requirementString: Attack cards will gain more from this.
+    _successString: The card was an attack one, gaining more from this quest.
+    _failString: The card was not an attack one.
+    _filter:
+      rid: 5880775371356110884
+  - _requirementString: Cards that deal low damage will have more benefit due to
+      training.
+    _successString: The card low damage means there was more room for improvement.
+    _failString: The card either did no damage, or too much damage.
+    _filter:
+      rid: 5880775371356110885
+  - _requirementString: Legendary cards would not benefit too much from scrappy weapons
+    _successString: The low rarity of the card gave it more room for improvement
+    _failString: The weapon barely held together before dissipating due to the card
+      rarity.
+    _filter:
+      rid: 5880775371356110888
+  questEnd: After sorting through them, you continue on your path upward.
+  rewards:
+    neutralReward: 0
+    decentReward: 10
+    goodReward: 20
+    greatReward: 30
+    perfectReward: 40
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775371356110876
+      type: {class: FilterElement, ns: , asm: Assembly-CSharp}
+      data:
+        element: 0
+    - rid: 5880775371356110884
+      type: {class: FilterCardType, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        comparison: 0
+    - rid: 5880775371356110885
+      type: {class: FilterEffectAndValue, ns: , asm: Assembly-CSharp}
+      data:
+        filteredEffect:
+          rid: 5880775371356110887
+        comparison: 0
+        value: -10
+        valueComparator: 1
+        variable: 0
+    - rid: 5880775371356110887
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+    - rid: 5880775371356110888
+      type: {class: FilterCardRarity, ns: , asm: Assembly-CSharp}
+      data:
+        rarity: 2
+        comparator: 1

@@ -201,11 +201,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public bool endingTurn = false;
     public void EndTurn()
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Transition_Clap);
+        if (_currentState == BATTLE_STATE.PLAYER_TURN && endingTurn == false)
+        {
+            endingTurn = true;
+            AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Transition_Clap);
 
-        StartCoroutine(PerformEndTurn());
+            StartCoroutine(PerformEndTurn());
+        }
     }
 
     IEnumerator PerformEndTurn()
@@ -215,6 +220,7 @@ public class BattleManager : MonoBehaviour
         if (_currentState == BATTLE_STATE.PLAYER_TURN)
         {
             ChangeBattleState(BATTLE_STATE.ENEMY_TURN);
+            endingTurn = false;
         }
     }
 
@@ -285,6 +291,12 @@ public class BattleManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void ToRewardScreen()
+    {
+        Animator anim = _endScreenCanvas.GetComponent<Animator>();
+        anim.Play("BattleRewardScreen");
     }
 
     public void ToMap()

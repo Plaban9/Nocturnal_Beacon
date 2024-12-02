@@ -32,12 +32,3 @@ public class FilterManaCost : CardFilter
 
 }
 
-public enum ValueComparator
-{
-    GreaterThan,
-    LessThan,
-    EqualTo,
-    NotEqualTo,
-    GreaterThanOrEqualTo,
-    LessThanOrEqualTo
-}

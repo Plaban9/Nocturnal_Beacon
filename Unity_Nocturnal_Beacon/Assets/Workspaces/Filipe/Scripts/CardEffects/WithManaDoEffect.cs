@@ -8,9 +8,9 @@ public class WithManaDoEffect : CardEffect
 {
     [SerializeReference, SubclassSelector]
     public CardEffect UseEffectBasedOnThis = new CardEffect();
-    public WithDoEffect affects = WithDoEffect.VAL1;
+    public CardVariable affects = CardVariable.VAL1;
 
-    public enum WithDoEffect
+    public enum CardVariable
     {
         VAL1,
         VAL2,

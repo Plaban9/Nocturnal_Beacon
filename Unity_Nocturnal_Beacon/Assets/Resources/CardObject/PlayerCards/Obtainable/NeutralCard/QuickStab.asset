@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QuickStab
   m_EditorClassIdentifier: 
   id: 10030
-  uId: 0
+  uId: 1000019
   name: Quick Stab
   rarity: 1
   cardType: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 0
-        target: 0
+        target: 1
         targetAmount: 0
     - rid: 4405684332640862252
       type: {class: ModifyHand, ns: , asm: Assembly-CSharp}

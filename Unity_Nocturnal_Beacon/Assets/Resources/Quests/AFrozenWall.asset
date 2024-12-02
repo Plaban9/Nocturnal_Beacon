@@ -38,7 +38,10 @@ MonoBehaviour:
     _failString: Your attack didnt use too much mana, so it wasn't as effective.
     _filter:
       rid: 4405684306645352455
-  questEnd: This event has no end description.
+  questEnd: 'The wall breaks and melts away, granting you passage
+
+
+'
   rewards:
     neutralReward: 5
     decentReward: 10

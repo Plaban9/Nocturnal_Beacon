@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
-  m_Name: DraggingGust
+  m_Name: Gust
   m_EditorClassIdentifier: 
   id: 10015
   uId: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
         val3: 0
         val4: 0
         effectType: 0
-        target: 0
+        target: 1
         targetAmount: 0
     - rid: 4405684332640862214
       type: {class: GetNextFromDeck, ns: , asm: Assembly-CSharp}
@@ -68,5 +68,5 @@ MonoBehaviour:
         target: 3
         targetAmount: 2
         statusEffectObject: {fileID: 11400000, guid: 1b7303cb8346bc049978011ae46f9b8c, type: 2}
-        statusEffect: 25
+        statusEffect: 26
         statusStacks: 0

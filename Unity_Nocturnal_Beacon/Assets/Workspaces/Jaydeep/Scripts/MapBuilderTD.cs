@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Minimalist.Audio;
 using UnityEngine;
@@ -60,6 +61,8 @@ public class MapBuilderTD : MonoBehaviour
 
     [Header("NonEventNode Management")]
     [SerializeField] private MapNonBattleNodeManager _nonBattleNodeManager;
+    private List<MapQuest> _availableEventList = new List<MapQuest>();
+    private float _chanceForEvent = 0.15f;
 
     [Header("Debug Options")]
     [SerializeField] private bool connectFullGrid;
@@ -100,6 +103,9 @@ public class MapBuilderTD : MonoBehaviour
     private void Start()
     {
         AudioManager.PlayMusic(Minimalist.Audio.Music.MusicType.Menu, 0f, true);
+
+        _availableEventList.AddRange(towerConfigurationSO.questList);
+        _chanceForEvent = towerConfigurationSO.questChance;
 
         SetSelectedLineParams();
 
@@ -218,6 +224,7 @@ public class MapBuilderTD : MonoBehaviour
     {
         //connectedNodesList.Clear();
 
+
         for (int splits = 0; splits < maxSplitsAllowed; splits++)
         {
             var availableNodeTypes = new List<NodeTypeData>
@@ -233,15 +240,34 @@ public class MapBuilderTD : MonoBehaviour
             {
                 //connectedNodesList[splits].nodesList.Add(curr);
 
-                if (towerConfigurationSO.GetFloorType(depth) == TowerConfiguration.FLOOR_TYPE.REST_EVENT)
+                if (towerConfigurationSO.GetFloorType(depth) == NodeType.Rest)
                     availableNodeTypes.Add(nodeTypesList.Find(x => x.nodeType == NodeType.Rest));
                 
-                if (towerConfigurationSO.GetFloorType(depth) == TowerConfiguration.FLOOR_TYPE.SHOP_EVENT)
+                if (towerConfigurationSO.GetFloorType(depth) == NodeType.Shop)
                     availableNodeTypes.Add(nodeTypesList.Find(x => x.nodeType == NodeType.Shop));
 
+
                 // Set Node Type
+
+
+                if (Random.Range(0f, 1f) <= _chanceForEvent && _availableEventList.Count!=0)
+                {
+                    availableNodeTypes.Add(nodeTypesList.Find(x => x.nodeType == NodeType.Qest));
+                }
+
                 var nodeTypeData = availableNodeTypes.GetRandom();
                 curr.SetNodeType(nodeTypeData.nodeSprite, nodeTypeData.nodeType);
+
+
+                if (nodeTypeData.nodeType == NodeType.Qest)
+                {
+                    if (_availableEventList.Count != 0)
+                    {
+                        MapQuest q = _availableEventList.Pop();
+                        curr.SetQuest(q);
+                    }
+                }
+
 
                 //Set node Encounter
                 if (nodeTypeData.nodeType == NodeType.Combat && depth > 0)
@@ -314,10 +340,7 @@ public class MapBuilderTD : MonoBehaviour
                     break;
                 case NodeType.Qest:
                     _nonBattleNodeManager.SetEvent(NonBattleNodeTypes.QEST);
-                    _nonBattleNodeManager.SetQuest(
-                        towerConfigurationSO.questlist[
-                            Random.Range(0, towerConfigurationSO.questlist.Count)]
-                        );
+                    _nonBattleNodeManager.SetQuest(currentSelectedNode.MapQuest);
                     break;
             }
 

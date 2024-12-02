@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Zombie
   sprite: {fileID: 21300000, guid: 57dd946a2769e464ca30605694ec4e72, type: 3}
-  startingHp: 25
+  maxHp: 28
   flipSprite: 0
   scale: 0.04
   unitElement: 5
