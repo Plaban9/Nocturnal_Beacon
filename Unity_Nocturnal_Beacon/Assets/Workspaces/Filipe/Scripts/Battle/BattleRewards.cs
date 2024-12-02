@@ -97,7 +97,7 @@ public class BattleRewards : MonoBehaviour
     {
         //Load all cards
         Object[] cardsOnReward;
-        cardsOnReward = Resources.LoadAll("CardObject/PlayerCards/Obtainable",typeof(Card));
+        cardsOnReward = Resources.LoadAll("CardObject/PlayerCards/_Obtainable",typeof(Card));
         List<Card> availableCards = new List<Card>();
 
         foreach(Card card in cardsOnReward)

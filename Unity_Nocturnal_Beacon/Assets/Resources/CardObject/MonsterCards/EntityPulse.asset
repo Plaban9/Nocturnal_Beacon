@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: EntityPulse
   m_EditorClassIdentifier: 
-  id: 10061
+  id: 1000001
   uId: 0
   name: Pulse
   rarity: -1
@@ -23,7 +23,9 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 5880775386425720881
-  DEBUG_DESCRIPTION: Deal 12 damage.
+  - rid: 5880775390931976203
+  DEBUG_DESCRIPTION: 'Deal 17 damage.On user that is FIRE : Applies 2 <color=#FB8B48>Thorns</color>
+    on yourself for 2 turns.'
   references:
     version: 2
     RefIds:
@@ -31,10 +33,44 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: -12
+        val1: -17
         val2: 0
         val3: 0
         val4: 0
         effectType: 0
         target: 1
         targetAmount: 0
+    - rid: 5880775390931976203
+      type: {class: IfTargetFitsCriteria, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        UseEffectBasedOnThis:
+          rid: 5880775390931976206
+        TargetCriteriaStrategy:
+          rid: 5880775390931976205
+    - rid: 5880775390931976205
+      type: {class: IfIsElement, ns: , asm: Assembly-CSharp}
+      data:
+        comparison: 0
+        chosenElement: 4
+    - rid: 5880775390931976206
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 2
+        val2: 2
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: ec23d9a7882aabc478a00cbf0c92fdb7, type: 2}
+        statusEffect: 2
+        statusStacks: 0
