@@ -12,6 +12,8 @@ public class CardLibrary : MonoBehaviour
     
     [SerializeField] List<Card> cards = new List<Card>();
 
+    [SerializeField] List<Card> shopCards = new List<Card>();
+
     static readonly int InitCounter = 1000000;
 
     private void Awake()
@@ -62,8 +64,17 @@ public class CardLibrary : MonoBehaviour
             cards.Add(cc);
         }
         #endif
+
+        shopCards = Resources.LoadAll<Card>("CardObject/ShopCards").ToList();
     }
 
+    public List<Card> GetNonCustomizedCards()
+    {
+        return cards.Where(x => !x.isCustomized).ToList();
+    }
+
+    public List<Card> GetShopCards() => shopCards;
+    
     private void Reset()
     {
         cardsDict.Clear();

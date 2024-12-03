@@ -278,6 +278,22 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6524612215209479081, guid: e0f85f49287e0904d8e646dbe1da0b02, type: 3}
+      propertyPath: m_text
+      value: Defend
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524612215209479081, guid: e0f85f49287e0904d8e646dbe1da0b02, type: 3}
+      propertyPath: m_fontSize
+      value: 68.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524612215209479081, guid: e0f85f49287e0904d8e646dbe1da0b02, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524612215209479081, guid: e0f85f49287e0904d8e646dbe1da0b02, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8082167896100807748, guid: e0f85f49287e0904d8e646dbe1da0b02, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 136

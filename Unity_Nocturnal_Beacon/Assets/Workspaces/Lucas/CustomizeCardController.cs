@@ -244,13 +244,14 @@ public class CustomizeCardController : MonoBehaviour
 
         newCard.SetBaseManaCost(cardManaList.Selecting.Value.data.mana);
         newCard.name = cardNameInput.text;
+        newCard.isCustomized = true;
         newCard.effects = effectSlots.Select(x => x.cardEffect).Where(x => x != null).ToList();
 
         CardLibrary.Instance.AddNewCard(newCard);
 
         int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
         #if UNITY_EDITOR
-        AssetDatabase.CreateAsset(newCard, $"Assets/Resources/CardObject/PlayerCards/{newCard.name + "_" + sec}.asset");
+        AssetDatabase.CreateAsset(newCard, $"Assets/Resources/CardObject/PlayerCards/CustomizedCard/{newCard.name + "_" + sec}.asset");
         #else
         ScriptableObjectSaver.SaveScriptableObject(newCard, "CustomizedCards");
         #endif

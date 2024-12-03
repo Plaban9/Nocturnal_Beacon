@@ -168,6 +168,7 @@ public class Card : ScriptableObject
     public Sprite sprite;
     public Element element;
     [Tooltip("Price for shop")] public int price;
+    public bool isCustomized = false;
     private List<CardStatuses> _statuses = new List<CardStatuses>();
 
     /*

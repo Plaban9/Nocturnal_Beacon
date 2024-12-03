@@ -53,6 +53,10 @@ public class Deck : ScriptableObject
     {
 
     }
+    public Deck(List<Card> cards)
+    {
+        this.cards = cards;
+    }
 
     public Deck(bool playerDeck = false)
     {
