@@ -8,7 +8,32 @@ public class ModifyShield : CardEffect
 {
 
     public override string LocalizationKey => "CE_DESC_ModifyShield";
-    public override string EffectDescription => (val1 >= 0 ? "Gain " : "Lose ") + val1 + " Block.";
+    public override string EffectDescription
+    {
+        get
+        {
+            string result = String.Format("{0}{1} Block{2}{3}",
+                target == EffectTarget.Self ? (val1 > 0 ? "Gain " : "Lose ") :
+                    (val1 > 0 ? "Bestow " : "Corrode "),
+                val1,
+                target == EffectTarget.Self ? "" :
+                val1 > 0 ? " to" : " of"
+                ,
+                target == EffectTarget.Self ? "" :
+                target switch
+                {
+                    EffectTarget.Self => ".",
+                    EffectTarget.OpponentSingle => " an enemy.",
+                    EffectTarget.OpponentRandom => " a random enemy.",
+                    EffectTarget.OpponentAll => " all enemies.",
+                    EffectTarget.Global => " all units.",
+                    EffectTarget.Both => " caster and target",
+                    _ => " NO ONE. LOL"
+                }
+                );
+            return result;
+        }
+    } 
 
     public ModifyShield(int amount)
     {
@@ -44,5 +69,12 @@ public class ModifyShield : CardEffect
                 target.GetHPData().RemoveShield(afterElemental);
             }
         }
+    }
+
+    public override bool Compare(CardEffect e)
+    {
+        if (e is not ModifyShield) return false;
+        ModifyShield other = (ModifyShield)e;
+        return true;
     }
 }

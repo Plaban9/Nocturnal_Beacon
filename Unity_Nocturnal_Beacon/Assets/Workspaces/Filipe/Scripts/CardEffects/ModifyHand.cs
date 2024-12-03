@@ -43,15 +43,16 @@ public class ModifyHand : CardEffect
     }
 
     public ModifyHand(int i) {
-        if(i > 0)
+        val1 = i;
+        if(val1 > 0)
         {
             strategy = new GetNextFromDeck();
-            (strategy as GetNextFromDeck).amount = 1;
+            (strategy as GetNextFromDeck).amount = val1;
         }
         else
         {
             strategy = new DiscardFromHand();
-            (strategy as DiscardFromHand).amount = 1;
+            (strategy as DiscardFromHand).amount = -val1;
         }
     }
     public ModifyHand(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
@@ -63,6 +64,17 @@ public class ModifyHand : CardEffect
     {
         strategy.GetCardList(BattleManager.Instance);
 
+    }
+
+    public override bool Compare(CardEffect e)
+    {
+        if(e is not ModifyHand) { return false; }
+        ModifyHand other = (ModifyHand)e;
+        if(other.strategy.CompareTo(strategy))
+        {
+            return true;
+        }
+        return false;
     }
 
 }

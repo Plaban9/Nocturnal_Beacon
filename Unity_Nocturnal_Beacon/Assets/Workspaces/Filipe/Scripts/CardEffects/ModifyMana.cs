@@ -65,5 +65,11 @@ public class ModifyMana : CardEffect
         BattleManager.Instance.ModifyMana(val1);
     }
 
+    public override bool Compare(CardEffect e)
+    {
+        if (e is not ModifyMana) return false;
+        ModifyMana other = (ModifyMana) e;
+        return true; 
+    }
 
 }

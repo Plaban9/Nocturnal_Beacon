@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Borrowed Time
+  m_EditorClassIdentifier: 
+  id: 1000004
+  uId: 0
+  name: Borrowed TIme
+  rarity: 2
+  cardType: 0
+  manaCost: 3
+  sprite: {fileID: 21300000, guid: c67cb5ecf78926749a4848e6546d330c, type: 3}
+  element: 6
+  price: 80
+  effects:
+  - rid: 5880775393347108871
+  DEBUG_DESCRIPTION: Bestow 9999 Block to all units
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775393347108871
+      type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 9999
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 2
+        target: 5
+        targetAmount: 0
