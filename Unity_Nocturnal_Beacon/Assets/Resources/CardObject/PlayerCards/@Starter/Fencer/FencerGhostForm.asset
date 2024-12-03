@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: FencerGhostForm
   m_EditorClassIdentifier: 
-  id: 10006
-  uId: 1000015
+  id: 1000008
+  uId: 1000002
   name: Ghost Form
   rarity: 2
   cardType: 1
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 4405684328671215621
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

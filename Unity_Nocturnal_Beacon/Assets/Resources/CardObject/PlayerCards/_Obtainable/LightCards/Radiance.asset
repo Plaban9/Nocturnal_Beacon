@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Radiance
   m_EditorClassIdentifier: 
-  id: 10019
+  id: 1000051
   uId: 0
   name: Radiance
   rarity: 2
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684332640862222
   - rid: 4405684332640862223
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

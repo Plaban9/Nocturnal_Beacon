@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: NapalmBeat
   m_EditorClassIdentifier: 
-  id: 10021
+  id: 1000042
   uId: 0
   name: Napalm Beat
   rarity: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 15
   effects:
   - rid: 4405684332640862225
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

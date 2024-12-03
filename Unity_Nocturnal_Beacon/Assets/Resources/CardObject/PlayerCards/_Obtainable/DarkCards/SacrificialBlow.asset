@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: SacrificialBlow
   m_EditorClassIdentifier: 
-  id: 10014
-  uId: 1000011
+  id: 1000020
+  uId: 1000005
   name: Sacrificial Blow
   rarity: 1
   cardType: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684332640862210
   - rid: 4405684332640862212
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

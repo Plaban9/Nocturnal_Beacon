@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Pact
   m_EditorClassIdentifier: 
-  id: 10069
+  id: 1000019
   uId: 1000011
   name: Pact
   rarity: 1

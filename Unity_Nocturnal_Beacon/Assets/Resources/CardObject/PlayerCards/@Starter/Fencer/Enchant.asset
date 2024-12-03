@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Enchant
   m_EditorClassIdentifier: 
-  id: 10005
-  uId: 0
+  id: 1000005
+  uId: 1000009
   name: Enchant
   rarity: 1
   cardType: 1

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Energize
   m_EditorClassIdentifier: 
-  id: 10032
-  uId: 1000012
+  id: 1000067
+  uId: 1000011
   name: Energize
   rarity: 1
   cardType: 1

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Icy Stab_1733118968
   m_EditorClassIdentifier: 
-  id: 10048
+  id: 1000084
   uId: 1000005
   name: Icy Stab
   rarity: 0
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 5880775371356110898
   - rid: 5880775371356110899
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

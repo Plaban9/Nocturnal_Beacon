@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Grapeshot
   m_EditorClassIdentifier: 
-  id: 10008
+  id: 1000001
   uId: 0
   name: Grapeshot
   rarity: 2
@@ -23,6 +23,7 @@ MonoBehaviour:
   price: 0
   effects:
   - rid: 4405684328671215624
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

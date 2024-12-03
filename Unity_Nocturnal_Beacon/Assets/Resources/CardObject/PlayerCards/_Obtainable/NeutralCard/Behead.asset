@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Behead
   m_EditorClassIdentifier: 
-  id: 10040
+  id: 1000053
   uId: 0
   name: Behead
   rarity: 0

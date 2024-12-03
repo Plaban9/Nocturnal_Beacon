@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Challenge
   m_EditorClassIdentifier: 
-  id: 10012
+  id: 1000011
   uId: 0
   name: Challenge
   rarity: 1
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684328671215634
   - rid: 4405684328671215635
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

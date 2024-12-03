@@ -56,10 +56,10 @@ public class HandZone : MonoBehaviour
     {
         var handCard = Instantiate(HandCardPrefab, transform).GetComponent<CardInHand>();
         handCard.Setup(card);
-        handCard.SubscribeOnDrag().Subscribe(x => 
-        isDraggingCard = x
-        
-        ).AddTo(handCard.gameObject);
+        handCard.SubscribeOnDrag().Subscribe(x => {
+            isDraggingCard = x;
+            cardInHands.ForEach(c => c.EnablePointToZoom(!x));
+        }).AddTo(handCard.gameObject);
         handCard.SubscribeOnDeploy().Subscribe(x =>
         {
             if (!DeployCard(x))
@@ -87,7 +87,7 @@ public class HandZone : MonoBehaviour
             for(int i=0; i<size; i++)
             {
                 float index = i - s;
-                cardInHands[i].SetOriPos(new Vector2(interval * index, -50));
+                cardInHands[i].SetOriPos(new Vector2(interval * index, -320));
                 cardInHands[i].transform.SetSiblingIndex(i);
             }
 
@@ -134,7 +134,7 @@ public class HandZone : MonoBehaviour
     {
         if(pointingCard != null)
         {
-            pointingCard.rectTransform.anchoredPosition = new Vector2(pointingCard.GetOriPos().x, 50);
+            pointingCard.rectTransform.anchoredPosition = new Vector2(pointingCard.GetOriPos().x, -320);
             pointingCard.transform.SetAsLastSibling();
 
             int index = cardInHands.IndexOf(pointingCard);
@@ -149,14 +149,14 @@ public class HandZone : MonoBehaviour
             {
                 if(i >= 0)
                 {
-                    cardInHands[i].rectTransform.anchoredPosition = new Vector2(cardInHands[i].GetOriPos().x - l, -50);
+                    cardInHands[i].rectTransform.anchoredPosition = new Vector2(cardInHands[i].GetOriPos().x - l, -320);
                     l *= 0.8f;
                     i--;
                 }
 
                 if(j < size)
                 {
-                    cardInHands[j].rectTransform.anchoredPosition = new Vector2(cardInHands[j].GetOriPos().x + r, -50);
+                    cardInHands[j].rectTransform.anchoredPosition = new Vector2(cardInHands[j].GetOriPos().x + r, -320);
                     r *= 0.8f;
                     j++;
                 }

@@ -38,6 +38,7 @@ public class ModifyShield : CardEffect
     public ModifyShield(int amount)
     {
         val1 = amount;
+        effectType = EffectType.GainShield;
     }
 
     public override int GetEffectCost()

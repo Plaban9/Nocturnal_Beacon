@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Gust
   m_EditorClassIdentifier: 
-  id: 10015
-  uId: 0
+  id: 1000069
+  uId: 1000002
   name: Dragging Gust
   rarity: 1
   cardType: 0
@@ -25,6 +25,7 @@ MonoBehaviour:
   - rid: 4405684332640862210
   - rid: 4405684332640862212
   - rid: 4405684332640862215
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:

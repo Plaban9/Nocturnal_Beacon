@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Downpour
   m_EditorClassIdentifier: 
-  id: 10039
+  id: 1000061
   uId: 1000012
   name: Downpour
   rarity: 1
@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684357995692040
   - rid: 4405684357995692045
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:
