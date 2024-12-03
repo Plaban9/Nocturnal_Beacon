@@ -47,11 +47,13 @@ public class ModifyHand : CardEffect
         {
             strategy = new GetNextFromDeck();
             (strategy as GetNextFromDeck).amount = 1;
+            effectType = EffectType.DrawCard;
         }
         else
         {
             strategy = new DiscardFromHand();
             (strategy as DiscardFromHand).amount = 1;
+            effectType = EffectType.DiscardCard;
         }
     }
     public ModifyHand(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)

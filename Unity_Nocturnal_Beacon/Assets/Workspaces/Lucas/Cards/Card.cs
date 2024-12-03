@@ -41,6 +41,8 @@ namespace CardAttribute
         GainStatusRegenerate,
         DrawCard,
         DiscardCard,
+        GainMana,
+        LoseMana
     };
 
     [Serializable]

@@ -24,10 +24,12 @@ public class ModifyMana : CardEffect
     }
     public ModifyMana()
     {
+        effectType = EffectType.GainMana;
     }
     public ModifyMana(int i) {
         this.target = EffectTarget.Self;
         val1 = i;
+        effectType = val1 > 0 ? EffectType.GainMana : EffectType.LoseMana;
     }
 
 
