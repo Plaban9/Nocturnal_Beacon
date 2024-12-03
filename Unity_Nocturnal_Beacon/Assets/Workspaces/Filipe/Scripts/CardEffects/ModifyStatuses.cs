@@ -360,4 +360,17 @@ public class ModifyStatuses : CardEffect
         return _bstf;
     }
 
+    public override bool Compare(CardEffect e)
+    {
+        if (e is not ModifyStatuses) { return false; }
+        ModifyStatuses other = (ModifyStatuses)e;
+        if(
+            target == other.target &&
+            targetAmount == other.targetAmount &&
+            statusEffect == other.statusEffect)
+        {
+            return true;
+        }
+        return false;
+    }
 }

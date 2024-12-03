@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UniRx.Triggers;
+using Unity.VisualScripting;
 using UnityEngine;
 using static CardPileManager;
 
@@ -13,6 +14,8 @@ interface IModifyHandStrategies
 
     public int GetCost();
     public Action<List<Card>> GetCardList(BattleManager bm);
+
+    public bool CompareTo(IModifyHandStrategies other);
 }
 
 [Serializable]
@@ -40,6 +43,15 @@ public class GetNextFromDeck : IModifyHandStrategies
         {
             return Mathf.Min(30,(int)Mathf.Pow(4, amount));
         }
+    }
+
+    bool IModifyHandStrategies.CompareTo(IModifyHandStrategies other)
+    {
+        if(other.GetType() != GetType())
+        {
+            return false;
+        }
+        return true;
     }
 }
 
@@ -106,6 +118,17 @@ public class GetFromPile : IModifyHandStrategies
         }
         return 0;
     }
+
+    bool IModifyHandStrategies.CompareTo(IModifyHandStrategies other)
+    {
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+        GetFromPile otherStrategy = (GetFromPile)other;
+        if (otherStrategy.pile != pile) return false;
+        return true;
+    }
 }
 
 [Serializable]
@@ -123,7 +146,7 @@ public class DiscardFromHand : IModifyHandStrategies
 
     public string GetString()
     {
-        return String.Format("Discard {0} random card{1} from your hand.", amount, amount > 1 ? "s" : "");
+        return String.Format("Discard {0} random card{1} from your hand.", Math.Abs(amount), Math.Abs(amount) > 1 ? "s" : "");
     }
 
     public int GetCost()
@@ -136,6 +159,15 @@ public class DiscardFromHand : IModifyHandStrategies
         {
             return (int)Mathf.Pow(8, amount);
         }
+    }
+
+    bool IModifyHandStrategies.CompareTo(IModifyHandStrategies other)
+    {
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+        return true;
     }
 }
 
@@ -160,6 +192,14 @@ public class DiscardSelectedFromHand : IModifyHandStrategies
     public int GetCost()
     {
         return -1;
+    }
+    bool IModifyHandStrategies.CompareTo(IModifyHandStrategies other)
+    {
+        if (other.GetType() != GetType())
+        {
+            return false;
+        }
+        return true;
     }
 }
 
