@@ -64,8 +64,8 @@ public class HPData : MonoBehaviour
 
         if (finalAmount == 0) yield break;
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
-        _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
-        _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
+        _unitRenderer.transform.parent.DOScaleY(_unitData.scale/5f, 0.1f);
+        _unitRenderer.transform.parent.DOScaleY(_unitData.scale, 0.4f);
         if (_unitData is MonsterData)
         {
             _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.4f);
@@ -87,9 +87,7 @@ public class HPData : MonoBehaviour
             hpDamage -= _shield;
             if (hpDamage < 0)
                 _shield = -hpDamage;
-            else if (hpDamage > 0)
-                _shield -= hpDamage;
-            else
+            else if (hpDamage >= 0)
                 _shield = 0;
         }
         if (hpDamage > 0)
@@ -102,6 +100,7 @@ public class HPData : MonoBehaviour
             else
             {
                 _currentHp = 0;
+                BattleManager.Instance.CheckIfBattleIsOver();
             }
         }
         UpdateVisual();
@@ -224,6 +223,7 @@ public class HPData : MonoBehaviour
     {
         if (_currentHp == 0)
         {
+            ;
             return true;
         }
         return false;

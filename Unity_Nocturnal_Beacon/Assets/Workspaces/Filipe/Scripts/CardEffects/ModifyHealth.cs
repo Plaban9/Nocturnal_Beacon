@@ -12,7 +12,29 @@ public class ModifyHealth : CardEffect
     {
         get
         {
-            string result = string.Empty;
+            string result = string.Format("{0}{1}{2}{3}{4}{5}.",
+                // A player heals or takes damage. A target may have their health recovered or be dealt damage. 
+                target == EffectTarget.Self ?
+                (val1 > 0 ? "Heal " : "Take ") :
+                (val1 > 0 ? "Recover " : "Deal "),
+                _withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL1 ?"X" : Math.Abs(val1),
+                (val1 > 0 ? " health" : " damage"),
+                // wonky grammar.
+                target == EffectTarget.Self ? "" : val1 > 0 ? " of" : " to",
+                target switch
+                {
+                    EffectTarget.Self => ".",
+                    EffectTarget.OpponentSingle => " the target",
+                    EffectTarget.OpponentRandom => " a random target",
+                    EffectTarget.OpponentAll => " all targets",
+                    EffectTarget.Both => " user and target",
+                    EffectTarget.Global => " all units",
+                    _ => "NO ONE"
+                },
+                // amount of times
+                _withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL2 ? "X times" : (val2 > 0 ? $"{val2} times" : "")
+                );
+            return result;
 
             if(target == EffectTarget.Self)
             {

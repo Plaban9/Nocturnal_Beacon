@@ -49,6 +49,7 @@ public class CardEffect : ICardEffect
     [SerializeField] protected EffectTarget target;
     [SerializeField] protected EffectTargetAmount targetAmount;
 
+    public WithManaDoEffect.CardVariable _withManaDoEffectAffecting;
 
     public virtual string LocalizationKey => "";
     public virtual string EffectDescription => "";
@@ -151,4 +152,6 @@ public class CardEffect : ICardEffect
     {
         return (CardEffect)MemberwiseClone(); // Shallow copy
     }
+
+    
 }

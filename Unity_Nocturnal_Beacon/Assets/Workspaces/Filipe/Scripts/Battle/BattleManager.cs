@@ -256,7 +256,7 @@ public class BattleManager : MonoBehaviour
         return _mana;
     }
 
-    private void CheckIfBattleIsOver()
+    public void CheckIfBattleIsOver()
     {
         if (_player.IsDead() || EnemiesAlive() == 0)
         {
@@ -264,6 +264,7 @@ public class BattleManager : MonoBehaviour
             BattleEnd();
         }
     }
+
 
     private void BattleEnd()
     {
@@ -452,8 +453,8 @@ public class BattleManager : MonoBehaviour
 
     public bool RunEffect(BattleUnit owner, BattleUnit target, Card card, CardEffect effect)
     {
-        if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
         CheckIfBattleIsOver();
+        if (_currentState == BATTLE_STATE.BATTLE_OVER) return false;
         if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
         {
             effect.OnUse(card, owner, new List<BattleUnit> { owner });

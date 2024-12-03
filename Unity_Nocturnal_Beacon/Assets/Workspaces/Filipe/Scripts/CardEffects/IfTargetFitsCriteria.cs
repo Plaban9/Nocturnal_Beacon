@@ -19,15 +19,15 @@ public class IfTargetFitsCriteria: CardEffect
         get
         {
             
-            return string.Format("{0} that {1} : {2}",
+            return string.Format("{0} {1} : {2}",
                 target switch
                 {
                     EffectTarget.Self => "On user",
-                    EffectTarget.OpponentSingle => "On target enemy",
-                    EffectTarget.OpponentRandom => "ON randomly chosen enemy",
-                    EffectTarget.OpponentAll => "On any enemy",
-                    EffectTarget.Both => "On user and enemy",
-                    EffectTarget.Global => "On any units"
+                    EffectTarget.OpponentSingle => "On target target",
+                    EffectTarget.OpponentRandom => "On randomly chosen target",
+                    EffectTarget.OpponentAll => "On any target",
+                    EffectTarget.Both => "On user and target",
+                    EffectTarget.Global => "On any unit"
                 },
                 TargetCriteriaStrategy.GetDescription(),
                 UseEffectBasedOnThis.EffectDescription);
@@ -101,7 +101,7 @@ public class IfIsElement : ITargetCriteriaStrategy
 
     public string GetDescription()
     {
-        return string.Format("{0} {1}",
+        return string.Format("whose element {0} {1}",
             comparison == ComparisonEnum.IS ? "is" : "is not",
             chosenElement.ToString());
     }
@@ -138,7 +138,7 @@ public class HealthPercent : ITargetCriteriaStrategy
 
     public string GetDescription()
     {
-        return string.Format("health is {0} {1}", comparator switch
+        return string.Format("whose health is {0} {1}", comparator switch
         {
             ValueComparator.GreaterThan => "greater than",
             ValueComparator.LessThan => "less than",

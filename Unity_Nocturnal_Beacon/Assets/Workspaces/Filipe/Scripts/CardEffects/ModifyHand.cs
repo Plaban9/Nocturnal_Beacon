@@ -31,21 +31,6 @@ public class ModifyHand : CardEffect
         }
     }
 
-    public override void SetMainValue(int val)
-    {
-        base.SetMainValue(val);
-        
-        if(val1 > 0)
-        {
-            strategy = new GetNextFromDeck();
-            (strategy as GetNextFromDeck).amount = val1;
-        }
-        else
-        {
-            strategy = new DiscardFromHand();
-            (strategy as DiscardFromHand).amount = -val1;
-        }
-    }
     public override int GetEffectCost()
     {
         int val = 0;
@@ -63,13 +48,11 @@ public class ModifyHand : CardEffect
         {
             strategy = new GetNextFromDeck();
             (strategy as GetNextFromDeck).amount = val1;
-            effectType = EffectType.DrawCard;
         }
         else
         {
             strategy = new DiscardFromHand();
             (strategy as DiscardFromHand).amount = -val1;
-            effectType = EffectType.DiscardCard;
         }
     }
     public ModifyHand(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)

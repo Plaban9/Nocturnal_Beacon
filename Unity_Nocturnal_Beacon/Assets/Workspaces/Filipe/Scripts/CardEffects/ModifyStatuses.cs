@@ -32,9 +32,9 @@ public class ModifyStatuses : CardEffect
                    target switch
                    {
                        EffectTarget.Self => "yourself",
-                       EffectTarget.OpponentSingle => "an enemy",
-                       EffectTarget.OpponentRandom => "a random enemy",
-                       EffectTarget.OpponentAll => "all enemies",
+                       EffectTarget.OpponentSingle => "a target",
+                       EffectTarget.OpponentRandom => "a random target",
+                       EffectTarget.OpponentAll => "all enemy targets",
                        EffectTarget.Global => "all units",
                        EffectTarget.Both => "both user and target",
                        _ => "... no one?",

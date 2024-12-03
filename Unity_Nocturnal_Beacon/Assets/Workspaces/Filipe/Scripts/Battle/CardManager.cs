@@ -254,6 +254,10 @@ public class CardManager : MonoBehaviour
          */
     }
 
+    public List<Card> CardsInHand()
+    {
+        return handZone.GetCards();
+    }
 
     #region UI
     public void OnClickDrawPile()

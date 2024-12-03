@@ -112,7 +112,9 @@ public class CardLibrary : MonoBehaviour
        foreach(var cardObject in cardObjects)
         {
             cardObject.id = ++idCounter;
-            EditorUtility.SetDirty(cardObject);            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(cardObject);
+#endif
         }
 
     }
