@@ -75,6 +75,10 @@ public class CardEffectCostManager : MonoBehaviour
             case CardAttribute.EffectType.GainShield:
                 cost = GetEffectCostGainShield(ce);
                 break;
+                case CardAttribute.EffectType.LoseMana:
+                case CardAttribute.EffectType.GainMana:
+                cost = GetEffectCostModifyMana(ce);
+                break;
             case CardAttribute.EffectType.GainStatusStrength:
             case CardAttribute.EffectType.GainStatusDexterity:
             case CardAttribute.EffectType.GainStatusRegenerate:
@@ -183,6 +187,20 @@ public class CardEffectCostManager : MonoBehaviour
         float multiplier = 5;
 
         cost = (int)(multiplier + curVal) * Mathf.Abs(diff);
+
+        return cost;
+    }
+
+    int GetEffectCostModifyMana(CardEffect ce)
+    {
+        int cost;
+        var oriEffect = GetCardEffectInCard(ce);
+        var curVal = Mathf.Abs(ce.GetMainValue());
+        var oriVal = oriEffect == null ? 0 : Mathf.Abs(oriEffect.GetMainValue());
+        var diff = curVal - oriVal;
+        float multiplier = 10;
+
+        cost = (int)(multiplier * Mathf.Abs(diff+diff) * (ce.GetEffectType() == CardAttribute.EffectType.GainMana ? 1 : -1));
 
         return cost;
     }

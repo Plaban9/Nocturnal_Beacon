@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 972884355209012052, guid: 2cfaaa0d89e2812499058e68f15ff834, type: 3}
       propertyPath: m_Name
-      value: CardDisplay
+      value: CardDisplayCustomizing
       objectReference: {fileID: 0}
     - target: {fileID: 6841186316289114055, guid: 2cfaaa0d89e2812499058e68f15ff834, type: 3}
       propertyPath: m_Pivot.x
@@ -91,6 +91,10 @@ PrefabInstance:
     - target: {fileID: 6841186316289114055, guid: 2cfaaa0d89e2812499058e68f15ff834, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7548446719554595493, guid: 2cfaaa0d89e2812499058e68f15ff834, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 110.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
