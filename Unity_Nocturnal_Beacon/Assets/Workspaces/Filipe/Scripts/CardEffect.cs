@@ -56,7 +56,7 @@ public class CardEffect : ICardEffect
 
     public virtual int GetEffectCost() => 0;
 
-    public void SetMainValue(int val)
+    public virtual void SetMainValue(int val)
     {
         val1 = val1 >= 0 ? val : -val;
     }

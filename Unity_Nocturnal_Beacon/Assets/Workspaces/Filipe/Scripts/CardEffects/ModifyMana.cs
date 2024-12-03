@@ -71,7 +71,10 @@ public class ModifyMana : CardEffect
     {
         if (e is not ModifyMana) return false;
         ModifyMana other = (ModifyMana) e;
-        return true; 
+        if(this.val1 == other.val1) return true;
+
+        return false; 
+        // return base.Compare(e);
     }
 
 }

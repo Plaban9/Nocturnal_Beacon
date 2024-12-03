@@ -200,7 +200,7 @@ public class CardEffectCostManager : MonoBehaviour
         var diff = curVal - oriVal;
         float multiplier = 10;
 
-        cost = (int)(multiplier * Mathf.Abs(diff+diff) * (ce.GetEffectType() == CardAttribute.EffectType.GainMana ? 1 : -1));
+        cost = (int)(multiplier * Mathf.Abs(diff * Mathf.Max(1, diff-1)) * (ce.GetEffectType() == CardAttribute.EffectType.GainMana ? 1 : -1));
 
         return cost;
     }

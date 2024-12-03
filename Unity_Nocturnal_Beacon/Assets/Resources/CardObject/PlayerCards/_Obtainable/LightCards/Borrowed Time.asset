@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: Borrowed Time
   m_EditorClassIdentifier: 
-  id: 1000004
+  id: 1000098
   uId: 0
-  name: Borrowed TIme
+  name: Borrowed Time
   rarity: 2
   cardType: 0
   manaCost: 3
@@ -23,7 +23,7 @@ MonoBehaviour:
   price: 80
   effects:
   - rid: 5880775393347108871
-  DEBUG_DESCRIPTION: Bestow 9999 Block to all units
+  DEBUG_DESCRIPTION: Bestow 9999 Block to all units.
   references:
     version: 2
     RefIds:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
   m_Name: In times like these... !
   m_EditorClassIdentifier: 
-  id: 1000003
+  id: 1000097
   uId: 0
   name: In times like these... !
   rarity: 2

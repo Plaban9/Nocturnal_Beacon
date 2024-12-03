@@ -44,7 +44,7 @@ public class CardLibrary : MonoBehaviour
         {
             if(!cardsDict.TryAdd(cardObject.id, cardObject))
             {
-                Debug.LogError($"Card [{cardObject.name}] has duplicated Id: {cardObject.id}");
+                Debug.LogError($"Card [{cardObject.name}] has duplicated Id: {cardObject.id} with {cardsDict[cardObject.id].name}.");
             }
             cards.Add(cardObject);
         }
