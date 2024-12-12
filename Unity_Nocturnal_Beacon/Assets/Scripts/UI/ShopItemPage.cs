@@ -99,8 +99,7 @@ public class ShopItemPage : CommonPage
         content.DOLocalMoveY(Screen.height + 100, 0.5f);
         canvasGroup.DOFade(0, 0.5f).onComplete += () =>
         {
-            gameObject.SetActive(false);
-            isClosing = false;
+            base.Close();
         };
     }
 
