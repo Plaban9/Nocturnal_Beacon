@@ -30,7 +30,9 @@ public class ShopPage : CommonPage
 
     public void Setup(Deck shopItems = null)
     {
-        if(shopItems != null)
+        //Refresh every time the user enters a shop node!
+        shopItems = null;
+        if (shopItems != null)
             this.shopItems = shopItems;
         else
         {
@@ -58,6 +60,7 @@ public class ShopPage : CommonPage
 
     public void OnClickLeaveButton()
     {
+
         shopAnimator.LeaveAnimate().Subscribe(x =>
         {
             if(x)

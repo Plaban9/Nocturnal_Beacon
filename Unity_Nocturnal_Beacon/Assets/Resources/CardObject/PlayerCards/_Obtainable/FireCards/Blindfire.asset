@@ -21,10 +21,15 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: ae5f7b9947ca41140ada09bc8596800b, type: 3}
   element: 4
   price: 15
+  isCustomized: 0
   effects:
   - rid: 4405684352422248481
   - rid: 4405684352422248482
-  DEBUG_DESCRIPTION: 
+  DEBUG_DESCRIPTION: 'Recover 10 health of all targets.
+
+    Lose 3 mana.
+
+'
   references:
     version: 2
     RefIds:
@@ -32,13 +37,14 @@ MonoBehaviour:
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 10
+        val1: -10
         val2: 0
         val3: 0
         val4: 0
         effectType: 0
         target: 3
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
     - rid: 4405684352422248482
       type: {class: ModifyMana, ns: , asm: Assembly-CSharp}
       data:
@@ -50,3 +56,4 @@ MonoBehaviour:
         effectType: 0
         target: 0
         targetAmount: 0
+        _withManaDoEffectAffecting: 0

@@ -47,7 +47,6 @@ public class HPData : MonoBehaviour
     private IEnumerator PerformDealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false, float delay = 0f)
     {
         yield return new WaitForSeconds(delay);
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
         int finalAmount = amount;
         foreach (BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
@@ -108,7 +107,6 @@ public class HPData : MonoBehaviour
 
     public void RecoverHealth(int amount)
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogBark);
         _unitRenderer.color = new Color(0.2f, 1.0f, 0.2f);
         if(_unitData is MonsterData)
         {
@@ -134,7 +132,6 @@ public class HPData : MonoBehaviour
 
     public void AddShield(int amount)
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogInteract);
 
         _unitRenderer.color = new Color(0.2f, 0.2f, 1.0f);
         if (_unitData is MonsterData)

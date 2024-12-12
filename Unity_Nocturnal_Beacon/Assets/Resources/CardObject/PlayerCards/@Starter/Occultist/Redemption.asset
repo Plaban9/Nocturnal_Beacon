@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Redemption
+  m_EditorClassIdentifier: 
+  id: 1000014
+  uId: 0
+  name: Redemption
+  rarity: 0
+  cardType: 1
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: 953288f5942deac49844dcfdb92b3410, type: 3}
+  element: 6
+  price: 30
+  isCustomized: 0
+  effects:
+  - rid: 5880775430296305666
+  - rid: 5880775430296305670
+  DEBUG_DESCRIPTION: 'On user whose health is less than 75% : Heal 6 health..
+
+    On
+    user whose health is less than 25% : Applies 2 <color=#FB8B48>Regenerate</color>
+    on yourself for 2 turns.
+
+'
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775430296305666
+      type: {class: IfTargetFitsCriteria, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        _withManaDoEffectAffecting: 0
+        UseEffectBasedOnThis:
+          rid: 5880775430296305669
+        TargetCriteriaStrategy:
+          rid: 5880775430296305668
+    - rid: 5880775430296305668
+      type: {class: HealthPercent, ns: , asm: Assembly-CSharp}
+      data:
+        comparator: 0
+        percent: 0.75
+    - rid: 5880775430296305669
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 6
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        _withManaDoEffectAffecting: 0
+    - rid: 5880775430296305670
+      type: {class: IfTargetFitsCriteria, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        _withManaDoEffectAffecting: 0
+        UseEffectBasedOnThis:
+          rid: 5880775430296305673
+        TargetCriteriaStrategy:
+          rid: 5880775430296305672
+    - rid: 5880775430296305672
+      type: {class: HealthPercent, ns: , asm: Assembly-CSharp}
+      data:
+        comparator: 0
+        percent: 0.25
+    - rid: 5880775430296305673
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 2
+        val2: 2
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        _withManaDoEffectAffecting: 0
+        statusEffectObject: {fileID: 11400000, guid: b274a155d2ee4f54e882eef44f606033, type: 2}
+        statusEffect: 3
+        statusStacks: 0

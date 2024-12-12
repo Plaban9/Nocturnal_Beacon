@@ -33,9 +33,15 @@ public class MenuController : MonoBehaviour
 
     public void OpenSelectionMenu()
     {
+        Tutorial.Instance.TryShowTutorialCharacterSelection();
         menu.DisableMainMenu();
         heroSelectMenu.SetActive(true);
         heroSelectMenu.transform.DOScaleY(1f, 0.5f);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 
     public void SetMasterVolume()

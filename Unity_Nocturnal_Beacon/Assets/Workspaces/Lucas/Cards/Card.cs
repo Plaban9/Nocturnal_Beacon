@@ -254,7 +254,7 @@ public class Card : ScriptableObject
         string final = "";
         foreach(CardEffect effect in effects)
         {
-            final += effect.EffectDescription;
+            final += effect.EffectDescription+"\n";
         }
         DEBUG_DESCRIPTION = final;
      }

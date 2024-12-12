@@ -17,7 +17,7 @@ public class ModifyHealth : CardEffect
                 target == EffectTarget.Self ?
                 (val1 > 0 ? "Heal " : "Take ") :
                 (val1 > 0 ? "Recover " : "Deal "),
-                _withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL1 ?"X" : Math.Abs(val1),
+                /*_withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL1 ?"X" :*/ Math.Abs(val1),
                 (val1 > 0 ? " health" : " damage"),
                 // wonky grammar.
                 target == EffectTarget.Self ? "" : val1 > 0 ? " of" : " to",
@@ -32,7 +32,7 @@ public class ModifyHealth : CardEffect
                     _ => "NO ONE"
                 },
                 // amount of times
-                _withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL2 ? "X times" : (val2 > 0 ? $"{val2} times" : "")
+                /*_withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL2 ? "X times" :*/ (val2 > 0 ? $"{val2} times" : "")
                 );
             return result;
 

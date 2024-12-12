@@ -15,16 +15,21 @@ MonoBehaviour:
   id: 1000068
   uId: 0
   name: Enveloping Winds
-  rarity: 0
+  rarity: 1
   cardType: 0
   manaCost: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 00d93e870e281474eaffc504915561f0, type: 3}
   element: 2
-  price: 15
+  price: 45
+  isCustomized: 0
   effects:
   - rid: 5880775376634904596
   - rid: 5880775376634904598
-  DEBUG_DESCRIPTION: 
+  DEBUG_DESCRIPTION: 'Gain 6 Block
+
+    Draw 1 card from the draw pile.
+
+'
   references:
     version: 2
     RefIds:
@@ -32,13 +37,14 @@ MonoBehaviour:
       type: {class: ModifyShield, ns: , asm: Assembly-CSharp}
       data:
         appMechanic: 0
-        val1: 9
+        val1: 6
         val2: 0
         val3: 0
         val4: 0
         effectType: 2
         target: 0
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
     - rid: 5880775376634904598
       type: {class: ModifyHand, ns: , asm: Assembly-CSharp}
       data:
@@ -50,6 +56,7 @@ MonoBehaviour:
         effectType: 0
         target: 0
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
         strategy:
           rid: 5880775376634904600
     - rid: 5880775376634904600

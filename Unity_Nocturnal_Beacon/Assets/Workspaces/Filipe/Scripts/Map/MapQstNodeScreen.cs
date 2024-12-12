@@ -67,14 +67,22 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
         List<Card> cards = new List<Card>();
         _chooserHolder.GetComponent<CanvasGroup>().interactable = true;
         _chooserHolder.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        foreach (Transform child in _cardHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
 
         int cardsOnHolder = _cardHolder.transform.childCount;
-        _cardHoverables = new List<CardPickerHoverables>();
+
+
+
+        _cardHoverables = new List<CardPickerHoverables>(); 
         if (cardsOnHolder < numberOfCards)
         {
             for (int i = 0; i < numberOfCards - cardsOnHolder; i++)
             {
-                GameObject c = Instantiate(_cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, _cardHolder.transform);
+                GameObject c = Instantiate(_cardPrefab, _cardHolder.transform, false);
                 _cardHoverables.Add(c.GetComponent<CardPickerHoverables>());
                 c.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             }
@@ -114,7 +122,7 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
         }
 
         var qstNodeScreen = this;
-        for (int i = 0; i <= cards.Count-1; i++)
+        for (int i = 0; i <= _cardHoverables.Count-1; i++)
         {
             _cardHoverables[i].GetComponent<CardDisplay>().Setup(cards[i]);
             _cardHoverables[i].SetData(i, cards[i], _mapQuest);
@@ -169,12 +177,15 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
         _manager.ShowContinue();
         _manager.SetOnContinueCallback(skipped =>
         {
+            ActivateNonBattleNodeScreen();
+            DeactivateNonBattleNodeScreen();
+
             int amountToCustomize = _mapQuest.rewards.GetReward(finalResult);
             Card cardToCustomize = card;
             var ccp = UIManager.Instance.ShowPage(GamePage.CustomizeCardPage).GetComponent<CustomizeCardPage>();
+
             ccp.Setup(cardToCustomize /*The card*/, amountToCustomize /*The value you want*/).Subscribe(x =>
             {
-                DeactivateNonBattleNodeScreen();
             }).AddTo(ccp);
         });
     }
@@ -183,21 +194,26 @@ public class MapQstNodeScreen : MapNonBattleNodeScreen
 
     public override void ActivateNonBattleNodeScreen()
     {
-        GetComponent<CanvasGroup>().alpha = 1f;
-        _animator.SetBool("open", true) ;
+        _animator.SetBool("open", true);
         GetComponent<CanvasGroup>().interactable = true;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
+        _manager.ShowContinue();
+        _manager.SetProgressSkip();
+        _manager.SetOnContinueCallback(skipped =>
+        {
+            ActivateNonBattleNodeScreen();            
+            DeactivateNonBattleNodeScreen();
+        });
     }
 
 
     public override void DeactivateNonBattleNodeScreen()
     {
+        Debug.Log("Hello!");
         _animator.SetBool("open", false);
         _animator.SetBool("outcome", false);
         GetComponent<CanvasGroup>().interactable = false;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
-        GetComponent<CanvasGroup>().DOFade(0f, 2f);
-        SetQuest(null);
         _manager.HideContinue();
     }
 }

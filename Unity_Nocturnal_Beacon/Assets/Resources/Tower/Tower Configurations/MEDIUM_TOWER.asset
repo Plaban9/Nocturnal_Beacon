@@ -24,7 +24,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 0faa4a32b6162a44e8f6a5e8ce3b91a2, type: 2}
     - {fileID: 11400000, guid: a29980c816d376f498f45f3312fe1a6d, type: 2}
     - {fileID: 11400000, guid: 4300d59cefbe1e84791c191f9041bf3a, type: 2}
-    minHeight: 2
+    minHeight: 1
     maxHeight: 4
   - _possibleEnemies:
     - {fileID: 11400000, guid: da0330dd1e2519a41a39fcef935db48e, type: 2}

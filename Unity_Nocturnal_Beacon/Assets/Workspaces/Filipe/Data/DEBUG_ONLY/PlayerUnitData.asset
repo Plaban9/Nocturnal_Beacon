@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitData: {fileID: 11400000, guid: cb9c8631514716c4082710baee5a9c10, type: 2}
   _maxHP: 120
-  _currentHp: 106
+  _currentHp: 60
   _currentDeck: {fileID: 11400000, guid: fd9361bebdf5f664aa9e856968e28112, type: 2}
   _currency: 30
   _maxMana: 3

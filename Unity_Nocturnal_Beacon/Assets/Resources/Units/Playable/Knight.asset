@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Knight
   m_EditorClassIdentifier: 
   unitName: Knight
-  sprite: {fileID: 21300000, guid: af87d6334d9427c45a0ebeb8b44df130, type: 3}
-  startingHp: 120
-  flipSprite: 0
-  scale: 6
+  sprite: {fileID: 21300000, guid: b3849361a15db3645ab9a6cf98794283, type: 3}
+  maxHp: 120
+  flipSprite: 1
+  scale: 0.025
   unitElement: 0
   startingDeck: {fileID: 11400000, guid: b8d474278a90b1f4dad7b4ec16ee2deb, type: 2}
   startingMana: 3
-  description: DURABLE
+  description: WELL ROUNDED

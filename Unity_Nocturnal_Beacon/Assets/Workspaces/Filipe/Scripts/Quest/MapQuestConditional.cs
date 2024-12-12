@@ -19,7 +19,7 @@ public class MapQuestConditional
 
     public string GetReqString()
     {
-        return "<color=blue>"+_requirementString+"</color>";
+        return "<color=yellow>"+_requirementString+"</color>";
     }
 
     public string GetResString(Card card)

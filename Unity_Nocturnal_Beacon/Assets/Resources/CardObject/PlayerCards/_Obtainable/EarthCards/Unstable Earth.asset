@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Unstable Earth
   m_EditorClassIdentifier: 
   id: 1000028
-  uId: 0
+  uId: 1000013
   name: Unstable Earth
   rarity: 1
   cardType: 1
@@ -21,6 +21,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: a1e3951e1a03c124dbd4e9204787278f, type: 3}
   element: 1
   price: 15
+  isCustomized: 0
   effects:
   - rid: 4405684357995692061
   - rid: 4405684357995692062
@@ -40,8 +41,9 @@ MonoBehaviour:
         effectType: 0
         target: 1
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
         statusEffectObject: {fileID: 11400000, guid: 9099d50f93d29ef4fa5c8e577efeb347, type: 2}
-        statusEffect: 30
+        statusEffect: 31
         statusStacks: 0
     - rid: 4405684357995692062
       type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
@@ -54,8 +56,9 @@ MonoBehaviour:
         effectType: 0
         target: 1
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
         statusEffectObject: {fileID: 11400000, guid: 1b7303cb8346bc049978011ae46f9b8c, type: 2}
-        statusEffect: 25
+        statusEffect: 26
         statusStacks: 0
     - rid: 4405684357995692063
       type: {class: ModifyHand, ns: , asm: Assembly-CSharp}
@@ -68,6 +71,7 @@ MonoBehaviour:
         effectType: 0
         target: 0
         targetAmount: 0
+        _withManaDoEffectAffecting: 0
         strategy:
           rid: 4405684357995692064
     - rid: 4405684357995692064

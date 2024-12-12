@@ -8,6 +8,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class BattleManager : MonoBehaviour
@@ -89,12 +90,14 @@ public class BattleManager : MonoBehaviour
         if(encounter != null) 
             _encounter = encounter;
         SetupBattle();
+        
 
     }
 
     public void StartBattle()
     {
         ChangeBattleState(BATTLE_STATE.PLAYER_TURN);
+        Tutorial.Instance.ShowFrameTutorialCombat();
     }
 
     // Update is called once per frame
@@ -458,6 +461,8 @@ public class BattleManager : MonoBehaviour
         if (effect.GetTarget() == CardAttribute.EffectTarget.Self)
         {
             effect.OnUse(card, owner, new List<BattleUnit> { owner });
+            EffectManager.Instance.PlayCardEffect(owner, new List<BattleUnit> { owner }, card, effect.GetTarget());
+
         }
         else
         {
@@ -466,23 +471,29 @@ public class BattleManager : MonoBehaviour
                 case CardAttribute.EffectTarget.OpponentSingle:
                     if (target == null) return false;
                     effect.OnUse(card, owner, new List<BattleUnit> { target });
+                    EffectManager.Instance.PlayCardEffect(owner, new List<BattleUnit> { owner }, card, effect.GetTarget());
                     break;
                 case CardAttribute.EffectTarget.OpponentAll:
                     effect.OnUse(card, owner, _enemies);
+                    EffectManager.Instance.PlayCardEffect(owner, _enemies, card, effect.GetTarget());
                     break;
                 case CardAttribute.EffectTarget.OpponentRandom:
                     List<BattleUnit> viableUnits = _enemies.FindAll(it => !it.IsDead());
                     BattleUnit chosen = viableUnits.GetRandom();
                     effect.OnUse(card, owner, _enemies);
+                    EffectManager.Instance.PlayCardEffect(owner,_enemies, card, effect.GetTarget());
                     break;
                 case CardAttribute.EffectTarget.Both:
                     effect.OnUse(card, owner, new List<BattleUnit> { target });
                     effect.OnUse(card, owner, new List<BattleUnit> { owner });
+                    EffectManager.Instance.PlayCardEffect(owner, new List<BattleUnit> { target }, card, effect.GetTarget());
                     break;
                 case CardAttribute.EffectTarget.Global:
                     List<BattleUnit> allUnits = _enemies.FindAll(it => !it.IsDead());
                     allUnits.Add(GetPlayerbattleUnit());
                     effect.OnUse(card, owner,allUnits);
+                    EffectManager.Instance.PlayCardEffect(owner, allUnits, card, effect.GetTarget());
+
                     break;
             }
         }
