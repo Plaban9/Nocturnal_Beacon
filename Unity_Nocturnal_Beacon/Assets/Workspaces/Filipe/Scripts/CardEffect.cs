@@ -49,6 +49,7 @@ public class CardEffect : ICardEffect
     [SerializeField] protected EffectTarget target;
     [SerializeField] protected EffectTargetAmount targetAmount;
 
+    public WithManaDoEffect.CardVariable _withManaDoEffectAffecting;
 
     public virtual string LocalizationKey => "";
     public virtual string EffectDescription => "";
@@ -56,9 +57,45 @@ public class CardEffect : ICardEffect
 
     public virtual int GetEffectCost() => 0;
 
-    public void SetMainValue(int val)
+    public virtual void SetMainValue(int val)
     {
         val1 = val1 >= 0 ? val : -val;
+    }
+
+    public void SetValue(WithManaDoEffect.CardVariable val, int i)
+    {
+        switch (val)
+        {
+            case WithManaDoEffect.CardVariable.VAL1:
+                val1 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL2:
+                val2 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL3:
+                val3 = i;
+                break;
+            case WithManaDoEffect.CardVariable.VAL4:
+                val4 = i;
+                break;
+        }
+    }
+
+    public int GetValue(WithManaDoEffect.CardVariable val)
+    {
+        switch (val)
+        {
+            case WithManaDoEffect.CardVariable.VAL1:
+                return val1;
+            case WithManaDoEffect.CardVariable.VAL2:
+                return val2;
+            case WithManaDoEffect.CardVariable.VAL3:
+                return val3;
+            case WithManaDoEffect.CardVariable.VAL4:
+                return val4;
+            default:
+                return val1;
+        }
     }
 
     public int GetMainValue() => val1;
@@ -115,4 +152,6 @@ public class CardEffect : ICardEffect
     {
         return (CardEffect)MemberwiseClone(); // Shallow copy
     }
+
+    
 }

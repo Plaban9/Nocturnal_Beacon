@@ -8,7 +8,7 @@ public class UnitData : ScriptableObject
     [Header("Unit Data")]
     [SerializeField] public string unitName ;
     [SerializeField] public Sprite sprite;
-    [SerializeField] public int startingHp = 100;
+    [SerializeField] public int maxHp = 100;
 
 
     [SerializeField] public bool flipSprite = true;

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef548df6f717a34abef3c5a4e1c8d78, type: 3}
+  m_Name: Undine
+  m_EditorClassIdentifier: 
+  _complexBehavior:
+  - playedCard: {fileID: 11400000, guid: 204721e0c2a5e88488f56dc894251882, type: 2}
+    criteria:
+      rid: 5880775386425720874
+  - playedCard: {fileID: 11400000, guid: dcdd2f9cbe7f25a4eaa3e688705fa45a, type: 2}
+    criteria:
+      rid: 5880775386425720877
+  _cantActCard: {fileID: 11400000, guid: 9cfbe4f933964b842a9fb94e4f643705, type: 2}
+  _stagger: 2
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775386425720874
+      type: {class: BattleCriteria_CurrentTurnModulo, ns: , asm: Assembly-CSharp}
+      data:
+        turnModulo: 2
+    - rid: 5880775386425720877
+      type: {class: BattleCriteria_CurrentTurnModulo, ns: , asm: Assembly-CSharp}
+      data:
+        turnModulo: 3

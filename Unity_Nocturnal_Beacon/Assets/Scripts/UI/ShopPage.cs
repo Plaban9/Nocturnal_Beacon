@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using Unity.Collections;
 using UnityEngine;
@@ -29,8 +30,19 @@ public class ShopPage : CommonPage
 
     public void Setup(Deck shopItems = null)
     {
-        if(shopItems != null)
+        //Refresh every time the user enters a shop node!
+        shopItems = null;
+        if (shopItems != null)
             this.shopItems = shopItems;
+        else
+        {
+            var normalCards = CardLibrary.Instance.GetNonCustomizedCards();
+            var shopCards = CardLibrary.Instance.GetShopCards().OrderBy(x => Random.Range(0f, 1f)).Take(2).ToList();
+            var items = normalCards.OrderBy(x => Random.Range(0f, 1f)).Take(7).ToList();
+            items = items.Concat(shopCards).ToList();
+
+            this.shopItems = new Deck(items);
+        }
     }
 
     public void OnClickShowShopItemPage()
@@ -48,6 +60,7 @@ public class ShopPage : CommonPage
 
     public void OnClickLeaveButton()
     {
+
         shopAnimator.LeaveAnimate().Subscribe(x =>
         {
             if(x)

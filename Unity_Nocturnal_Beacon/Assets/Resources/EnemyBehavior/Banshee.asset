@@ -9,18 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add83bd661b3d214ab3b2245c4fc3d97, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ef548df6f717a34abef3c5a4e1c8d78, type: 3}
   m_Name: Banshee
   m_EditorClassIdentifier: 
-  _cards:
-  - {fileID: 11400000, guid: a618601fc0ed5a046934b4b5727abed9, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
-  - {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
+  _complexBehavior:
+  - playedCard: {fileID: 11400000, guid: a618601fc0ed5a046934b4b5727abed9, type: 2}
+    criteria:
+      rid: 5880775386425720865
+  - playedCard: {fileID: 11400000, guid: 8428238bff82f9949a5bc842b4643a4f, type: 2}
+    criteria:
+      rid: 5880775386425720866
   _cantActCard: {fileID: 11400000, guid: 9cfbe4f933964b842a9fb94e4f643705, type: 2}
+  _stagger: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775386425720865
+      type: {class: BattleCriteria_CurrentTurn, ns: , asm: Assembly-CSharp}
+      data:
+        turn: 0
+    - rid: 5880775386425720866
+      type: {class: BattleCriteria_CurrentTurnModulo, ns: , asm: Assembly-CSharp}
+      data:
+        turnModulo: 1

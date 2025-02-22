@@ -35,14 +35,14 @@ public class CardEditor : Editor
 
         foreach (var cardObject in cardObjects)
         {
-            if (cardObject.name == card.name) continue;
+            if (cardObject.id == card.id) continue;
             cardDict.TryAdd(cardObject.id, cardObject);
         }
     }
 
     void GenerateId()
     {
-        int initId = 10001;
+        int initId = 1000001;
 
         while (cardDict.ContainsKey(initId))
         {
@@ -56,6 +56,7 @@ public class CardEditor : Editor
     {
         string assetPath = AssetDatabase.GetAssetPath(card.GetInstanceID());
         card.name = Path.GetFileNameWithoutExtension(assetPath);
+        card.UpdateDebugDescription();
     }
 
 }

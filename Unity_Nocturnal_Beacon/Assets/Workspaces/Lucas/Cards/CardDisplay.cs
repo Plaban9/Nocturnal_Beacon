@@ -8,10 +8,11 @@ using UnityEngine.EventSystems;
 using UniRx;
 using System;
 using DG.Tweening;
+using System.Linq;
 
 public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] bool enablePointToZoom = false;
+    [SerializeField] protected bool enablePointToZoom = false;
     [SerializeField] float zoomRatio = 0.6f;
     [SerializeField] Texture2D onPointCursor;
 
@@ -22,14 +23,17 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] TMP_Text typeText;
     [SerializeField] TMP_Text descText;
 
-    [SerializeField] Image element;
+    [SerializeField] Image elementIcon;
+    [SerializeField] Image collarColor;
     [SerializeField] Image background;
-    [SerializeField] Image title;
     [SerializeField] Image mainImg;
+    [SerializeField] Image rarity;
 
     [SerializeField] PriceTag priceTag;
 
-    float oriZoomRatio = 1f;
+    [SerializeField] TooltipElementHoverable _tooltipElementHoverable;
+
+    protected float oriZoomRatio = 1f;
 
     Action<CardDisplay> onClick;
     ReactiveProperty<CardDisplay> onPoint = new();
@@ -49,8 +53,9 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void Setup(Card card)
     {
         this.card = card;
+
         if (card == null) return; 
-        manaText.text = card.GetManaCost() >= 0 ? card.GetManaCost().ToString() : "X";
+        manaText.text = card.effects.Any(it=> it is WithManaDoEffect) ? "X" : card.GetManaCost().ToString();
         if (card.GetManaCost() > card.GetBaseManaCost())
         {
             manaText.color = new Color(1f, 0.2f, 0.2f);
@@ -61,7 +66,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         else
         {
-            manaText.color = new Color(0.2f, 0.2f, 1f);
+            manaText.color = new Color(0.9f, 0.9f, 1f);
         }
         titleText.text = card.name.ToString();
         typeText.text = card.cardType.ToString();
@@ -97,6 +102,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         SetPrice(card.price);
     }
 
+    public void EnablePointToZoom(bool enable) => enablePointToZoom = enable;
     public void EnablePriceTag(bool set) => priceTag.gameObject.SetActive(set);
     public void SetPrice(int price) => priceTag.SetPrice(price);
     public void RefreshPrice() => priceTag.Refresh();
@@ -104,14 +110,15 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public virtual void SetColors(Card card)
     {
         Color goodColor = new(1, 0.7f, 0.3f);
-
-        title.color = goodColor;
-        background.color = GetRarityColor(card.rarity);
-        element.color = GetElementColor(card.element);
+        rarity.color = GetRarityColor(card.rarity);
+        collarColor.color = SetupElement(card.element);
     }
 
-    public Color GetElementColor(Element element)
+    public Color SetupElement(Element element)
     {
+        elementIcon.sprite = ElementalTable.GetElementalIcon(element);
+        _tooltipElementHoverable.SetElement(element);
+
         switch (element)
         {
             case Element.NONE:
@@ -134,6 +141,7 @@ public class CardDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 return new Color(1f, 0, 0);
         }
     }
+
 
     public Color GetRarityColor(Rarity rarity)
     {

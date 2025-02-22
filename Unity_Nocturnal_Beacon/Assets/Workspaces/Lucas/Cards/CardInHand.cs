@@ -18,7 +18,9 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     bool highlight1Enemy = false;
     bool highlightAllEnemy = false;
     bool highlightSelf = false;
-
+    bool isAvailableToDiscard = true;
+    bool enableOnPoint = true;
+    int siblingIndex;
     public BattleUnit hoveredEnemy = null;
 
     private void Awake()
@@ -32,12 +34,31 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     // Start is called before the first frame update
     protected override void Start()
     {
+        oriZoomRatio = transform.localScale.x;
         //base.Start();
         highlight1Enemy = card.TargetSingleEnemy();
         highlightAllEnemy = card.TargetAllEnemy();
         highlightSelf = card.TargetSelf();
+
+        OnPoint().Subscribe(x => {
+            if(x == this)
+            {
+                transform.SetAsLastSibling();
+                rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -200);
+            }
+            else
+            {
+                transform.SetSiblingIndex(siblingIndex);
+                rt.anchoredPosition = oriPos;
+            }
+        }).AddTo(this);
     }
 
+    public override void Setup(Card card)
+    {
+        siblingIndex = transform.GetSiblingIndex();
+        base.Setup(card);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -61,7 +82,7 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     {
         canvasGroup.blocksRaycasts = false;
         canvasGroup.DOFade(0.2f, 0.3f);
-        oriPos = rt.anchoredPosition;
+        // oriPos = rt.anchoredPosition;
         if (!highlight1Enemy && (highlightAllEnemy || highlightSelf))
         {
             BattleManager.Instance.SetNoTargetReticule(true);
@@ -83,7 +104,7 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     {
         Debug.Log("BeingDrag");
         onDrag.Value = true;
-
+        isAvailableToDiscard = false;
         rt.anchoredPosition += eventData.delta;
 
         if (IsPointingDeployArea())
@@ -117,8 +138,11 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
         }
         else
         {
+            isAvailableToDiscard = true;
             canvasGroup.blocksRaycasts = true;
             rt.anchoredPosition = oriPos;
+            transform.localScale = Vector3.one * oriZoomRatio;
+            transform.SetSiblingIndex(siblingIndex);
         }
 
         if (!highlight1Enemy && (highlightAllEnemy || highlightSelf))
@@ -241,5 +265,15 @@ public class CardInHand : CardDisplay, IBeginDragHandler, IDragHandler, IEndDrag
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsAvailableToDiscard()
+    {
+        return isAvailableToDiscard;
+    }
+
+    public void SetAvailableToDiscard(bool isAvailableToDiscard)
+    {
+        this.isAvailableToDiscard = isAvailableToDiscard;
     }
 }

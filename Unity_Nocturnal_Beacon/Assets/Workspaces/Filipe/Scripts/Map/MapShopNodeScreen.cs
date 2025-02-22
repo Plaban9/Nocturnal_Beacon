@@ -8,7 +8,8 @@ public  class MapShopNodeScreen : MapNonBattleNodeScreen
     public override void ActivateNonBattleNodeScreen()
     {
         _manager.HideContinue();
-        UIManager.Instance.ShowPage(GamePage.ShopPage);
+        var sp = UIManager.Instance.ShowPage(GamePage.ShopPage).GetComponent<ShopPage>();
+        sp.Setup();
     }
 
     public override void DeactivateNonBattleNodeScreen()

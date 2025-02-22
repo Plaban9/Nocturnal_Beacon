@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f8df7e10e6acf24db1a5cc38178a1fc, type: 3}
+  m_Name: WoundedKnight
+  m_EditorClassIdentifier: 
+  title: Wounded Knight
+  image: {fileID: 2800000, guid: bee66d52dd0c5994ea9bf9cab186c0bd, type: 3}
+  eventDescription: 'As you enter this floor, you see a wounded knight laying on
+    the ground. You can hear their agonizing whimpers as you approach. You could
+    offer a helping hand if you can heal them... or offer them mercy with a swift
+    death. '
+  randomCardsAvailable: 5
+  conditions:
+  - _requirementString: An attack will give them a swift death.
+    _successString: You choose to offer mercy to the knight. They give one last peaceful
+      look before expiring.
+    _failString: You refuse to finish the knight.
+    _filter:
+      rid: 5880775371356110871
+  - _requirementString: A card that heals will recover their vitality.
+    _successString: You heal the knight slightly. They offer you a thankful nod before
+      heading upwards to the next floor. There is no other way out of the Nocturnal
+      Beacon, after all.
+    _failString: You did not heal the knight.
+    _filter:
+      rid: 5880775371356110872
+  questEnd: With your decision, you carry on to the next floor.
+  rewards:
+    neutralReward: 0
+    decentReward: 25
+    goodReward: 0
+    greatReward: 0
+    perfectReward: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775371356110871
+      type: {class: FilterCardType, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        comparison: 0
+    - rid: 5880775371356110872
+      type: {class: FilterEffectAndValue, ns: , asm: Assembly-CSharp}
+      data:
+        filteredEffect:
+          rid: 5880775371356110875
+        comparison: 0
+        value: 0
+        valueComparator: 1
+        variable: 0
+    - rid: 5880775371356110875
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 0
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0

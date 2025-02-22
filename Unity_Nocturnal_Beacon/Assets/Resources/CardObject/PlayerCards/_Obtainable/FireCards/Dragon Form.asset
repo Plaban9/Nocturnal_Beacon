@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Dragon Form
+  m_EditorClassIdentifier: 
+  id: 1000032
+  uId: 0
+  name: NewCard
+  rarity: 2
+  cardType: 0
+  manaCost: 2
+  sprite: {fileID: 21300000, guid: e8a68fd17ce42174e9b24babd0ae6629, type: 3}
+  element: 4
+  price: 0
+  effects:
+  - rid: 5880775376634904633
+  - rid: 5880775376634904635
+  - rid: 5880775376634904636
+  DEBUG_DESCRIPTION: Applies 1 <color=#FB8B48>Elemental Change - Fire</color> on
+    yourself for 3 turns.Recover 5 mana.Applies 6 <color=#FB8B48>Dexterity</color>
+    on yourself for 3 turns.
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775376634904633
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 1
+        val2: 3
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 68ac284cda70bfe4d9724fa25905ab04, type: 2}
+        statusEffect: 16
+        statusStacks: 0
+    - rid: 5880775376634904635
+      type: {class: ModifyMana, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 5
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+    - rid: 5880775376634904636
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 6
+        val2: 3
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 76e1e64f045e44c4d9f07d3cb2cbc8dd, type: 2}
+        statusEffect: 0
+        statusStacks: 0

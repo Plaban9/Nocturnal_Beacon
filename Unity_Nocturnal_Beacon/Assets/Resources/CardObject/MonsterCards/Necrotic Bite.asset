@@ -24,6 +24,7 @@ MonoBehaviour:
   effects:
   - rid: 4405684328671215643
   - rid: 4405684328671215644
+  DEBUG_DESCRIPTION: 
   references:
     version: 2
     RefIds:
@@ -39,7 +40,7 @@ MonoBehaviour:
         target: 1
         targetAmount: 0
         statusEffectObject: {fileID: 11400000, guid: ada054cd62532fa4881d4ca6e1876eb7, type: 2}
-        statusEffect: 28
+        statusEffect: 24
         statusStacks: 0
     - rid: 4405684328671215644
       type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}

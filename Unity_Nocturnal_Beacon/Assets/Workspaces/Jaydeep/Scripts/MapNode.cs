@@ -29,6 +29,7 @@ public class MapNode : MonoBehaviour
     private Collider2D nodeCollider;
     private Gradient defaultColorGradient;
     public EnemyEncounter EnemyEncounter { get; private set; }
+    public MapQuest MapQuest { get; private set; }
 
     public int Id { get; private set; }
 
@@ -198,6 +199,10 @@ public class MapNode : MonoBehaviour
     public void SetEnemyEncounter(EnemyEncounter encounter)
     {
         EnemyEncounter = encounter;
+    }
+    public void SetQuest(MapQuest quest)
+    {
+        MapQuest = quest;
     }
 
     public void MakeClickable() => nodeCollider.enabled = true;

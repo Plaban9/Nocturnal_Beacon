@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: EntityGhostlyForm
+  m_EditorClassIdentifier: 
+  id: 10061
+  uId: 0
+  name: Ghostly Form
+  rarity: -1
+  cardType: 1
+  manaCost: 0
+  sprite: {fileID: 21300000, guid: 0b55b49bf61a0e14ab542ec69fe02786, type: 3}
+  element: 5
+  price: 0
+  effects:
+  - rid: 5880775386425720883
+  - rid: 5880775386425720884
+  DEBUG_DESCRIPTION: Applies 1 <color=#FB8B48>Elemental Change - Ghost</color> on
+    yourself for 1 turns.Applies 2 <color=#FB8B48>Strength</color> on yourself for
+    1 turns.
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775386425720883
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 1
+        val2: 2
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 45ed4180e552d12488d8064a53c650f1, type: 2}
+        statusEffect: 0
+        statusStacks: 0
+    - rid: 5880775386425720884
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 2
+        val2: 2
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: 414d35e8ca6199148a63c20b76af132d, type: 2}
+        statusEffect: 0
+        statusStacks: 0

@@ -14,18 +14,13 @@ public class TowerConfiguration : ScriptableObject
     [SerializeField] List<int> shopHeights = new List<int>();
     [SerializeField] int extraRest = 1;
     [SerializeField] int extraShop = 1;
+    [SerializeField][Range(0f,1f)] public float questChance = 0.25f;
+
     public List<TowerEncounterData> encounterList = new List<TowerEncounterData>();
     public List<EnemyEncounter> bossList = new List<EnemyEncounter>();
-    public List<MapQuest> questlist = new List<MapQuest>();
+    public List<MapQuest> questList = new List<MapQuest>();
 
-    public enum FLOOR_TYPE
-    {
-        MONSTER_ENCOUNTER = 0,
-        REST_EVENT,
-        SHOP_EVENT,
-        DECISION_EVENT,
-        BOSS_EVENT
-    }
+    
 
     public int GetMaxHeight()
     {
@@ -52,19 +47,19 @@ public class TowerConfiguration : ScriptableObject
 
     }
 
-    public FLOOR_TYPE GetFloorType(int height)
+    public NodeType GetFloorType(int height)
     {
         if (restHeights.Contains(height))
         {
-            return FLOOR_TYPE.REST_EVENT;
+            return NodeType.Rest;
         }
         else if (shopHeights.Contains(height))
         {
-            return FLOOR_TYPE.SHOP_EVENT;
+            return NodeType.Shop;
         }
         else
         {
-            return FLOOR_TYPE.MONSTER_ENCOUNTER;
+            return NodeType.Combat;
         }
     }
 

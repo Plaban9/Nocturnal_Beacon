@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class CardLibrary : MonoBehaviour
@@ -10,6 +11,10 @@ public class CardLibrary : MonoBehaviour
     [SerializeField] Dictionary<int, Card> cardsDict = new Dictionary<int, Card>();
     
     [SerializeField] List<Card> cards = new List<Card>();
+
+    [SerializeField] List<Card> shopCards = new List<Card>();
+
+    static readonly int InitCounter = 1000000;
 
     private void Awake()
     {
@@ -41,12 +46,35 @@ public class CardLibrary : MonoBehaviour
         {
             if(!cardsDict.TryAdd(cardObject.id, cardObject))
             {
-                Debug.LogError($"Card [{cardObject.name}] has duplicated Id: {cardObject.id}");
+                Debug.LogError($"Card [{cardObject.name}] has duplicated Id: {cardObject.id} with {cardsDict[cardObject.id].name}.");
             }
             cards.Add(cardObject);
         }
+
+        #if !UNITY_EDITOR
+        var customizedCards = ScriptableObjectSaver.LoadScriptableObject<Card>("PlayerCards");
+
+        foreach(var cc in customizedCards)
+        {
+            if(!cardsDict.TryAdd(cc.id, cc))
+            {
+                Debug.LogError($"Customized Card [{cc.name}] has duplicated Id: {cc.id}");
+            }
+
+            cards.Add(cc);
+        }
+        #endif
+
+        shopCards = Resources.LoadAll<Card>("CardObject/ShopCards").ToList();
     }
 
+    public List<Card> GetNonCustomizedCards()
+    {
+        return cards.Where(x => !x.isCustomized).ToList();
+    }
+
+    public List<Card> GetShopCards() => shopCards;
+    
     private void Reset()
     {
         cardsDict.Clear();
@@ -73,5 +101,21 @@ public class CardLibrary : MonoBehaviour
     {
         card.id = GetNextCardId();
         return cardsDict.TryAdd(card.id, card);
+    }
+
+    [ContextMenu("Resort Cards ID (USE CAREFULLY)")]
+    public void ResortCardsId()
+    {
+        var cardObjects = Resources.LoadAll<Card>("CardObject/PlayerCards");
+        var idCounter = InitCounter;
+
+       foreach(var cardObject in cardObjects)
+        {
+            cardObject.id = ++idCounter;
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(cardObject);
+#endif
+        }
+
     }
 }

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Memorized Spell
+  m_EditorClassIdentifier: 
+  id: 1000040
+  uId: 0
+  name: Memorized Spell
+  rarity: 1
+  cardType: 1
+  manaCost: 1
+  sprite: {fileID: 21300000, guid: 0f182fb2863faa7449e020de33b77e68, type: 3}
+  element: 7
+  price: 35
+  effects:
+  - rid: 5880775376634904638
+  - rid: 5880775376634904639
+  DEBUG_DESCRIPTION: Recover 3 mana.Applies 1 <color=#FB8B48>No Draw</color> on yourself
+    for 1 turns.
+  references:
+    version: 2
+    RefIds:
+    - rid: 5880775376634904638
+      type: {class: ModifyMana, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 3
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+    - rid: 5880775376634904639
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 1
+        val2: 1
+        val3: 0
+        val4: 0
+        effectType: 0
+        target: 0
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: d09bdb2901b483242b5b34d380ed3678, type: 2}
+        statusEffect: 0
+        statusStacks: 0

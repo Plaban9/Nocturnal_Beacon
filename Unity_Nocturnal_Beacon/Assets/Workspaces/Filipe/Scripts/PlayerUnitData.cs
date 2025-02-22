@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using System.IO;
 
 [CreateAssetMenu(fileName = "PlayerUnitData", menuName ="PlayerUnitData")]
 public class PlayerUnitData : ScriptableObject
@@ -17,12 +20,27 @@ public class PlayerUnitData : ScriptableObject
     private int _currency;
     [SerializeField]
     private int _maxMana;
+    [SerializeField]
+    private int _currentRun;
 
     public void Setup(PlayableData unitData, int currency)
     {
         _unitData = unitData;
         _currentDeck = new Deck(true);
         _currentDeck.CloneFromDeck(unitData.startingDeck);
+
+        // Create a new deck and save to local
+        var newDeck = Instantiate(_currentDeck);
+        int sec = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+        newDeck.name = unitData.startingDeck.name + "_" + sec;
+
+#if UNITY_EDITOR
+        AssetDatabase.CreateAsset(newDeck, $"Assets/Resources/Deck/{newDeck.name}.asset");
+#else
+        ScriptableObjectSaver.SaveScriptableObject(newDeck.ToJson(), "PlayerDecks");
+#endif
+
+        _currentDeck = newDeck;
         _currency = currency;
         _maxMana = unitData.startingMana;          
     }
@@ -35,14 +53,14 @@ public class PlayerUnitData : ScriptableObject
     public int GetCurrentHP()
     {
         if (_currentHp == -1)
-            _currentHp = _unitData.startingHp; 
+            _currentHp = _unitData.maxHp; 
         return _currentHp;
     }
 
     public int GetMaxHP()
     {
         if (_maxHP == -1)
-            _maxHP = _unitData.startingHp;
+            _maxHP = _unitData.maxHp;
         return _maxHP;
     }
 

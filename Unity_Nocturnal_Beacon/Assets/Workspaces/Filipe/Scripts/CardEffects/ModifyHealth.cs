@@ -12,7 +12,29 @@ public class ModifyHealth : CardEffect
     {
         get
         {
-            string result = string.Empty;
+            string result = string.Format("{0}{1}{2}{3}{4}{5}.",
+                // A player heals or takes damage. A target may have their health recovered or be dealt damage. 
+                target == EffectTarget.Self ?
+                (val1 > 0 ? "Heal " : "Take ") :
+                (val1 > 0 ? "Recover " : "Deal "),
+                /*_withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL1 ?"X" :*/ Math.Abs(val1),
+                (val1 > 0 ? " health" : " damage"),
+                // wonky grammar.
+                target == EffectTarget.Self ? "" : val1 > 0 ? " of" : " to",
+                target switch
+                {
+                    EffectTarget.Self => ".",
+                    EffectTarget.OpponentSingle => " the target",
+                    EffectTarget.OpponentRandom => " a random target",
+                    EffectTarget.OpponentAll => " all targets",
+                    EffectTarget.Both => " user and target",
+                    EffectTarget.Global => " all units",
+                    _ => "NO ONE"
+                },
+                // amount of times
+                /*_withManaDoEffectAffecting == WithManaDoEffect.CardVariable.VAL2 ? "X times" :*/ (val2 > 0 ? $"{val2} times" : "")
+                );
+            return result;
 
             if(target == EffectTarget.Self)
             {
@@ -67,30 +89,23 @@ public class ModifyHealth : CardEffect
     {
         int result;
         float multiplier = 1;
+        int targettingMultiplier = 1;
 
         switch (target)
         {
             case EffectTarget.OpponentSingle:
-                multiplier = 2;
+                targettingMultiplier = 2;
                 break;
             case EffectTarget.OpponentAll:
-                multiplier = 4;
+                targettingMultiplier = 4;
                 break;
             case EffectTarget.OpponentRandom:
-                multiplier = 1;
+                targettingMultiplier = 1;
                 break;
         }
 
-        if (val2 > 0)
-        {
-            multiplier += val2;
-        }
-        else if (val2 == -1)
-        {
-            multiplier += 2;
-        }
 
-        result = (int)multiplier * Mathf.Abs(val1);
+        result = (int) Mathf.Pow(Mathf.Abs(val1*2), targettingMultiplier)*val2;
 
         return result;
     }
@@ -98,10 +113,12 @@ public class ModifyHealth : CardEffect
 
     override public void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
-        for(int i = 0; i< val2+1; i++)
+
+        for (int i = 0; i < val2 + 1; i++)
         {
-            foreach (BattleUnit target in targets)
+            if (this.target == EffectTarget.OpponentRandom)
             {
+                BattleUnit target = targets.GetRandom();
                 ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
                 float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
                 if (val1 < 0)
@@ -109,7 +126,7 @@ public class ModifyHealth : CardEffect
                     int damage = val1;
                     int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
                     int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
-                    target.GetHPData().DealDamage(owner, afterElemental, false, i*0.2f);
+                    target.GetHPData().DealDamage(owner, afterElemental, false, i * 0.2f);
                 }
                 else if (val1 > 0)
                 {
@@ -117,6 +134,27 @@ public class ModifyHealth : CardEffect
                     int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
                     int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
                     target.GetHPData().RecoverHealth(afterElemental);
+                }
+            }
+            else {
+                foreach (BattleUnit target in targets)
+                {
+                    ElementalEffectivity eleEffectivity = target.GetElementalAffinity(card.element);
+                    float multiplier = ElementalTable.GetEffectivityMultiplier(eleEffectivity);
+                    if (val1 < 0)
+                    {
+                        int damage = val1;
+                        int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                        int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
+                        target.GetHPData().DealDamage(owner, afterElemental, false, i * 0.2f);
+                    }
+                    else if (val1 > 0)
+                    {
+                        int damage = val1;
+                        int finalDamage = owner.GetUnitStatusData().OnDealDamage(damage);
+                        int afterElemental = (int)Mathf.Floor(finalDamage * multiplier);
+                        target.GetHPData().RecoverHealth(afterElemental);
+                    }
                 }
             }
         }

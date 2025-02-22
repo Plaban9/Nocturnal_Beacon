@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0090badb2528c2e4e96345c958dbe600, type: 3}
   m_Name: Fencer
   m_EditorClassIdentifier: 
-  unitName: Fencer
-  sprite: {fileID: 21300000, guid: 5ff84ea0772943f458f998f35b743174, type: 3}
-  startingHp: 80
+  unitName: Elven Fencer
+  sprite: {fileID: 21300000, guid: 9c2f850016e50c4418e496a71aad0873, type: 3}
+  maxHp: 80
   flipSprite: 1
-  scale: 6
+  scale: 0.025
+  unitElement: 0
   startingDeck: {fileID: 11400000, guid: ebc3591f1ad1a564dbfb942b7ea9a600, type: 2}
   startingMana: 4
-  description: BALANCED
+  description: ELEMENTAL CANNON

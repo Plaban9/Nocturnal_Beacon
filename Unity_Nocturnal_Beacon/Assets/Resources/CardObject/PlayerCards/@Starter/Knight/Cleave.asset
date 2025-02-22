@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb3aa4c1cc51564c818c473265be0cd, type: 3}
+  m_Name: Cleave
+  m_EditorClassIdentifier: 
+  id: 1000012
+  uId: 0
+  name: Cleave
+  rarity: 0
+  cardType: 1
+  manaCost: 2
+  sprite: {fileID: 21300000, guid: 2698b41f0e332384db082b81e4b72292, type: 3}
+  element: 0
+  price: 0
+  effects:
+  - rid: 4405684328671215631
+  - rid: 4405684328671215632
+  DEBUG_DESCRIPTION: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 4405684328671215631
+      type: {class: ModifyStatuses, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: 1
+        val2: 1
+        val3: 0
+        val4: 0
+        effectType: 6
+        target: 1
+        targetAmount: 0
+        statusEffectObject: {fileID: 11400000, guid: ede201913a02933429f5687a9609e39b, type: 2}
+        statusEffect: 24
+        statusStacks: 0
+    - rid: 4405684328671215632
+      type: {class: ModifyHealth, ns: , asm: Assembly-CSharp}
+      data:
+        appMechanic: 0
+        val1: -9
+        val2: 0
+        val3: 0
+        val4: 0
+        effectType: 7
+        target: 1
+        targetAmount: 0

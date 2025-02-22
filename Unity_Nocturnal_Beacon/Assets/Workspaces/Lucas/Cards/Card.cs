@@ -1,8 +1,13 @@
 using CardAttribute;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using static Minimalist.Inverse.Constants.Gameplay;
+using UnityEngine.UIElements;
 
 namespace CardAttribute
 {
@@ -36,6 +41,8 @@ namespace CardAttribute
         GainStatusRegenerate,
         DrawCard,
         DiscardCard,
+        GainMana,
+        LoseMana
     };
 
     [Serializable]
@@ -45,7 +52,8 @@ namespace CardAttribute
         OpponentSingle,
         OpponentRandom,
         OpponentAll,
-        Both
+        Both,
+        Global
     }
 
     [Serializable]
@@ -92,6 +100,7 @@ namespace CardAttribute
         LightEleChange,      // Change Element to Light
         DarkEleChange,       // Change Element to Dark
         GhostEleChange,      // Change Element to Ghost
+        Vampirism,
 
 
         /* ============== DeBuffs ============== */
@@ -135,12 +144,23 @@ namespace CardAttribute
 
 }
 
-[CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
 [Serializable]
+public class CardJson
+{
+    public int id;
+
+    public CardJson(int id)
+    {
+        this.id = id;
+    }   
+}
+
+[Serializable, CreateAssetMenu(fileName = "NewCard", menuName = "Card")]
+[ExecuteInEditMode]
 public class Card : ScriptableObject
 {
     public int id;
-    [HideInInspector] public int uId;   // unique Id
+    [SerializeField, HideInInspector] public int uId;   // unique Id
     public new string name;
     public Rarity rarity;
     public CardType cardType;
@@ -148,6 +168,7 @@ public class Card : ScriptableObject
     public Sprite sprite;
     public Element element;
     [Tooltip("Price for shop")] public int price;
+    public bool isCustomized = false;
     private List<CardStatuses> _statuses = new List<CardStatuses>();
 
     /*
@@ -181,7 +202,8 @@ public class Card : ScriptableObject
     {
         return effects.Find(it =>
            (it.GetTarget() == CardAttribute.EffectTarget.OpponentAll ||
-          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom)
+          it.GetTarget() == CardAttribute.EffectTarget.OpponentRandom ||
+          it.GetTarget() == CardAttribute.EffectTarget.Global)
         ) != null;
     }
 
@@ -223,8 +245,24 @@ public class Card : ScriptableObject
         manaCost = i;
     }
 
+    [SerializeField]
+    [TextArea(5, 5)] 
+    public string DEBUG_DESCRIPTION;
+    [ExecuteInEditMode]    
+    public void UpdateDebugDescription()
+    {
+        string final = "";
+        foreach(CardEffect effect in effects)
+        {
+            final += effect.EffectDescription+"\n";
+        }
+        DEBUG_DESCRIPTION = final;
+     }
+
 
 }
+
+
 
 public enum ElementalEffectivity
 {

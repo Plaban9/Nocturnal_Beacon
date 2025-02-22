@@ -23,17 +23,56 @@ public class ModifyStatuses : CardEffect
         get
         {
             string result = string.Empty;
-            Debug.LogError(this.GetType().Name);
 
-            if (statusEffectObject != null)
-            {
-                result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
-            }
-            else
-            {
-                result = "Error attempting to fetch description";
-            }
-            return result;
+            string formatted = String.Format("" +
+                "{0} {1} <color=#FB8B48>{2}</color> on {3} for {4} turns.",
+                    "Applies",
+                   val1,
+                   statusEffectObject.GetName(),
+                   target switch
+                   {
+                       EffectTarget.Self => "yourself",
+                       EffectTarget.OpponentSingle => "a target",
+                       EffectTarget.OpponentRandom => "a random target",
+                       EffectTarget.OpponentAll => "all enemy targets",
+                       EffectTarget.Global => "all units",
+                       EffectTarget.Both => "both user and target",
+                       _ => "... no one?",
+                   },
+                   val2);
+
+            return formatted;
+
+            //if (statusEffectObject != null)
+            //{
+            //    if(target == EffectTarget.Self)
+            //    {
+            //        if (_statusObj.isPositive)
+            //        {
+            //            result = $"Gain {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color> on yourself";
+            //        }
+            //        else
+            //        {
+            //            result = $"Inflict {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color> on yourself";
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (!_statusObj.isPositive)
+            //        {
+            //            result = $"Inflict {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            //        }
+            //        else
+            //        {
+            //            result = $"Bestow {val1} <color=#FB8B48>{statusEffectObject.GetName()}</color>";
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    result = "Error attempting to fetch description";
+            //}
+            //return result;
         }
     }
 
@@ -70,29 +109,54 @@ public class ModifyStatuses : CardEffect
     {
         int val = 0;
 
-        switch (statusEffect)
+        //switch (statusEffect)
+        //{
+        //    case StatusEffect.Strength:
+        //        val = (5 + 3 * (val-1)) * val;
+        //        break;
+        //    case StatusEffect.Dexterity:
+        //        val = (5 + 3 * (val - 1)) * val;
+        //        break;
+        //    case StatusEffect.Regenerate:
+        //        val = (4 + 2 * (val - 1)) * val;
+        //        break;
+        //    default:
+        //        break;
+        //}
+
+        //buffing
+        if(target == EffectTarget.Self)
         {
-            case StatusEffect.Strength:
-                val = (5 + 3 * (val-1)) * val;
-                break;
-            case StatusEffect.Dexterity:
-                val = (5 + 3 * (val - 1)) * val;
-                break;
-            case StatusEffect.Regenerate:
-                val = (4 + 2 * (val - 1)) * val;
-                break;
-            default:
-                break;
+            if (statusEffectObject.isPositive)
+            {
+                return (int)Math.Pow(30, val1 + val2);
+            }
+            else
+            {
+                return Mathf.Max(30,(int)Math.Pow(30, val1 + val2));
+            }
+        }
+        else
+        {
+            if (statusEffectObject.isPositive)
+            {
+                return -(int)Math.Pow(30, val1 + val2);
+            }
+            else
+            {
+                return (int)Math.Pow(30, val1 + val2);
+            }
         }
 
-        return val;
     }
 
     public ModifyStatuses() { }
-    public ModifyStatuses(StatusEffectObject statusObj, int duration, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
+    public ModifyStatuses(StatusEffectObject statusObj, int duration, EffectTarget target, AppMechanic appMechanic, int val1 = -1, int val2 = -1, int val3 = -1, int val4 = -1)
     {
         statusEffect = statusObj.statusEffect;
         _bstf = null;
+
+        this.target = target;
         switch (statusEffect)
         {
             case StatusEffect.Strength:
@@ -152,6 +216,20 @@ public class ModifyStatuses : CardEffect
     public override void OnUse(Card card, BattleUnit owner, List<BattleUnit> targets)
     {
         base.OnUse(card, owner, targets);
+        
+        foreach (var unit in targets)
+        {
+            BattleStatusEffect newEffect = GetBSTF(statusEffect);
+            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
+            newEffect._duration = val2;
+            _bstf._status = statusEffectObject;
+            newEffect.owner = unit;
+            unit.GetUnitStatusData().AddStatusEffect(newEffect);
+        }
+    }
+
+    private BattleStatusEffect GetBSTF(StatusEffect statusEffect)
+    {
         _bstf = null;
         switch (statusEffect)
         {
@@ -197,11 +275,80 @@ public class ModifyStatuses : CardEffect
             case StatusEffect.WaterEleChange:
                 _bstf = new StatusEffect_ElementalChangeWater();
                 break;
+            case StatusEffect.EarthEleChange:
+                _bstf = new StatusEffect_ElementalChangeEarth();
+                break;
+            case StatusEffect.FireEleChange:
+                _bstf = new StatusEffect_ElementalChangeFire();
+                break;
+            case StatusEffect.WindEleChange:
+                _bstf = new StatusEffect_ElementalChangeWind();
+                break;
+            case StatusEffect.LightEleChange:
+                _bstf = new StatusEffect_ElementalChangeLight();
+                break;
+            case StatusEffect.DarkEleChange:
+                _bstf = new StatusEffect_ElementalChangeDark();
+                break;
             case StatusEffect.GhostEleChange:
                 _bstf = new StatusEffect_ElementalChangeGhost();
                 break;
+            case StatusEffect.NoneEleChange:
+                _bstf = new StatusEffect_ElementalChangeNeutral();
+                break;
             case StatusEffect.NoAct:
                 _bstf = new StatusEffect_NoAct();
+                break;
+            case StatusEffect.LightWeak:
+                _bstf = new StatusEffect_VulnerableLight();
+                break;
+            case StatusEffect.EarthWeak:
+                _bstf = new StatusEffect_VulnerableEarth();
+                break;
+            case StatusEffect.WaterWeak:
+                _bstf = new StatusEffect_VulnerableWater();
+                break;
+            case StatusEffect.FireWeak:
+                _bstf = new StatusEffect_VulnerableFire();
+                break;
+            case StatusEffect.WindWeak:
+                _bstf = new StatusEffect_VulnerableWind();
+                break;
+            case StatusEffect.DarkWeak:
+                _bstf = new StatusEffect_VulnerableDark();
+                break;
+            case StatusEffect.GhostWeak:
+                _bstf = new StatusEffect_VulnerableGhost();
+                break;
+            case StatusEffect.NoneWeak:
+                _bstf = new StatusEffect_VulnerableNeutral();
+                break;
+            case StatusEffect.NoneResist:
+                _bstf = new StatusEffect_ResistNeutral();
+                break;
+            case StatusEffect.EarthResist:
+                _bstf = new StatusEffect_ResistEarth();
+                break;
+            case StatusEffect.WaterResist:
+                _bstf = new StatusEffect_ResistWater();
+                break;
+            case StatusEffect.FireResist:
+                _bstf = new StatusEffect_ResistFire();
+                break;
+            case StatusEffect.WindResist:
+                _bstf = new StatusEffect_ResistWind();
+                break;
+            case StatusEffect.LightResist:
+                _bstf = new StatusEffect_ResistLight();
+                break;
+            case StatusEffect.DarkResist:
+                _bstf = new StatusEffect_ResistDark();
+                break;
+            case StatusEffect.GhostResist:
+                _bstf = new StatusEffect_ResistGhost();
+                break;
+            case StatusEffect.Vampirism:
+                _bstf = new StatusEffect_Vampirism();
                 break;
             default:
 
@@ -209,17 +356,21 @@ public class ModifyStatuses : CardEffect
         }
 
         if (_bstf == null)
-            return;
-        _bstf._status = statusEffectObject;
-        _bstf._intensity = val1 ;
-        _bstf._duration = val2;
-        foreach (var unit in targets)
-        {
-            BattleStatusEffect newEffect = _bstf;
-            newEffect._intensity = (int) Mathf.Floor(val1 * ElementalTable.GetEffectivityMultiplier(unit.GetElementalAffinity(card.element)));
-            newEffect.owner = unit;
-            unit.GetUnitStatusData().AddStatusEffect(_bstf);
-        }
+            return null;
+        return _bstf;
     }
 
+    public override bool Compare(CardEffect e)
+    {
+        if (e is not ModifyStatuses) { return false; }
+        ModifyStatuses other = (ModifyStatuses)e;
+        if(
+            target == other.target &&
+            targetAmount == other.targetAmount &&
+            statusEffect == other.statusEffect)
+        {
+            return true;
+        }
+        return false;
+    }
 }

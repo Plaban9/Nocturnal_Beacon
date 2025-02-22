@@ -24,8 +24,8 @@ public class HPData : MonoBehaviour
     public void InitializeMaxHP(MonsterData _monsterData, BattleUnit unit)
     {
         _unitData = _monsterData;
-        _maxHp = _monsterData.startingHp;
-        _currentHp = _monsterData.startingHp;
+        _maxHp = _monsterData.maxHp;
+        _currentHp = _monsterData.maxHp;
         _battleUnit = unit;
         _shield = 0;
     }
@@ -47,7 +47,6 @@ public class HPData : MonoBehaviour
     private IEnumerator PerformDealDamage(BattleUnit? damageOrigin, int amount, bool noReflect = false, float delay = 0f)
     {
         yield return new WaitForSeconds(delay);
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Player_Hit);
 
         int finalAmount = amount;
         foreach (BattleStatusEffect status in _battleUnit.GetUnitStatusData().GetStatusEffects())
@@ -64,8 +63,8 @@ public class HPData : MonoBehaviour
 
         if (finalAmount == 0) yield break;
         _unitRenderer.color = new Color(1.0f, 0f, 0f);
-        _unitRenderer.transform.parent.localScale = new Vector3(_unitData.scale, _unitData.scale * 0.1f, 1f);
-        _unitRenderer.transform.parent.DOScale(_unitData.scale, 0.4f);
+        _unitRenderer.transform.parent.DOScaleY(_unitData.scale/5f, 0.1f);
+        _unitRenderer.transform.parent.DOScaleY(_unitData.scale, 0.4f);
         if (_unitData is MonsterData)
         {
             _unitRenderer.DOColor((_unitData as MonsterData).recolor, 0.4f);
@@ -87,9 +86,7 @@ public class HPData : MonoBehaviour
             hpDamage -= _shield;
             if (hpDamage < 0)
                 _shield = -hpDamage;
-            else if (hpDamage > 0)
-                _shield -= hpDamage;
-            else
+            else if (hpDamage >= 0)
                 _shield = 0;
         }
         if (hpDamage > 0)
@@ -102,6 +99,7 @@ public class HPData : MonoBehaviour
             else
             {
                 _currentHp = 0;
+                BattleManager.Instance.CheckIfBattleIsOver();
             }
         }
         UpdateVisual();
@@ -109,7 +107,6 @@ public class HPData : MonoBehaviour
 
     public void RecoverHealth(int amount)
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogBark);
         _unitRenderer.color = new Color(0.2f, 1.0f, 0.2f);
         if(_unitData is MonsterData)
         {
@@ -135,7 +132,6 @@ public class HPData : MonoBehaviour
 
     public void AddShield(int amount)
     {
-        AudioManager.PlaySFX(Minimalist.Audio.Sound.SoundType.Companion_DogInteract);
 
         _unitRenderer.color = new Color(0.2f, 0.2f, 1.0f);
         if (_unitData is MonsterData)
@@ -224,6 +220,7 @@ public class HPData : MonoBehaviour
     {
         if (_currentHp == 0)
         {
+            ;
             return true;
         }
         return false;

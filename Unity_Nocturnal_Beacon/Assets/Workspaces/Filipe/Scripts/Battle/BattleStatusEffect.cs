@@ -73,4 +73,9 @@ public abstract class BattleStatusEffect
     {
         return i;
     }
+
+    public virtual int GetCost()
+    {
+        return 10;
+    }
 }
